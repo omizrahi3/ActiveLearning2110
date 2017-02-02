@@ -22,6 +22,7 @@ var inputController      = require('./../controllers/inputController');
 var tokenController      = require('./../controllers/tokenController');
 var userController       = require('./../controllers/userController');
 var courseController     = require('./../controllers/courseController');
+var signupController     = require('./../controllers/signupController');
 
 /**
 INSTRUCTOR CREATE COURSE
@@ -46,7 +47,8 @@ courseRouter.route('/')
           courseController.createCourse,
           courseController.getUserCourses);
 
-/**
+/**DEPRECATED**
+
 STUDENT JOIN COURSE
 
 POST	/api_v2/course/{course_id}/students
@@ -70,7 +72,7 @@ courseRouter.route('/:COURSEID/students')
           courseController.joinCourse);
 
 /**
-STUDENT JOIN COURSE ~ no course_id
+STUDENT JOIN COURSE
 
 POST	/api_v2/course/students
 
@@ -94,6 +96,31 @@ courseRouter.route('/students')
           courseController.getUserCourses);
 
 /**
+INSTRUCTOR ADD STUDENT
+
+POST  /api_v2/course/{course_id}/students/{student_id}/
+
+Authentication:   user token
+Authorization:    instructor
+
+Path Parameters:  none
+Query String:     none
+Request Body:     application/json    required
+{
+  "username":     String              required
+  "firstname":    String              required
+  "lastname":     String              required
+}
+**/
+courseRouter.route('/:COURSEID/students')
+    .put(tokenController.validateToken,
+         tokenController.refreshToken,
+         authorizeController.instructor,
+         userController.isValidStudent,
+         signupController.instructorRegisterStudent,
+         courseController.instructorAddStudent);
+
+/**
 GET STUDENTS IN COURSE
 
 GET	/api_v2/course/{course_id}/students
@@ -114,7 +141,7 @@ courseRouter.route('/:COURSEID/students')
          courseController.getStudents);
 
 /**
-STUDENT DELETE FROM COURSE
+DELETE STUDENT FROM COURSE
 
 DELETE	/api_v2/course/{course_id}/students?id={student_id}/
 
@@ -184,9 +211,9 @@ Request Body:     none
 **/
 courseRouter.route('/:COURSEID/lectures/:LECTUREID')
   .delete(tokenController.validateToken,
-        tokenController.refreshToken,
-        authorizeController.instructor,
-        courseController.deleteLecture);
+          tokenController.refreshToken,
+          authorizeController.instructor,
+          courseController.deleteLecture);
 
 /**
 GET COURSE LECTURES

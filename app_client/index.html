@@ -1,61 +1,65 @@
 <!DOCTYPE html>
 <html lang="en" data-ng-app="app" data-ng-controller="Main.Controller">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>Active Learning 2110</title>
 
-        <!-- Bootstrap -->
-        <link rel="stylesheet" href="http://bootswatch.com/4-alpha/flatly/bootstrap.min.css"/>
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-        <!-- Custom CSS -->
-        <link rel="stylesheet" href="app-css/style.css">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Active Learning 2110</title>
 
-        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://bootswatch.com/4-alpha/flatly/bootstrap.min.css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <!-- Animate -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="app-css/style.css" />
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
           <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
-    </head>
-    <body>
-        <!-- Views -->
-        <div class="super-container">
-            <div class="container-fluid login-back" ng-hide="$storage.LoggedIn">
-            </div>
-            <div ui-view="navbar"></div>
-            <div id="wrapper" ng-class="{'toggled' : $storage.hideSidebar }">
-                <div ui-view="sidebar"></div>
-                <div ui-view="dashboard"></div>
-            </div>
+</head>
+
+<body>
+    <!-- Views -->
+    <div class="super-container">
+        <div class="container-fluid login-back" ng-hide="$storage.LoggedIn">
         </div>
+        <div ui-view="navbar"></div>
+        <div id="wrapper" ng-class="{'toggled' : $storage.hideSidebar }">
+            <div ui-view="sidebar"></div>
+            <div ui-view="dashboard"></div>
+        </div>
+    </div>
 
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
-        <!-- Include all compiled plugins (below), or include individual files as needed -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
-        <!-- Angular related files and plugins -->
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.6.1/angular-messages.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.2/angular-ui-router.min.js"></script>
-        <script src="https://rawgit.com/dwmkerr/angular-modal-service/master/dst/angular-modal-service.js"></script>
-        <script src="app-scripts/angular-jwt.min.js"></script>
-        <script src="app-scripts/ocLazyLoad.js"></script>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+    <!-- Angular related files and plugins -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.6.1/angular-messages.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.2/angular-ui-router.min.js"></script>
+    <script src="https://rawgit.com/dwmkerr/angular-modal-service/master/dst/angular-modal-service.js"></script>
+    <script src="app-scripts/angular-jwt.min.js"></script>
 
-        <!-- application scripts -->
-        <script src="app.js"></script>
-        <script src="app-services/user.service.js"></script>
-        <script src="app-services/authentication.service.js"></script>
-        <script src="app-components/dashboard/container.controller.js"></script>
-        <script src="app-components/navbar/navbar.controller.js"></script>
-        <script src="app-components/sidebar/sidebar.controller.js"></script>
-        <script src="app-components/loginmodal/login.controller.js"></script>
-        <script src="app-components/coursemodal/coursemodal.controller.js"></script>
-        <script src="app-components/profilemodal/profile.controller.js"></script>
-    </body>
+    <!-- application scripts -->
+    <script src="app.js"></script>
+    <script src="app-services/user.service.js"></script>
+    <script src="app-services/authentication.service.js"></script>
+    <script src="app-components/dashboard/container.controller.js"></script>
+    <script src="app-components/navbar/navbar.controller.js"></script>
+    <script src="app-components/sidebar/sidebar.controller.js"></script>
+    <script src="app-components/loginmodal/login.controller.js"></script>
+    <script src="app-components/coursemodal/coursemodal.controller.js"></script>
+    <script src="app-components/profilemodal/profile.controller.js"></script>
+</body>
+
 </html>

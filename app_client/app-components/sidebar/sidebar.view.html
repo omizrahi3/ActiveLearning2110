@@ -7,12 +7,12 @@
         </li>
         <li class="sidebar-brand">
             <div class="container-fluid p-0 m-0">
-            <a href="#">
-                <i class="fa fa-linode fa-2x align-middle pr-2" aria-hidden="true" style="color: #5DC461"></i>
-                <strong>
-                    Active Learning
-                </strong>
-            </a>
+                <a href="#">
+                    <i class="fa fa-linode fa-2x align-middle pr-2" aria-hidden="true" style="color: #5DC461"></i>
+                    <strong>
+                        Active Learning
+                    </strong>
+                </a>
             </div>
         </li>
         <li>
@@ -22,13 +22,12 @@
             <a
                 href="#classList"
                 data-toggle="collapse"
-                aria-expanded="false"
+                aria-expanded="{{$storage.classExpand}}"
                 aria-controls="classList"
-                ng-click="classExpand = !classExpand">
+                ng-click="$storage.classExpand = !$storage.classExpand">
                     <i class="fa fa-book pr-3 mr-auto" aria-hidden="true"></i>
                     Courses
-                    <i class="fa fa-angle-down" aria-hidden="true" ng-hide="classExpand"></i>
-                    <i class="fa fa-angle-up" aria-hidden="true" ng-hide="!classExpand"></i>
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
             </a>
             <div class="collapse" id="classList">
                 <ul>
@@ -39,10 +38,10 @@
             </div>
         </li>
         <li>
-            <a href="#"><i class="fa fa-graduation-cap pr-3" aria-hidden="true"></i>Students</a>
+            <a href=""><i class="fa fa-graduation-cap pr-3" aria-hidden="true"></i>Students</a>
         </li>
         <li>
-            <a href="#"><i class="fa fa-area-chart pr-3" aria-hidden="true"></i>Analytics</a>
+            <a href=""><i class="fa fa-area-chart pr-3" aria-hidden="true"></i>Analytics</a>
         </li>
     </ul>
 </div>

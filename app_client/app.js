@@ -24,13 +24,11 @@ var app = angular
     ]);
 
 app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
-    // default route
-    $urlRouterProvider.otherwise("dashboard");
 
     // app state and individual views
     $stateProvider
         .state('main', {
-            url: '/',
+            url: '/main',
             views: {
                 'navbar': {
                     templateUrl: 'app-components/navbar/navbar.view.html',
@@ -48,12 +46,12 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
         })
 
         .state('main.dashboard', {
-            url: 'dashboard',
+            url: '/dashboard',
             templateUrl: 'app-components/dashboard/dashboard.view.html'
         })
 
-        .state ('main.course', {
-            url: 'course',
+        .state('main.course', {
+            url: '/course',
             templateUrl: 'app-components/dashboard/course.view.html'
         });
 });

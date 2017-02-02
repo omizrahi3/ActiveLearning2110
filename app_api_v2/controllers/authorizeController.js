@@ -14,7 +14,7 @@
 //************************************************************
 "use strict";
 
-var User       = require('./../models/userModel');
+var User  = require('./../models/userModel');
 
 var roles =   {
                   ADMIN       : 'admin',
@@ -32,6 +32,44 @@ var admin = function (req, res, next)
             {
                 success: false,
                 message: 'Admin Authorization Required'
+            }
+        );
+    }
+    else
+    {
+        next();
+    }
+}
+
+var adminOrInstructorOrSelf = function (req, res, next)
+{
+    console.log('authorizeController adminOrInstructorOrSelf');
+
+    if (req.decodedToken.sub !== req.query.id && req.decodedToken.role !== roles.ADMIN && req.decodedToken.role !== roles.INSTRUCTOR)
+    {
+        return res.status(401).json(
+            {
+                success: false,
+                message: 'Not Authorized: Admin or Instructor or Self Only'
+            }
+        );
+    }
+    else
+    {
+        next();
+    }
+}
+
+var adminOrSelf = function (req, res, next)
+{
+    console.log('authorizeController adminOrSelf');
+
+    if (req.decodedToken.sub !== req.params.USERID && req.decodedToken.role !== roles.ADMIN)
+    {
+        return res.status(401).json(
+            {
+                success: false,
+                message: 'Not Authorized: Admin or Self Only'
             }
         );
     }
@@ -83,44 +121,6 @@ var roleUpdate = function (req, res, next)
         {
             next();
         }
-    }
-}
-
-var adminOrInstructorOrSelf = function (req, res, next)
-{
-    console.log('authorizeController adminOrInstructorOrSelf');
-
-    if (req.decodedToken.sub !== req.query.id && req.decodedToken.role !== roles.ADMIN && req.decodedToken.role !== roles.INSTRUCTOR)
-    {
-        return res.status(401).json(
-            {
-                success: false,
-                message: 'Not Authorized: Admin or Instructor or Self Only'
-            }
-        );
-    }
-    else
-    {
-        next();
-    }
-}
-
-var adminOrSelf = function (req, res, next)
-{
-    console.log('authorizeController adminOrSelf');
-
-    if (req.decodedToken.sub !== req.params.USERID && req.decodedToken.role !== roles.ADMIN)
-    {
-        return res.status(401).json(
-            {
-                success: false,
-                message: 'Not Authorized: Admin or Self Only'
-            }
-        );
-    }
-    else
-    {
-        next();
     }
 }
 
@@ -183,12 +183,12 @@ var studentOrInstructor = function (req, res, next)
 
 module.exports =
 {
-    admin         :   admin,
+    admin                   :   admin,
     adminOrInstructorOrSelf :   adminOrInstructorOrSelf,
-    adminOrSelf   :   adminOrSelf,
-    instructor    :   instructor,
-    roleUpdate    :   roleUpdate,
-    self          :   self,
-    student       :   student,
-    studentOrInstructor   :     studentOrInstructor
+    adminOrSelf             :   adminOrSelf,
+    instructor              :   instructor,
+    roleUpdate              :   roleUpdate,
+    self                    :   self,
+    student                 :   student,
+    studentOrInstructor     :     studentOrInstructor
 };

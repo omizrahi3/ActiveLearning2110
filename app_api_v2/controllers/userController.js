@@ -149,6 +149,27 @@ var setUserName = function (req, res, next)
     });
 }
 
+var isValidStudent = function (req, res, next)
+{
+    console.log('userController isValidStudent');
+
+    User.findOne({'username': req.body.username}, function (err, user)
+    {
+        if (err || !user)
+        {
+          req.body.password = "123456";
+          req.instructorRegisteredStudent = true;
+          next();
+        }
+        else
+        {
+          req.user = user;
+          next();
+        }
+    });
+}
+
+
 var updateUser = function (req, res)
 {
     User.findById(req.params.USERID, function(err, user)
@@ -164,6 +185,14 @@ var updateUser = function (req, res)
         }
         else
         {
+            if (req.body.new_firstname)
+            {
+                user.firstname = req.body.new_firstname;
+            }
+            if (req.body.new_lastname)
+            {
+                user.lastname = req.body.new_lastname;
+            }
             if (req.body.new_photo)
             {
                 user.photo = req.body.new_photo;
@@ -258,6 +287,7 @@ var updatePassword = function(req, res)
                       return res.status(200).json(
                           {
                               success   : true,
+                              jwt_token : req.token,
                               message   : 'User Password Updated',
                               user_id   : updated_user._id.toString()
                           }
@@ -276,5 +306,6 @@ module.exports =
     getUser     : getUser,
     setUserName : setUserName,
     updatePassword : updatePassword,
-    updateUser  : updateUser
+    updateUser  : updateUser,
+    isValidStudent: isValidStudent
 };

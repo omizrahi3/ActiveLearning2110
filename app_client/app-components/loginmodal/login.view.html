@@ -114,7 +114,7 @@
                             ng-required="professor"/>
                     </div>
                     <!-- Error Message -->
-                    <div ng-if="error" class="alert alert-danger">{{error}}</div>
+                    <div ng-if="error" class="alert alert-danger text-center animated fadeIn">{{error}}</div>
                     <!-- Login/Register Buttons -->
                     <div class="form-group pt-1">
                         <div ng-class="{ 'btn-toolbar justify-content-between': !register,
@@ -123,7 +123,7 @@
                                 <button
                                     ng-click="submit()"
                                     ng-disabled="loginForm.$invalid"
-                                    class="btn btn-outline-primary">
+                                    class="btn btn-outline-success">
                                     <span ng-show="loading">
                                         <i class="fa fa-circle-o-notch fa-spin"></i>
                                     </span>
@@ -131,7 +131,7 @@
                                 </button>
                             </div>
                             <button
-                                class="btn btn-outline-primary"
+                                class="btn btn-outline-info"
                                 ng-hide="register"
                                 class="ng-hide"
                                 ng-click="toggleRegister()">Register

@@ -4,30 +4,43 @@
             <div class="modal-body">
                 <h2 class="text-center pb-4">
                     <span>{{title}}</span>
-                    <button type="btn float-right" class="close" data-dismiss="modal">&times;</button>
+                    <button type="btn float-right" class="close" ng-click="closeProfile()">&times;</button>
                 </h2>
                 <!-- Profile Form -->
                 <form name="profileForm">
-                    <div class="card">
-                        <img class="card-img-top" src="{{photo}}">
-                        <div class="card-block text-center p-2">
-                            <a href="#" class="btn btn-outline-primary">Change Photo</a>
-                        </div>
+                    <div class="image-upload text-center">
+                        <label for="file-input">
+                            <img data-ng-src="{{photo}}" ng-hide="selectedPhoto" ng-class="{ 'handCursor': edit }" class="rounded"/>
+                            <div class="cropArea" ng-hide="!selectedPhoto">
+                                <img ng-src="{{selectedPhoto}}" width="400px" height="300px" class="rounded"/>
+                            </div>
+                        </label>
+                        <input
+                            type="file"
+                            id="file-input"
+                            fileread="selectedPhoto"
+                            context="context"
+                            photo="selectedPhoto"
+                            ng-disabled="!edit"
+                            accept="image/jpeg"
+                            style="display: none;" />
                     </div>
                     <div class="input-group pb-2 pt-2">
                         <div class="input-group-addon"><i class="fa fa-address-book fa-fw" aria-hidden="true"></i></div>
                         <input
                             type="firstname"
                             name="firstname"
-                            placeholder="{{firstname}}"
+                            placeholder="{{firstnamePh}}"
                             class="form-control text-capitalize"
-                            disabled/>
+                            ng-model="firstname"
+                            ng-disabled="!edit"/>
                         <input
                             type="lastname"
                             name="lastname"
-                            placeholder="{{lastname}}"
+                            placeholder="{{lastnamePh}}"
                             class="form-control text-capitalize"
-                            disabled/>
+                            ng-model="lastname"
+                            ng-disabled="!edit"/>
                     </div>
                     <div class="input-group pb-2">
                         <div class="input-group-addon"><i class="fa fa-envelope fa-fw" aria-hidden="true"></i></div>
@@ -46,6 +59,57 @@
                             name="role"
                             class="form-control text-capitalize"
                             disabled/>
+                    </div>
+                    <div
+                        class="input-group pb-2"
+                        ng-show="edit"
+                        ng-class="{ 'has-danger':
+                                        profileForm.password.$dirty &&
+                                        (profileForm.password.$invalid || profileForm.password.$error.minlength),
+                                   'has-success': profileForm.password.$valid && profileForm.password.$dirty}">
+                        <div class="input-group-addon"><i class="fa fa-unlock-alt fa-fw" aria-hidden="true"></i></div>
+                        <input
+                            placeholder="Old Password"
+                            type="password"
+                            name="password"
+                            class="form-control"
+                            ng-minlength="5"
+                            ng-model="password"
+                            ng-required="edit && profileForm.password.$dirty" />
+                    </div>
+                    <div
+                        class="input-group pb-2"
+                        ng-show="edit"
+                        ng-class="{ 'has-danger':
+                                        profileForm.newPassword.$dirty &&
+                                        (profileForm.newPassword.$invalid ||
+                                        profileForm.newPassword.$error.minlength ),
+                                    'has-success': profileForm.newPassword.$valid && profileForm.password.$dirty}">
+                        <div class="input-group-addon"><i class="fa fa-check-circle fa-fw" aria-hidden="true"></i></div>
+                        <input
+                            placeholder="New Password"
+                            type="password"
+                            name="newPassword"
+                            class="form-control"
+                            ng-minlength="5"
+                            ng-model="newPassword"
+                            ng-disabled="!profileForm.password.$dirty || profileForm.password.$invalid"
+                            ng-required="edit && profileForm.password.$dirty"/>
+                    </div>
+                    <!-- Error Message -->
+                    <div ng-if="error" class="alert alert-danger animated fadeIn text-center pt-2">{{error}}</div>
+                    <div class="text-center pt-1">
+                        <button
+                            type="button"
+                            class="btn"
+                            ng-class="{'btn-danger btn-outline-danger' : !edit,
+                                       'btn-success btn-outline-success': edit}"
+                            ng-click="editProfile()">
+                                <span ng-show="loading">
+                                    <i class="fa fa-circle-o-notch fa-spin"></i>
+                                </span>
+                                {{editTitle}}
+                            </button>
                     </div>
                 </form>
             </div>

@@ -17,51 +17,50 @@ var app = angular.module('app');
 
 app.controller('CourseModal.Controller', function($scope, $element, $localStorage, UserService) {
 
-        $scope.course = null;
-        $scope.error = null;
-        $scope.loading = false;
+    $scope.course = null;
+    $scope.error = null;
+    $scope.loading = false;
 
-        if ($localStorage.role === 'student') {
-            $scope.btnTitle = 'Join';
-            $scope.title = 'Register for Course';
-            $scope.placeholder = 'Course Key';
-        } else {
-            $scope.title = 'Create Course';
-            $scope.placeholder = 'Course Name';
-            $scope.btnTitle = 'Create';
-        }
-
-        var handleStatus = function(error, text) {
-            $scope.loading = false;
-            $scope.error = text;
-        };
-
-        $scope.jnCreate = function() {
-            $scope.error = null;
-            $scope.loading = true;
-            if ($localStorage.role === 'student') {
-                UserService.JoinCourseNoID($scope.course, joinCourse);
-            } else {
-                UserService.CreateCourse($scope.course, createPost);
-            }
-        };
-
-        function createPost(result, status, text) {
-            if (!result) {
-                handleStatus(status, text);
-                return;
-            }
-            $scope.loading = false;
-            $element.modal('hide');
-        }
-
-        function joinCourse(result, status, text) {
-            if (!result) {
-                handleStatus(status, text);
-                return;
-            }
-            $scope.loading = false;
-            $element.modal('hide');
-        }
+    if ($localStorage.role === 'student') {
+        $scope.btnTitle = 'Join';
+        $scope.title = 'Register for Course';
+        $scope.placeholder = 'Course Key';
+    } else {
+        $scope.title = 'Create Course';
+        $scope.placeholder = 'Course Name';
+        $scope.btnTitle = 'Create';
     }
-);
+
+    var handleStatus = function(error, text) {
+        $scope.loading = false;
+        $scope.error = text;
+    };
+
+    $scope.jnCreate = function() {
+        $scope.error = null;
+        $scope.loading = true;
+        if ($localStorage.role === 'student') {
+            UserService.JoinCourseNoID($scope.course, joinCourse);
+        } else {
+            UserService.CreateCourse($scope.course, createPost);
+        }
+    };
+
+    function createPost(result, status, text) {
+        if (!result) {
+            handleStatus(status, text);
+            return;
+        }
+        $scope.loading = false;
+        $element.modal('hide');
+    }
+
+    function joinCourse(result, status, text) {
+        if (!result) {
+            handleStatus(status, text);
+            return;
+        }
+        $scope.loading = false;
+        $element.modal('hide');
+    }
+});

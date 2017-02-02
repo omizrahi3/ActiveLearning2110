@@ -18,7 +18,7 @@ var express           = require('express');
 var userRouter        = express.Router();
 
 var userController        = require('./../controllers/userController');
-var courseController        = require('./../controllers/courseController');
+var courseController      = require('./../controllers/courseController');
 var tokenController       = require('./../controllers/tokenController');
 var authorizeController   = require('./../controllers/authorizeController');
 var inputController       = require('./../controllers/inputController');
@@ -36,10 +36,10 @@ Query String:     none
 Request Body:     none
 **/
 userRouter.route('/')
-    .get( tokenController.validateToken,
-          tokenController.refreshToken,
-          authorizeController.admin,
-          userController.getAll);
+    .get(tokenController.validateToken,
+         tokenController.refreshToken,
+         authorizeController.admin,
+         userController.getAll);
 
 /**
 GET USER
@@ -54,10 +54,10 @@ Query String:     none
 Request Body:     none
 **/
 userRouter.route('/:USERID')
-    .get( tokenController.validateToken,
-          tokenController.refreshToken,
-          authorizeController.adminOrSelf,
-          userController.getUser);
+    .get(tokenController.validateToken,
+         tokenController.refreshToken,
+         authorizeController.adminOrSelf,
+         userController.getUser);
 
 /**
 GET USER COURSES
@@ -72,10 +72,10 @@ Query String:     none
 Request Body:     none
 **/
 userRouter.route('/:USERID/courses')
-    .get( tokenController.validateToken,
-          tokenController.refreshToken,
-          authorizeController.studentOrInstructor,
-          courseController.getUserCourses);
+    .get(tokenController.validateToken,
+         tokenController.refreshToken,
+         authorizeController.studentOrInstructor,
+         courseController.getUserCourses);
 
 /**
 UPDATE USER
@@ -89,8 +89,9 @@ Path Parameters:  user_id String    required
 Query String:     none
 Request Body:     application/json  required
 {
-  "update"      : String            required
   "new_photo"   : String            Optional
+  "new_firstname":String
+  "new_lastname": String
   "new_role"    : String            Optional (admin only)
 }
 **/

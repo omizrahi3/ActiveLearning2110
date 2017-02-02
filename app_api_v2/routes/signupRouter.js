@@ -17,10 +17,10 @@
 var express           = require('express');
 var signupRouter      = express.Router();
 
-var signupController  = require('./../controllers/signupController');
-var inputController   = require('./../controllers/inputController');
-var tokenController   = require('./../controllers/tokenController');
-var authController    = require('./../controllers/authController');
+var signupController    = require('./../controllers/signupController');
+var inputController     = require('./../controllers/inputController');
+var tokenController     = require('./../controllers/tokenController');
+var authorizeController = require('./../controllers/authorizeController');
 
 /**
 REGISTER USER
@@ -66,10 +66,10 @@ Query String:     none
 Request Body:     none
 **/
 signupRouter.route('/admin_key')
-    .get( tokenController.validateToken,
-          tokenController.refreshToken,
-          authController.authorizeAdmin,
-          signupController.createAdminKey);
+    .get(tokenController.validateToken,
+         tokenController.refreshToken,
+         authorizeController.admin,
+         signupController.createAdminKey);
 
 /**
 CREATE INSTRUCTOR REGISTRATION KEY
@@ -84,15 +84,15 @@ Query String:     none
 Request Body:     none
 **/
 signupRouter.route('/instructor_key')
-    .get( tokenController.validateToken,
-          tokenController.refreshToken,
-          authController.authorizeAdmin,
-          signupController.createInstructorKey);
+    .get(tokenController.validateToken,
+         tokenController.refreshToken,
+         authorizeController.admin,
+         signupController.createInstructorKey);
 
 /**
 CREATE REGISTRATION KEY
 
-GET	/api_v2/signup/registration_key?role={user_role}/
+POST	/api_v2/signup/registration_key?role={user_role}/
 
 Authentication:   user token        required
 Authorization:    admin             required
@@ -102,9 +102,27 @@ Query String:     role  Pass either 'admin' or 'instructor' required
 Request Body:     none
 **/
 signupRouter.route('/registration_key')
-    .get( tokenController.validateToken,
+    .post(tokenController.validateToken,
           tokenController.refreshToken,
-          authController.authorizeAdmin,
+          authorizeController.admin,
           signupController.createRegistrationKey);
+
+ /**
+ GET REGISTRATION KEYS
+
+ GET	/api_v2/signup/registration_key
+
+ Authentication:   user token        required
+ Authorization:    admin             required
+
+ Path Parameters:  none
+ Query String:     none
+ Request Body:     none
+ **/
+ signupRouter.route('/registration_key')
+     .post(tokenController.validateToken,
+           tokenController.refreshToken,
+           authorizeController.admin,
+           signupController.getRegistrationKeys);
 
 module.exports = signupRouter;

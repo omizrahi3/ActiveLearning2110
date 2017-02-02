@@ -17,6 +17,34 @@
 var mongoose    = require('mongoose');
 var Schema      = mongoose.Schema;
 
+var admin =
+{
+    user_id:
+    {
+        type    : String,
+        required: true
+    }
+};
+
+var user =
+{
+    username:
+    {
+        type    : String,
+        required: true
+    },
+    firstname:
+    {
+        type    : String,
+        required: true
+    },
+    lastname:
+    {
+        type    : String,
+        required: true
+    }
+};
+
 var RegistrationKeySchema  = new Schema(
 {
     role:
@@ -30,6 +58,14 @@ var RegistrationKeySchema  = new Schema(
         type    : Date,
         default : Date.now
     },
+    admin_creator:
+    {
+        type: admin
+    },
+    user:
+    {
+        type: user
+    },
     key:
     {
         type    : String,
@@ -40,11 +76,6 @@ var RegistrationKeySchema  = new Schema(
     {
         type    : Boolean,
         default : false
-    },
-    user:
-    {
-        type    : String,
-        default : null
     }
 });
 

@@ -18,7 +18,8 @@ var User          = require('./../models/userModel');
 var jwt           = require('jsonwebtoken');
 var config        = require('./../../config');
 
-var FIVE_MINUTES = 5;
+var SIXTY_MINUTES = 60;
+var TEN_MINUTES = 600;
 
 function clearCookieJWT(res, callback)
 {
@@ -78,7 +79,7 @@ var generateToken = function (req, res)
     console.log('tokenController generateToken');
 
     var claims =  {
-                      exp   : Math.floor(Date.now() / 1000) + (60 * FIVE_MINUTES),
+                      exp   : Math.floor(Date.now() / 1000) + (60 * SIXTY_MINUTES),
                       iss   : 'activelearning2110.com',
                       sub   : req.user_id,
                       role  : req.user_role
@@ -119,9 +120,9 @@ var refreshToken = function (req, res, next)
 
     var timeInS = Math.floor(Date.now() / 1000);
     var secondsTilExp = req.decodedToken.exp - timeInS;
-    console.log('exp - current: '+ secondsTilExp)
+    //console.log('exp - current: '+ secondsTilExp)
 
-    if (secondsTilExp < 180)
+    if (secondsTilExp < TEN_MINUTES)
     {
       console.log("REFRESHING TOKEN");
 
@@ -139,7 +140,7 @@ var refreshToken = function (req, res, next)
           {
               setCookieJWT(res, token, function()
               {
-                  console.log('token: '+token);
+                  //console.log('token: '+token);
                   req.token = token;
                   next();
               });
@@ -174,6 +175,7 @@ var validateToken = function (req, res, next)
     }
     else
     {
+
         jwt.verify(token, config.jwt_secret, function(err, decode)
         {
             if (err)

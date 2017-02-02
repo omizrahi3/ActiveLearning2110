@@ -17,12 +17,11 @@ var app = angular.module('app');
 
 app.controller('Navbar.Controller', function($scope, $element, AuthenticationService, UserService) {
 
-        $scope.logout = function() {
-            AuthenticationService.Logout();
-        };
+    $scope.logout = function() {
+        AuthenticationService.Logout();
+    };
 
-        $scope.profile = function() {
-            UserService.ShowProfile();
-        };
-    }
-);
+    $scope.profile = function() {
+        UserService.ShowProfile();
+    };
+});

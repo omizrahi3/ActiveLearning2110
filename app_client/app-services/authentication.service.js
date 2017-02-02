@@ -21,7 +21,7 @@ app.factory('AuthenticationService', function($http, $localStorage, UserService,
 
     service.Login = function(info, callback) {
 
-        $http.post('/api_v2/authenticate', info).then(function (response) {
+        $http.post('/api_v2/authenticate', info).then(function(response) {
                 if (response.data.jwt_token) {
                     $localStorage.email = info.email;
                     $localStorage.token = response.data.jwt_token;
@@ -42,17 +42,13 @@ app.factory('AuthenticationService', function($http, $localStorage, UserService,
     service.Register = function(info, callback) {
         var role = info.professor ? 'instructor' : undefined;
         var addr = role === 'instructor' ? '/api_v2/signup?role=' + role : '/api_v2/signup/';
-        $http.post(addr, info).then(function (response) {
+        $http.post(addr, info).then(function(response) {
                 callback(true, response.status, response.data.message);
             },
-            function (response) {
+            function(response) {
                 callback(false, response.status, response.data.message);
             }
         );
-    };
-
-    service.Expired = function(token) {
-        return jwtHelper.isTokenExpired(token);
     };
 
     service.LoggedIn = function() {
@@ -70,10 +66,10 @@ app.factory('AuthenticationService', function($http, $localStorage, UserService,
             $http.delete('/api_v2/authenticate')
                 .then(function() {
 
-                },
-                function() {
+                    },
+                    function() {
 
-                });
+                    });
             UserService.ShowLogin();
         }
         $http.defaults.headers.common.Authorization = '';

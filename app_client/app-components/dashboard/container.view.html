@@ -1,5 +1,5 @@
 <div id="container-fluid">
-    <div class="d-flex justify-content-end p-2">
+    <div class="d-flex justify-content-end p-2" ng-show="$storage.role !== 'admin'">
         <div class="mr-auto align-self-center">
             <button
                 type="button"
@@ -19,7 +19,34 @@
             </div>
         </div>
     </div>
-    <hr class="m-0" style="border-top: dashed 1px; color: #D5D6D8" />
+    <div class="row p-2" ng-show="$storage.role === 'admin'">
+        <div class="col-lg-6">
+          <div class="input-group">
+              <div class="input-group-addon"><i class="fa fa-search fa-fw" aria-hidden="true"></i></div>
+              <input class="form-control" type="text" placeholder="Search Users" ng-model="searchUsers">
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="input-group">
+              <input type="text" class="form-control" placeholder="Instructor Key" ng-model="generatedKey" readonly>
+              <span class="input-group-btn">
+                  <button class="btn btn-secondary" type="button" ng-click="getInstructorKey()">
+                      <span ng-show="keyLoading">
+                          <i class="fa fa-circle-o-notch fa-spin"></i>
+                      </span>
+                      Instructor Key
+                  </button>
+              </span>
+          </div>
+        </div>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" ng-if="error">
+            <button type="button" class="close" aria-label="Close" ng-click="error = null">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{error}}
+        </div>
+    </div>
+    <hr class="m-0" style="border-top: dashed 1px; color: #D5D6D8" ng-show="$storage.role !== 'admin'"/>
     <div ui-view></div>
 </div>
 

@@ -31,6 +31,7 @@ app.factory('UserService', function($http, $localStorage, $state, ModalService) 
         selectedCourse: 0,
         classExpand: false,
         LoggedIn: false,
+        users: [],
         notifications: {
             count: 0,
             data: []
@@ -151,6 +152,27 @@ app.factory('UserService', function($http, $localStorage, $state, ModalService) 
                 function(response) {
                     callback(false, response.status, response.data.message);
                 });
+    };
+
+    service.GetAllUsers = function(callback) {
+        $http.get('/api_v2/user')
+            .then(function(response) {
+                $localStorage.users = response.data.user;
+                callback(true, response.status, response.data.message);
+            },
+            function(response) {
+                callback(false, response.status, response.data.message);
+            });
+    };
+
+    service.GenerateInstructorKey = function(callback) {
+        $http.get('/api_v2/signup/instructor_key')
+            .then(function(response) {
+                callback(true, response.status, response.data);
+            },
+            function(response) {
+                callback(false, response.status, response.data.message);
+            });
     };
 
     service.Clear = function() {

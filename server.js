@@ -16,16 +16,16 @@
 //************************************************************
 "use strict";
 
-var app_api_v2   = require('./app_api_v2'),
-    app_client   = require('./app_client'),
-    bodyparser   = require('body-parser'),
+var app_api_v2 = require('./app_api_v2'),
+    app_client = require('./app_client'),
+    bodyparser = require('body-parser'),
     cookieParser = require('cookie-parser'),
-    express      = require('express'),
-    mongoose     = require('mongoose'),
-    path         = require('path'),
-    sessions     = require('client-sessions'),
-    config       = require('./config'),
-    app          = express();
+    express = require('express'),
+    mongoose = require('mongoose'),
+    path = require('path'),
+    sessions = require('client-sessions'),
+    config = require('./config'),
+    app = express();
 
 /**
 Must have MongoDB installed and run mongod
@@ -35,24 +35,20 @@ mongoose.connect(config.database);
 
 app.use(express.static(path.join(__dirname, '/app_client')));
 
-app.use(bodyparser.urlencoded(
-    {
-        extended: true
-    }
-));
+app.use(bodyparser.urlencoded({
+    extended: true
+}));
 
 app.use(cookieParser());
 
 app.use(bodyparser.json());
 
-app.use(sessions(
-    {
-        cookieName: 'session',
-        secret: config.session_secret,
-        duration: 30 * 60 * 1000,
-        activeDuration: 5 * 60 * 1000,
-    }
-));
+app.use(sessions({
+    cookieName: 'session',
+    secret: config.session_secret,
+    duration: 30 * 60 * 1000,
+    activeDuration: 5 * 60 * 1000,
+}));
 
 app_client(app);
 app_api_v2(app);

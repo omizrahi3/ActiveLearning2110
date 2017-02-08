@@ -17,7 +17,6 @@ var app = angular.module('app');
 
 app.controller('Sidebar.Controller', function($scope, $element, $localStorage) {
 
-        $scope.photo = $localStorage.photo;
 
         $scope.courseClick = function(index) {
             $scope.$storage.selectedCourse = index;

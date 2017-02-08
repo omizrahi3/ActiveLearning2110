@@ -36,7 +36,13 @@ Path Parameters:  none
 Query String:     none
 Request Body:     application/json     required
 {
-  "title":        String               required
+    "title":      String               required
+    "sections":   [String]             required
+    "course_schedule":
+    {
+        "semester": String             required
+        "days":     [String]           required     enum ["mon", "tue", "wed", "thu", "fri"] required
+    }
 }
 **/
 courseRouter.route('/')
@@ -44,32 +50,20 @@ courseRouter.route('/')
           tokenController.refreshToken,
           authorizeController.instructor,
           inputController.requireCourseTitle,
+          inputController.requireCourseSchedule,
+          inputController.requireSections,
           courseController.createCourse,
           courseController.getUserCourses);
 
-/**DEPRECATED**
 
-STUDENT JOIN COURSE
-
-POST	/api_v2/course/{course_id}/students
-
-Authentication:   user token
-Authorization:    student
-
-Path Parameters:  none
-Query String:     none
-Request Body:     application/json    required
-{
-  "course_key":   String              required
-}
-**/
-courseRouter.route('/:COURSEID/students')
+/*
+courseRouter.route('/')
     .post(tokenController.validateToken,
           tokenController.refreshToken,
-          authorizeController.student,
-          inputController.requireCourseKey,
-          userController.setUserName,
-          courseController.joinCourse);
+          authorizeController.instructor,
+          inputController.requireCourseTitle,
+          courseController2.createCourse);
+*/
 
 /**
 STUDENT JOIN COURSE
@@ -84,6 +78,7 @@ Query String:     none
 Request Body:     application/json    required
 {
   "course_key":   String              required
+  "section":      String              required
 }
 **/
 courseRouter.route('/students')
@@ -98,7 +93,7 @@ courseRouter.route('/students')
 /**
 INSTRUCTOR ADD STUDENT
 
-POST  /api_v2/course/{course_id}/students/{student_id}/
+PUT  /api_v2/course/{course_id}/student
 
 Authentication:   user token
 Authorization:    instructor
@@ -110,14 +105,18 @@ Request Body:     application/json    required
   "username":     String              required
   "firstname":    String              required
   "lastname":     String              required
+  "section":      String              required
 }
 **/
-courseRouter.route('/:COURSEID/students')
+courseRouter.route('/:COURSEID/student')
     .put(tokenController.validateToken,
          tokenController.refreshToken,
          authorizeController.instructor,
+         inputController.requireFirstname,
+         inputController.requireLastname,
+         inputController.requireUsername,
          userController.isValidStudent,
-         signupController.instructorRegisterStudent,
+         signupController.preRegisterStudent,
          courseController.instructorAddStudent);
 
 /**

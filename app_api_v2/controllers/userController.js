@@ -24,6 +24,96 @@ var roles =
     STUDENT     : 'student',
 };
 
+var updateRole = function (req, res, next)
+{
+    console.log('userController updateRole');
+
+    User.findById(req.params.USERID, function(err, user)
+    {
+        if (err || !user)
+        {
+            return res.status(404).json(
+                {
+                    success: false,
+                    message: 'User Not Found'
+                }
+            );
+        }
+        else
+        {
+            user.role = req.body.new_role;
+            user.save(function(err, updated_user)
+            {
+                if (err)
+                {
+                    return res.status(401).json(
+                        {
+                            success : false,
+                            message : 'User Not Updated'
+                        }
+                    );
+                }
+                else
+                {
+                    return res.status(200).json(
+                        {
+                            success   : true,
+                            jwt_token : req.token,
+                            message   : 'User Role Updated',
+                            user      : updated_user
+                        }
+                    );
+                }
+            });
+        }
+    });
+};
+
+var deactivateUser = function (req, res, next)
+{
+    console.log('userController deactivateUser');
+
+    User.findById(req.params.USERID, function(err, user)
+    {
+        if (err || !user)
+        {
+            return res.status(404).json(
+                {
+                    success: false,
+                    message: 'User Not Found'
+                }
+            );
+        }
+        else
+        {
+            user.deactivated = !user.deactivated;
+            user.save(function(err, updated_user)
+            {
+                if (err)
+                {
+                    return res.status(401).json(
+                        {
+                            success : false,
+                            message : 'User Not Updated'
+                        }
+                    );
+                }
+                else
+                {
+                    return res.status(200).json(
+                        {
+                            success   : true,
+                            jwt_token : req.token,
+                            message   : 'User Deactivation Updated',
+                            user      : updated_user
+                        }
+                    );
+                }
+            });
+        }
+    });
+};
+
 var deleteUser = function (req, res, next)
 {
     console.log('userController deleteUser');
@@ -89,7 +179,8 @@ var getAll  = function (req, res)
                 {
                     success   : true,
                     jwt_token : req.token,
-                    user      : users
+                    user      : users,
+                    message   : "Success on getAll"
                 }
             );
         }
@@ -119,6 +210,7 @@ var getUser = function (req, res)
                 {
                     success   : true,
                     jwt_token : req.token,
+                    message   : 'Request Success',
                     user      : user
                 }
             );
@@ -168,7 +260,6 @@ var isValidStudent = function (req, res, next)
         }
     });
 }
-
 
 var updateUser = function (req, res)
 {
@@ -299,13 +390,65 @@ var updatePassword = function(req, res)
   });
 }
 
+var completePreRegistration = function (req, res, next)
+{
+    console.log('userController completePreRegistration');
+
+    User.findOne({'pre_register_key' : req.body.pre_register_key}, function(err, user)
+    {
+        if (err || !user)
+        {
+            return res.status(404).json(
+                {
+                    success: false,
+                    message: 'Pre Registration Key Not Valid'
+                }
+            );
+        }
+        else
+        {
+            user.pre_register_key = undefined;
+            user.save(function(err, updated_user)
+            {
+                if (err)
+                {
+                    return res.status(401).json(
+                        {
+                            success : false,
+                            message : 'Pre Registration Key Not Updated'
+                        }
+                    );
+                }
+                else
+                {
+
+                    req.user = updated_user;
+                    next();
+                    /*
+                    return res.status(200).json(
+                        {
+                            success   : true,
+                            message   : 'Registration Validated',
+                            user_id   : updated_user._id.toString()
+                        }
+                    );
+                    */
+                }
+            });
+        }
+    });
+}
+
 module.exports =
 {
-    deleteUser  : deleteUser,
-    getAll      : getAll,
-    getUser     : getUser,
-    setUserName : setUserName,
-    updatePassword : updatePassword,
-    updateUser  : updateUser,
-    isValidStudent: isValidStudent
+    completePreRegistration : completePreRegistration,
+    deactivateUser  : deactivateUser,
+    deleteUser      : deleteUser,
+    getAll          : getAll,
+    getUser         : getUser,
+    setUserName     : setUserName,
+    updatePassword  : updatePassword,
+    updateRole      : updateRole,
+    updateUser      : updateUser,
+    isValidStudent  : isValidStudent
 };

@@ -12,7 +12,6 @@
 //  11Jan17     J. Carter  Initial Design                   //
 //                                                          //
 //************************************************************
-
 var app = angular.module('app');
 
 app.controller('Login.Controller', function($scope, $element, $localStorage, AuthenticationService, UserService, close) {
@@ -89,10 +88,18 @@ app.controller('Login.Controller', function($scope, $element, $localStorage, Aut
             return;
         }
         if ($localStorage.role === 'admin') {
-            UserService.GetAllUsers(finalize);
+            UserService.GetAllUsers(getKeys);
         } else {
             UserService.GetCourseList(finalize);
         }
+    }
+
+    function getKeys(result, status, text) {
+        if (!result) {
+            failed(text);
+            return;
+        }
+        UserService.GetAllKeys(finalize);
     }
 
     function finalize(result, status, text) {

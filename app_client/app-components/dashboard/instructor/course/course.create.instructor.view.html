@@ -1,0 +1,36 @@
+<div class="container-fluid p-2 text-center" ng-controller="Instructor.Course.Create.Controller">
+    <h3>Create Course</h3>
+    <div class="d-flex justify-content-center">
+        <div class="form-inline">
+            <select
+                class="form-control text-capitalize mr-sm-2"
+                ng-init="course.prefix = 'CS'"
+                ng-model="course.prefix"
+                ng-options="prefix.name as prefix.name for prefix in prefixes">
+            </select>
+            <input
+                placeholder="Class Number"
+                type="text"
+                name="firstname"
+                class="form-control mr-sm-2"
+                ng-model="course.number" autofocus/>
+            <div class="input-group"
+                moment-picker="course.time"
+                locale="en"
+                format="h:mm A"
+                min-view="hour"
+                autoclose="true">
+                    <span class="input-group-addon">
+                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                    </span>
+                    <input class="form-control"
+                    placeholder="Select a time"
+                    ng-model="course.time"
+                    ng-model-options="{ updateOn: 'blur' }">
+            </div>
+        </div>
+    </div>
+    <pre>
+        {{course | json}}
+    </pre>
+</div>

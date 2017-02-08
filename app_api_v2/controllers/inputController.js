@@ -14,6 +14,32 @@
 //************************************************************
 "use strict";
 
+var roles =
+{
+    ADMIN       : 'admin',
+    INSTRUCTOR  : 'instructor',
+    STUDENT     : 'student',
+};
+
+var requirePreRegisterKey = function (req, res, next)
+{
+    console.log('inputController requirePreRegisterKey');
+
+    if (!req.body.pre_register_key)
+    {
+        return res.status(400).json(
+            {
+                success: false,
+                message: 'Please Enter Pre Register Key'
+            }
+        );
+    }
+    else
+    {
+      next();
+    }
+};
+
 var requireCourseTitle = function (req, res, next)
 {
     console.log('inputController requireCourseTitle');
@@ -30,6 +56,46 @@ var requireCourseTitle = function (req, res, next)
     else
     {
       next();
+    }
+};
+
+var requireSections = function (req, res, next)
+{
+    console.log('inputController requireSections');
+
+    console.log(req.body.sections);
+
+    if (!req.body.sections)
+    {
+        return res.status(400).json(
+            {
+                success: false,
+                message: 'Please Enter Course Sections'
+            }
+        );
+    }
+    else
+    {
+        next();
+    }
+};
+
+var requireCourseSchedule = function (req, res, next)
+{
+    console.log('inputController requireCourseSchedule');
+
+    if (!req.body.course_schedule)
+    {
+        return res.status(400).json(
+            {
+                success: false,
+                message: 'Please Enter Course Schedule'
+            }
+        );
+    }
+    else
+    {
+        next();
     }
 };
 
@@ -166,14 +232,48 @@ var requirePassword = function (req, res, next)
     }
 };
 
+var requireRole = function (req, res, next)
+{
+    console.log('inputController requireRole');
+
+    console.log(req.body.new_role);
+
+    if (!req.body.new_role)
+    {
+        return res.status(400).json(
+            {
+                success: false,
+                message: 'Role Required'
+            }
+        );
+    }
+    else if(req.body.new_role != roles.ADMIN && req.body.new_role != roles.INSTRUCTOR && req.body.new_role != roles.STUDENT)
+    {
+        return res.status(400).json(
+            {
+                success: false,
+                message: 'Invalid Role'
+            }
+        );
+    }
+    else
+    {
+      next();
+    }
+};
+
 module.exports =
 {
     requireCourseKey        :   requireCourseKey,
+    requireCourseSchedule   :   requireCourseSchedule,
     requireCourseTitle      :   requireCourseTitle,
     requireCurrentPassword  :   requireCurrentPassword,
     requireNewPassword      :   requireNewPassword,
     requireUsername         :   requireUsername,
     requireLastname         :   requireLastname,
     requireFirstname        :   requireFirstname,
-    requirePassword         :   requirePassword
+    requirePassword         :   requirePassword,
+    requirePreRegisterKey   :   requirePreRegisterKey,
+    requireRole             :   requireRole,
+    requireSections         :   requireSections
 };

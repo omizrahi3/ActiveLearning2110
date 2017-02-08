@@ -17,14 +17,41 @@
 var mongoose    = require('mongoose');
 var Schema      = mongoose.Schema;
 
+var day =
+{
+    type    : String,
+    enum    : ['mon', 'tue', 'wed', 'thr', 'fri'],
+    required: true
+};
+
+var schedule =
+{
+    semester:
+    {
+        type      : String,
+        required  : true
+    },
+    days: {
+        type: [{ type: String, enum: ['mon', 'tue', 'wed', 'thr', 'fri'] }]
+    },
+    time    :
+    {
+        type      : String,
+        required  : true
+    }
+};
+
 var instructor =
 {
-    instructor_id:
-    {
-        type    : String,
-        required: true
-    },
-    username:
+    instructor_id  :  String,
+    username       :  String,
+    firstname      :  String,
+    lastname       :  String
+};
+
+var section =
+{
+    section_title:
     {
         type    : String,
         required: true
@@ -33,21 +60,13 @@ var instructor =
 
 var StudentSchema  = new Schema(
 {
-    student_id:
-    {
-        type    : String,
-        required: true
-    },
-    username:
-    {
-        type    : String,
-        required: true
-    },
-    join_date:
-    {
-        type    : Date,
-        default : Date.now
-    },
+    student_id     :  {type: String, required: true},
+    username       :  {type: String, required: true},
+    firstname      :  {type: String, required: true},
+    lastname       :  {type: String, required: true},
+    section        :  {type: String, required: true},
+    status         :  {type: String, enum: ['pending', 'complete'], default: 'pending'},
+    join_date      :  {type: Date, default : Date.now},
     "_id": false
 });
 
@@ -77,7 +96,22 @@ var CourseSchema  = new Schema(
     },
     instructor:
     {
-        type: instructor
+        instructor_id  :  {type: String, required: true},
+        username       :  {type: String, required: true},
+        firstname      :  {type: String, required: true},
+        lastname       :  {type: String, required: true},
+    },
+    schedule:
+    {
+        days:
+        {
+            type: [{ type: String, enum: ['mon', 'tue', 'wed', 'thr', 'fri'] }]
+        },
+        semester: {type: String, required: true},
+        time: {type: String, required: true}
+    },
+    sections: {
+        type: [{ type: String, required: true }]
     },
     students:
     [
@@ -88,7 +122,7 @@ var CourseSchema  = new Schema(
         type    : Date,
         default : Date.now
     },
-    access_key:
+    course_key:
     {
         type    : String,
         required: true,

@@ -15,7 +15,7 @@
 
 var app = angular.module('app');
 
-app.factory('AuthenticationService', function($http, $localStorage, UserService, jwtHelper) {
+app.factory('AuthenticationService', function($state, $http, $localStorage, UserService, jwtHelper) {
 
     var service = {};
 
@@ -72,8 +72,8 @@ app.factory('AuthenticationService', function($http, $localStorage, UserService,
                     });
             UserService.ShowLogin();
         }
-        $http.defaults.headers.common.Authorization = '';
         UserService.Clear();
+        $http.defaults.headers.common.Authorization = '';
     };
 
     return service;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-ng-app="app" data-ng-controller="Main.Controller">
+<html lang="en" ng-app="app">
 
 <head>
     <meta charset="utf-8">
@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" />
     <!-- Custom CSS -->
     <link rel="stylesheet" href="app-css/style.css" />
+    <link rel="stylesheet" href="//cdn.rawgit.com/indrimuska/angular-moment-picker/master/dist/angular-moment-picker.min.css" />
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -27,9 +28,8 @@
 
 <body>
     <!-- Views -->
-    <div class="super-container">
-        <div class="container-fluid login-back" ng-hide="$storage.LoggedIn">
-        </div>
+    <div class="super-container" ng-controller="Main.Controller">
+        <div class="container-fluid login-back" ng-hide="$storage.LoggedIn"></div>
         <div ui-view="navbar"></div>
         <div id="wrapper" ng-class="{'toggled' : $storage.hideSidebar }">
             <div ui-view="sidebar"></div>
@@ -48,18 +48,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.6/ngStorage.min.js"></script>
     <script src="https://unpkg.com/angular-ui-router@0.4.2/release/angular-ui-router.min.js"></script>
     <script src="https://rawgit.com/dwmkerr/angular-modal-service/master/dst/angular-modal-service.js"></script>
-    <script src="app-scripts/angular-jwt.min.js"></script>
+    <script src="https://raw.githubusercontent.com/auth0/angular-jwt/master/dist/angular-jwt.min.js"></script>
+    <script src="https://raw.githubusercontent.com/ocombe/ocLazyLoad/master/dist/ocLazyLoad.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment-with-locales.js"></script>
+    <script src="//cdn.rawgit.com/indrimuska/angular-moment-picker/master/dist/angular-moment-picker.min.js"></script>
 
     <!-- application scripts -->
     <script src="app.js"></script>
     <script src="app-services/user.service.js"></script>
     <script src="app-services/authentication.service.js"></script>
-    <script src="app-components/dashboard/container.controller.js"></script>
-    <script src="app-components/navbar/navbar.controller.js"></script>
-    <script src="app-components/sidebar/sidebar.controller.js"></script>
-    <script src="app-components/loginmodal/login.controller.js"></script>
-    <script src="app-components/coursemodal/coursemodal.controller.js"></script>
-    <script src="app-components/profilemodal/profile.controller.js"></script>
+    <script src="app-components/modals/login/login.controller.js"></script>
+    <script src="app-components/modals/profile/profile.controller.js"></script>
+    <script src="app-components/modals/join_course/join_course.controller.js"></script>
 </body>
 
 </html>

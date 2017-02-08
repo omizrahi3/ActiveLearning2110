@@ -59,14 +59,18 @@ var createCourse = function(req, res, next)
         var course_instructor =
         {
             instructor_id   : user._id.toString(),
-            username        : user.username
+            username        : user.username,
+            firstname       : user.firstname,
+            lastname        : user.lastname
         };
 
         newCourse = new Course(
         {
             title       : req.body.title,
             instructor  : course_instructor,
-            access_key  : rand.generate()
+            schedule    : req.body.course_schedule,
+            sections    : req.body.sections,
+            course_key  : rand.generate()
         });
 
         newCourse.save(function(err, savedCourse)
@@ -126,12 +130,32 @@ var instructorAddStudent = function(req, res, next)
                 }
                 else
                 {
-                    course.students.push(
-                        {
-                            student_id: student_id,
-                            username  : req.user.username
-                        }
-                    );
+                    if (req.instructorRegisteredStudent)
+                    {
+                        course.students.push(
+                            {
+                                student_id: student_id,
+                                username  : req.user.username,
+                                firstname : req.user.firstname,
+                                lastname  : req.user.lastname,
+                                section   : req.body.section,
+                                status    : 'pending'
+                            }
+                        );
+                    }
+                    else
+                    {
+                        course.students.push(
+                            {
+                                student_id: student_id,
+                                username  : req.user.username,
+                                firstname : req.user.firstname,
+                                lastname  : req.user.lastname,
+                                section   : req.body.section,
+                                status    : 'complete'
+                            }
+                        );
+                    }
                     course.save(function(err, updated_course)
                     {
                         if (err)
@@ -161,11 +185,28 @@ var instructorAddStudent = function(req, res, next)
     });
 }
 
+
+var updateStudentStatus = function (req, res)
+{
+    console.log('userController updateStudentStatus');
+
+    Course.update( {'students.student_id': req.user.id.toString()}, {'$set': {'students.$.status': 'complete'}} , function(err, data){
+      return res.status(200).json(
+          {
+              success   : true,
+              message   : 'Registration Complete',
+              user_id   : req.user._id.toString()
+          }
+      );
+    });
+
+};
+
 var joinCourse = function(req, res, next)
 {
     console.log('courseController joinCourse');
 
-    Course.findOne({'access_key': req.body.course_key}, function (err, course)
+    Course.findOne({'course_key': req.body.course_key}, function (err, course)
     {
         if (err || !course)
         {
@@ -194,7 +235,11 @@ var joinCourse = function(req, res, next)
                     course.students.push(
                         {
                             student_id: req.user.id.toString(),
-                            username  : req.user.username
+                            username  : req.user.username,
+                            firstname : req.user.firstname,
+                            lastname  : req.user.lastname,
+                            section   : req.body.section,
+                            status    : 'complete'
                         }
                     );
                     course.save(function(err, updated_course)
@@ -204,7 +249,7 @@ var joinCourse = function(req, res, next)
                             return res.status(500).json(
                                 {
                                     success   : false,
-                                    message   : 'Internal Error'
+                                    message   : err
                                 }
                             );
                         }
@@ -279,6 +324,7 @@ var getCourse = function (req, res)
                 {
                     success   : true,
                     jwt_token : req.token,
+                    message   : 'Request Success',
                     course    : course
                 }
             );
@@ -316,6 +362,7 @@ var getLectures = function (req, res)
                 {
                     success   : true,
                     jwt_token : req.token,
+                    message   : 'Request Success',
                     lectures  : course.lectures
                 }
             );
@@ -344,6 +391,7 @@ var getStudents = function (req, res)
                 {
                     success   : true,
                     jwt_token : req.token,
+                    message   : 'Request Success',
                     students  : course.students
                 }
             );
@@ -494,9 +542,10 @@ var getUserCourses  = function (req, res)
             {
                 return res.status(201).json(
                     {
-                        success : true,
+                        success   : true,
                         jwt_token : req.token,
-                        courses : courses
+                        message   : 'Request Success',
+                        courses   : courses
                     }
                 );
             }
@@ -521,6 +570,7 @@ var getUserCourses  = function (req, res)
                     {
                         success : true,
                         jwt_token : req.token,
+                        message   : 'Request Success',
                         courses : courses
                     }
                 );
@@ -540,5 +590,6 @@ module.exports =
     getStudents             :     getStudents,
     getUserCourses          :     getUserCourses,
     instructorAddStudent    :     instructorAddStudent,
-    joinCourse              :     joinCourse
+    joinCourse              :     joinCourse,
+    updateStudentStatus     :     updateStudentStatus
 };

@@ -1,0 +1,83 @@
+<div class="container-fluid p-2" ng-controller="Admin.Keys.Controller">
+    <div class="container-fluid p-0 pb-2">
+      <div class="input-group">
+          <input type="text" class="form-control" placeholder="Instructor Key" ng-model="generatedKey" readonly>
+          <span class="input-group-btn">
+              <button class="btn btn-secondary" type="button" ng-click="getInstructorKey()">
+                  <span ng-show="keyLoading">
+                      <i class="fa fa-circle-o-notch fa-spin"></i>
+                  </span>
+                  Instructor Key
+              </button>
+          </span>
+      </div>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" ng-if="error">
+            <button type="button" class="close" aria-label="Close" ng-click="error = null">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{error}}
+        </div>
+    </div>
+    <table class="table table-bordered table-sm">
+        <thead class="text-center thead-inverse">
+            <td>
+                <a href="#" ng-click="sortType = 'firstname'; sortReverse = !sortReverse">
+                First
+                <span ng-show="sortType == 'firstname' && !sortReverse" class="fa fa-caret-down"></span>
+                <span ng-show="sortType == 'firstname' && sortReverse" class="fa fa-caret-up"></span>
+                </a>
+            </td>
+            <td>
+                <a href="#" ng-click="sortType = 'lastname'; sortReverse = !sortReverse">
+                Last
+                <span ng-show="sortType == 'lastname' && !sortReverse" class="fa fa-caret-down"></span>
+                <span ng-show="sortType == 'lastname' && sortReverse" class="fa fa-caret-up"></span>
+                </a>
+            </td>
+            <td>
+                <a href="#" ng-click="sortType = 'username'; sortReverse = !sortReverse">
+                E-Mail
+                <span ng-show="sortType == 'username' && !sortReverse" class="fa fa-caret-down"></span>
+                <span ng-show="sortType == 'username' && sortReverse" class="fa fa-caret-up"></span>
+                </a>
+            </td>
+            <td>
+                <a href="#" ng-click="sortType = 'role'; sortReverse = !sortReverse">
+                Role
+                <span ng-show="sortType == 'role' && !sortReverse" class="fa fa-caret-down"></span>
+                <span ng-show="sortType == 'role' && sortReverse" class="fa fa-caret-up"></span>
+                </a>
+            </td>
+            <td>
+                Key
+            </td>
+        </thead>
+        <tbody>
+            <tr
+                ng-repeat="key in $storage.keys | orderBy:sortType:sortReverse"
+                class="text-center">
+                <td class="align-middle text-capitalize">
+                    {{key.user.firstname}}
+                </td>
+                <td class="align-middle text-capitalize">
+                    {{key.user.lastname}}
+                </td>
+                <td class="align-middle">
+                    {{key.user.username}}
+                </td>
+                <td>
+                    {{key.role}}
+                </td>
+                <td class="align-middle">
+                    {{key.key}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script>

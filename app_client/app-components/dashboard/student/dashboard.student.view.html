@@ -1,0 +1,47 @@
+<div class="container-fluid p-2" ng-controller="Student.Dashboard.Controller">
+    <div class="d-flex justify-content-end p-2">
+        <div class="mr-auto align-self-center">
+            <button
+                type="button"
+                class="btn btn-lg btn-outline-success"
+                data-toggle="tooltip"
+                data-placement="top"
+                data-delay='{"show":"500", "hide":"50"}'
+                ng-click="joinCourse()"
+                title="Add a course">
+                <i class="fa fa-plus align-middle" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div class="align-self-center">
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-search fa-fw" aria-hidden="true"></i></div>
+                <input class="form-control" type="text" placeholder="Search Courses">
+            </div>
+        </div>
+    </div>
+    <hr class="m-0 pb-2" style="border-top: dashed 1px; color: #D5D6D8" />
+    <!-- No courses display -->
+    <div class="text-center no-courses" ng-show="$storage.courses.length === 0">
+        <i class="fa fa-child fa-4x pb-4" aria-hidden="true"></i>
+        <p>Join some courses!</p>
+    </div>
+    <!-- Courses cards  -->
+    <div ng-show="$storage.courses.length !== 0">
+        <div class="row" style="overflow: hidden;">
+            <div class="col-md-4 pb-4" ng-repeat="course in $storage.courses">
+                <div class="card animated fadeIn" ng-click="cardClick($index)">
+                    <div class="card-header text-uppercase">
+                        {{course.title}}
+                    </div>
+                    <div class="card-block">
+                        <p class="card-text">ID: {{course._id}}</p>
+                        <p class="card-text">Access Key: {{course.access_key}}</p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        {{course.students.length}} Total Students Enrolled
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

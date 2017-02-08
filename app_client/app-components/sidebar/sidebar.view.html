@@ -1,4 +1,4 @@
-<div class="sidebar bg-primary" id="sidebar-wrapper">
+<div class="sidebar bg-primary" id="sidebar-wrapper" ng-controller="Sidebar.Controller">
     <ul class="sidebar-nav">
         <li class="sidebar-pic">
             <div id="circle-div">
@@ -16,12 +16,18 @@
             </div>
         </li>
         <li>
-            <a ui-sref=".dashboard"><i class="fa fa-tachometer pr-3" aria-hidden="true"></i>Dashboard</a>
+            <a ui-sref=".admin" ng-show="$storage.role === 'admin'"><i class="fa fa-tachometer pr-3" aria-hidden="true"></i>Dashboard</a>
+            <a ui-sref=".instructor" ng-show="$storage.role === 'instructor'"><i class="fa fa-tachometer pr-3" aria-hidden="true"></i>Dashboard</a>
+            <a ui-sref=".student" ng-show="$storage.role === 'student'"><i class="fa fa-tachometer pr-3" aria-hidden="true"></i>Dashboard</a>
         </li>
-        <li>
+        <li ng-show="$storage.role === 'admin'">
+            <a ui-sref=".admin_keys"><i class="fa fa-key pr-3" aria-hidden="true"></i>Keys</a>
+        </li>
+        <li ng-hide="$storage.role === 'admin'">
             <a
-                href="#classList"
+                role="button" href="javascript:;"
                 data-toggle="collapse"
+                data-target="#classList"
                 aria-expanded="{{$storage.classExpand}}"
                 aria-controls="classList"
                 ng-click="$storage.classExpand = !$storage.classExpand">
@@ -32,16 +38,17 @@
             <div class="collapse" id="classList">
                 <ul>
                     <li ng-repeat="course in $storage.courses">
-                        <a ui-sref=".course" ng-click="courseClick($index)">{{course.title}}</a>
+                        <a ui-sref=".student_course" ng-click="courseClick($index)" ng-show="$storage.role === 'student'">{{course.title}}</a>
+                        <a ui-sref=".instructor_course" ng-click="courseClick($index)" ng-show="$storage.role === 'instructor'">{{course.title}}</a>
                     </li>
                 </ul>
             </div>
         </li>
-        <li>
+        <!-- <li>
             <a href=""><i class="fa fa-graduation-cap pr-3" aria-hidden="true"></i>Students</a>
         </li>
         <li>
             <a href=""><i class="fa fa-area-chart pr-3" aria-hidden="true"></i>Analytics</a>
-        </li>
+        </li> -->
     </ul>
 </div>

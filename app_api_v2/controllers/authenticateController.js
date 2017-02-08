@@ -57,6 +57,24 @@ var authenticate = function (req, res, next)
                 }
             );
         }
+        else if (user.deactivated)
+        {
+            return res.status(401).json(
+                {
+                    success: false,
+                    message: 'Account Has Been Locked. Please Contact Admin'
+                }
+            );
+        }
+        else if (user.pre_register_key)
+        {
+            return res.status(401).json(
+                {
+                    success: false,
+                    message: 'Complete Pre Registration'
+                }
+            );
+        }
         else
         {
             req.user_id    = user._id.toString();

@@ -15,7 +15,7 @@
 
 var app = angular.module('app');
 
-app.controller('Profile.Controller', function($scope, $element, $localStorage, UserService) {
+app.controller('Profile.Controller', function($scope, $element, $localStorage, UserService, RESTService) {
     $scope.edit = false;
     $scope.editTitle = 'Edit Profile';
     $scope.loading = false;
@@ -57,25 +57,16 @@ app.controller('Profile.Controller', function($scope, $element, $localStorage, U
     function updateProfile() {
         var info = aggregateInfo();
         if (info) {
-            UserService.UpdateUserInfo(info, infoUpdated);
+            RESTService.UpdateUserInfo(info, infoUpdated);
         } else {
-            infoUpdated(true,'','');
+            infoUpdated({success: true});
         }
-    }
-
-    function infoUpdated(result, status, text) {
-        if (!result) {
-            failed(text);
-            return;
-        }
-        syncInfo();
-        updatePassword();
     }
 
     function updatePassword() {
         $scope.loading = true;
         if ($scope.password) {
-            UserService.UpdateUserPass({
+            RESTService.UpdateUserPass({
                 cur_password: $scope.password,
                 new_password: $scope.newPassword
             }, passFinished);
@@ -84,12 +75,27 @@ app.controller('Profile.Controller', function($scope, $element, $localStorage, U
         }
     }
 
-    function passFinished(result, status, text) {
-        if (!result) {
-            failed(text);
-            return;
+    function infoUpdated(info) {
+        if (!failed(info)) {
+            syncInfo();
+            updatePassword();
         }
-        resetEditProfile();
+    }
+
+    function passFinished(info) {
+        if (!failed(info)) {
+            resetEditProfile();
+        }
+    }
+
+    function failed(info) {
+        if (!info.success) {
+            $scope.loading = false;
+            $scope.error = info.message;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     function resetEditProfile() {
@@ -106,16 +112,11 @@ app.controller('Profile.Controller', function($scope, $element, $localStorage, U
     }
 
     function syncInfo() {
-        $scope.email = $localStorage.email;
+        $scope.username = $localStorage.username;
         $scope.photo = $localStorage.photo;
         $scope.role = $localStorage.role;
         $scope.firstnamePh = $localStorage.firstname;
         $scope.lastnamePh = $localStorage.lastname;
-    }
-
-    function failed(text) {
-        $scope.loading = false;
-        $scope.error = text;
     }
 
     function aggregateInfo() {

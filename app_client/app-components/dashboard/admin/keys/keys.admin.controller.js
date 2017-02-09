@@ -15,24 +15,31 @@
 
 var app = angular.module('app');
 
-app.controller('Admin.Keys.Controller', function($scope, $localStorage, $state, UserService) {
+app.controller('Admin.Keys.Controller', function($scope, $localStorage, $state, RESTService) {
     $scope.sortType = 'firstname';
     $scope.sortReverse = false;
     $scope.keyLoading = false;
 
     $scope.getInstructorKey = function() {
         $scope.keyLoading = true;
-        UserService.GenerateInstructorKey(postGetKey);
+        RESTService.GenerateInstructorKey(postGetKey);
     };
 
-    function postGetKey(result, status, data) {
-        if (!result) {
-            $scope.error = data.message;
+    function postGetKey(info) {
+        if (!failed(info)) {
+            $scope.generatedKey = info.key;
             $scope.keyLoading = false;
-            return;
         }
-        $scope.generatedKey = data.key.key;
-        $scope.keyLoading = false;
+    }
+
+    function failed(info) {
+        if (!info.success) {
+            $scope.keyLoading = false;
+            $scope.error = info.message;
+            return true;
+        } else {
+            return false;
+        }
     }
 
 });

@@ -25,6 +25,6 @@ module.exports = function(app) {
     - parameter HANDLER:    callback
     */
     app.get('/', function(req, res) {
-        res.render('index.html');
+        res.sendfile('index.html');
     });
 };

@@ -15,12 +15,12 @@
 
 var app = angular.module('app');
 
-app.controller('Navbar.Controller', function($scope, $localStorage, $element, AuthenticationService, UserService) {
+app.controller('Navbar.Controller', function($scope, $localStorage, $element, RESTService, UserService) {
 
     $scope.$storage = $localStorage;
 
     $scope.logout = function() {
-        AuthenticationService.Logout();
+        RESTService.Logout();
     };
 
     $scope.profile = function() {

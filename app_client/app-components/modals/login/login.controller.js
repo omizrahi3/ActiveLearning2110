@@ -14,7 +14,7 @@
 //************************************************************
 var app = angular.module('app');
 
-app.controller('Login.Controller', function($scope, $element, $localStorage, AuthenticationService, UserService, close) {
+app.controller('Login.Controller', function($scope, $element, $localStorage, UserService, RESTService, close) {
     $scope.title = 'Login';
     $scope.email = null;
     $scope.password = null;
@@ -53,68 +53,67 @@ app.controller('Login.Controller', function($scope, $element, $localStorage, Aut
             if ($scope.professor) {
                 info.key = $scope.professorKey.trim();
             }
-            AuthenticationService.Register(info, Login);
+            RESTService.Register(info, Login);
         } else {
-            Login(true, '', '');
+            Login({success: true});
         }
     };
 
-    function Login(result, status, text) {
-        if (!result) {
-            failed(text);
-            return;
+    function Login(info) {
+        if (!failed(info)) {
+            if (!info.success) {
+                failed(text);
+                return;
+            }
+            if ($scope.register) {
+                $scope.toggleRegister();
+            }
+            var data = {
+                username: $scope.email.trim(),
+                password: $scope.password.trim(),
+            };
+            RESTService.Login(data, getInfo);
         }
-        if ($scope.register) {
-            $scope.toggleRegister();
-        }
-        var info = {
-            username: $scope.email.trim(),
-            password: $scope.password.trim()
-        };
-        AuthenticationService.Login(info, getInfo);
     }
 
-    function getInfo(result, status, text) {
-        if (!result) {
-            failed(text);
-            return;
+    function getInfo(info) {
+        if (!failed(info)) {
+            RESTService.GetUserInfo(getCourses);
         }
-        UserService.GetUserInfo(getCourses);
     }
 
-    function getCourses(result, status, text) {
-        if (!result) {
-            failed(text);
-            return;
+    function getCourses(info) {
+        if (!failed(info)) {
+            if ($localStorage.role === 'admin') {
+                RESTService.GetAllUsers(getKeys);
+            } else {
+                RESTService.GetCourseList(finalize);
+            }
         }
-        if ($localStorage.role === 'admin') {
-            UserService.GetAllUsers(getKeys);
+    }
+
+    function getKeys(info) {
+        if (!failed(info)) {
+            RESTService.GetAllKeys(finalize);
+        }
+    }
+
+    function finalize(info) {
+        if (!failed(info)) {
+            $scope.loading = false;
+            close(true);
+        }
+    }
+
+    function failed(info) {
+        if (!info.success) {
+            $scope.loading = false;
+            $scope.error = info.message;
+            RESTService.Logout();
+            return true;
         } else {
-            UserService.GetCourseList(finalize);
+            return false;
         }
-    }
-
-    function getKeys(result, status, text) {
-        if (!result) {
-            failed(text);
-            return;
-        }
-        UserService.GetAllKeys(finalize);
-    }
-
-    function finalize(result, status, text) {
-        if (!result) {
-            failed(text);
-            return;
-        }
-        $scope.loading = false;
-        close(true);
-    }
-
-    function failed(text) {
-        $scope.loading = false;
-        $scope.error = text;
-        AuthenticationService.Logout();
     }
 });
 

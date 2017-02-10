@@ -7,8 +7,7 @@
                 data-toggle="tooltip"
                 data-placement="top"
                 data-delay='{"show":"500", "hide":"50"}'
-                ui-sref="main.instructor_course_create"
-                onclick="$(this).tooltip('hide')"
+                ng-click="createCourse()"
                 title="Create a course">
                 <i class="fa fa-plus align-middle" aria-hidden="true"></i>
             </button>
@@ -36,7 +35,7 @@
                     </div>
                     <div class="card-block">
                         <p class="card-text">ID: {{course._id}}</p>
-                        <p class="card-text">Access Key: {{course.access_key}}</p>
+                        <p class="card-text">Access Key: {{course.course_key}}</p>
                     </div>
                     <div class="card-footer text-muted">
                         {{course.students.length}} Total Students Enrolled

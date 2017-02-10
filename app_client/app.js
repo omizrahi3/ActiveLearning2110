@@ -17,12 +17,13 @@
 var app = angular
     .module('app', [
         'ui.router',
-        'ngMessages',
         'ngStorage',
         'angularModalService',
         'angular-jwt',
         'oc.lazyLoad',
-        'moment-picker'
+        'moment-picker',
+        'ngTagsInput',
+        'restangular'
     ]);
 
 app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $ocLazyLoadProvider) {
@@ -52,11 +53,11 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $ocLazyLo
             name: 'instructor.course',
             files: ['app-components/dashboard/instructor/course/course.instructor.controller.js']
         }, {
-            name: 'instructor.create_course',
-            files: ['app-components/dashboard/instructor/course/course.create.instructor.controller.js']
-        }, {
             name: 'student.course',
             files: ['app-components/dashboard/student/course/course.student.controller.js']
+        }, {
+            name: 'services',
+            files: ['app-services/storage.service.js', 'app-services/user.service.js', 'app-services/rest.service.js']
         }]
     });
 
@@ -64,6 +65,12 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $ocLazyLo
     $stateProvider
         .state('main', {
             url: 'main',
+            abstract: true,
+            resolve: {
+                loadServices: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load('services'); // Resolve promise and load before view
+                }]
+            },
             views: {
                 'navbar': {
                     templateUrl: 'app-components/navbar/navbar.view.html',
@@ -129,16 +136,6 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $ocLazyLo
             }
         })
 
-        .state('main.instructor_course_create', {
-            url: '/instructor/course',
-            templateUrl: 'app-components/dashboard/instructor/course/course.create.instructor.view.html',
-            resolve: {
-                loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load('instructor.create_course'); // Resolve promise and load before view
-                }]
-            }
-        })
-
         .state('main.admin', {
             url: '/admin',
             templateUrl: 'app-components/dashboard/admin/dashboard.admin.view.html',
@@ -160,7 +157,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $ocLazyLo
         });
 });
 
-app.controller('Main.Controller', function($scope, $state, $localStorage, AuthenticationService, UserService) {
+app.controller('Main.Controller', function($scope, $state, $localStorage, $injector, $ocLazyLoad) {
 
     $scope.$storage = $localStorage;
 
@@ -168,10 +165,16 @@ app.controller('Main.Controller', function($scope, $state, $localStorage, Authen
         $scope.$storage.hideSidebar = false;
     }
 
-    if (!AuthenticationService.LoggedIn()) {
-        AuthenticationService.Logout();
-        UserService.ShowLogin();
-    } else {
-        $state.go('main.' + $localStorage.role);
-    }
+    $ocLazyLoad.load('services').then(function() {
+        var UserStorage = $injector.get('UserStorage');
+        var RESTService = $injector.get('RESTService');
+        var UserService = $injector.get('UserService');
+
+        if (!UserStorage.LoggedIn()) {
+            RESTService.Logout();
+            UserService.ShowLogin();
+        } else {
+            $state.go('main.' + $localStorage.role);
+        }
+    });
 });

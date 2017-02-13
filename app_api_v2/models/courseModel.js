@@ -17,13 +17,6 @@
 var mongoose    = require('mongoose');
 var Schema      = mongoose.Schema;
 
-var day =
-{
-    type    : String,
-    enum    : ['mon', 'tue', 'wed', 'thr', 'fri'],
-    required: true
-};
-
 var schedule =
 {
     semester:
@@ -49,13 +42,11 @@ var instructor =
     lastname       :  String
 };
 
-var section =
+var lecture_snapshot =
 {
-    section_title:
-    {
-        type    : String,
-        required: true
-    }
+    instructor_id  :  String,
+    title          :  String,
+    date           :  String
 };
 
 var StudentSchema  = new Schema(
@@ -64,8 +55,8 @@ var StudentSchema  = new Schema(
     username       :  {type: String, required: true},
     firstname      :  {type: String, required: true},
     lastname       :  {type: String, required: true},
-    section        :  {type: String, required: true},
     status         :  {type: String, enum: ['pending', 'complete'], default: 'pending'},
+    average        :  {type: Number, default: 0},
     join_date      :  {type: Date, default : Date.now},
     "_id": false
 });
@@ -85,6 +76,21 @@ var LectureSchema  = new Schema(
     day: String,
     inSession: Boolean,
     questions: [QuestionSchema]
+});
+
+var SectionSchema  = new Schema(
+{
+    name        :  {type: String},
+    section_key :
+    {
+        type    : String,
+        required: true,
+        unique  : true
+    },
+    students:
+    [
+        StudentSchema
+    ]
 });
 
 var CourseSchema  = new Schema(
@@ -110,12 +116,9 @@ var CourseSchema  = new Schema(
         semester: {type: String, required: true},
         time: {type: String, required: true}
     },
-    sections: {
-        type: [{ type: String, required: true }]
-    },
-    students:
+    sections:
     [
-        StudentSchema
+        SectionSchema
     ],
     createdAt:
     {
@@ -130,7 +133,7 @@ var CourseSchema  = new Schema(
     },
     lectures:
     [
-        LectureSchema
+        lecture_snapshot
     ]
 });
 

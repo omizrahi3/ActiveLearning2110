@@ -19,6 +19,7 @@ var authRouter        = express.Router();
 
 var authenticateController    = require('./../controllers/authenticateController');
 var inputController    = require('./../controllers/inputController');
+var courseController    = require('./../controllers/courseController');
 var tokenController    = require('./../controllers/tokenController');
 
 /**
@@ -41,6 +42,7 @@ authRouter.route('/')
     .post(inputController.requireUsername,
           inputController.requirePassword,
           authenticateController.authenticate,
+          courseController.updateStudentStatus,
           tokenController.generateToken);
 
 /**

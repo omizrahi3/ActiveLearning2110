@@ -286,14 +286,16 @@ var preRegisterStudent = function (req, res, next)
     }
     else
     {
+        //var password = req.body.section_name+"-"+req.params.COURSEID+"-"+rand.generate();
+        var password = req.params.COURSEID+"-"+req.body.section_id+"-"+rand.generate();
         var newUser = new User(
         {
             username:   req.body.username,
-            password:   bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10)),
+            password:   bcrypt.hashSync(password, bcrypt.genSaltSync(10)),
             firstname:  req.body.firstname,
             lastname:   req.body.lastname,
             role    :   roles.STUDENT,
-            pre_register_key : rand.generate()
+            pre_register_key : password
         });
 
         newUser.save(function(err, savedUser)

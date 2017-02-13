@@ -68,12 +68,20 @@ var authenticate = function (req, res, next)
         }
         else if (user.pre_register_key)
         {
+            req.user = user;
+            req.user_id    = user._id.toString();
+            req.user_role  = user.role;
+            req.course_info = user.pre_register_key.split("-");
+            next();
+            /*
             return res.status(401).json(
                 {
                     success: false,
-                    message: 'Complete Pre Registration'
+                    course_info: req.body.course_info,
+                    student_id:  req.student_id
                 }
             );
+            */
         }
         else
         {

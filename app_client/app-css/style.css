@@ -126,6 +126,29 @@ a:active {
     text-decoration: none;
 }
 
+
+.sidebar-pic {
+  height: 175px;
+}
+
+#circle-pic {
+
+  max-width: 250px;
+  position: relative;
+  margin-left: -40%;
+
+}
+
+#circle-div {
+
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    margin-left: 20%;
+    overflow: hidden;
+
+}
+
 .sidebar-nav>.sidebar-brand {
     font-size: 18px;
     height: 65px;

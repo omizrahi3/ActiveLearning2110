@@ -162,7 +162,7 @@ CourseSchema.methods.lectureOneQuestions = function(question_array)
         question_body: 'this is a test question',
         answer_choices: ['a', 'b', 'c', 'd'],
         answer: 0
-    }
+    };
     question_array.push(question1);
     return question_array;
 };

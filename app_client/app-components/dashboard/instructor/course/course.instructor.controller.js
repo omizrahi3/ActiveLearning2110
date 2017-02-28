@@ -132,3 +132,4 @@ app.controller('Instructor.Course.Controller', function($scope, $localStorage, $
     });
 
 });
+

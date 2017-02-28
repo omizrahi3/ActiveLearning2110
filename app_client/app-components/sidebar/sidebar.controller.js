@@ -17,6 +17,7 @@ var app = angular.module('app');
 
 app.controller('Sidebar.Controller', function($scope, $state, $stateParams, $rootScope, $localStorage, UserService) {
 
+
     $scope.state = null;
     $rootScope.$stateParams = $stateParams;
 
@@ -39,5 +40,4 @@ app.controller('Sidebar.Controller', function($scope, $state, $stateParams, $roo
             }
         }
     });
-
 });

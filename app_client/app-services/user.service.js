@@ -96,14 +96,14 @@ app.directive("picread", [function() {
     };
 }]);
 
-app.directive("fileread", [function () {
+app.directive("fileread", [function() {
     return {
         scope: {
             fileread: "="
         },
-        link: function (scope, element, attributes) {
-            element.on("change", function (changeEvent) {
-                scope.$apply(function () {
+        link: function(scope, element, attributes) {
+            element.on("change", function(changeEvent) {
+                scope.$apply(function() {
                     scope.fileread = changeEvent.target.files[0];
                     element.val(null);
                 });
@@ -112,8 +112,28 @@ app.directive("fileread", [function () {
     };
 }]);
 
-app.filter('gradecolor', function () {
-    return function (str) {
+app.directive('ngEditor', function() {
+
+    function link(scope, element, attrs) {
+
+        // Initialise the editor
+        scope.editor = new ContentTools.EditorApp.get();
+        scope.editor.init('[ng-editor]', 'ng-editor', null, false);
+
+        // Bind a function on editor save
+        scope.editor.addEventListener('saved', function(ev) {
+            scope.regions = ev.detail().regions;
+            // "regions" contains all the html for each editable regions
+            // Now, "regions" can be saved and used as needed.
+        });
+    }
+    return {
+        link: link
+    };
+});
+
+app.filter('gradecolor', function() {
+    return function(str) {
         if (str < 50) {
             return "#ff6384";
         } else if (str < 70) {
@@ -124,14 +144,14 @@ app.filter('gradecolor', function () {
     };
 });
 
-app.filter('days', function () {
-    return function (str) {
-        return str.includes("mon") ? "MWF": "TR";
+app.filter('days', function() {
+    return function(str) {
+        return str.includes("mon") ? "MWF" : "TR";
     };
 });
 
 app.filter('offset', function() {
     return function(input, start) {
-    	return input.slice(start);
- 	};
+        return input.slice(start);
+    };
 });

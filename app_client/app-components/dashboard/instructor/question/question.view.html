@@ -1,0 +1,31 @@
+<div class="container-fluid p-5" ng-controller="Instructor.Question.Controller">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-end pb-2">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-info btn-sm" ng-click="edit()" ng-show="state === 'edit'">
+                    <i class="fa fa-pencil-square fa-fw" aria-hidden="true"></i>
+                </button>
+                <button type="button" class="btn btn-danger btn-sm" ng-click="cancel()" ng-show="state === 'cancel'">
+                    <i class="fa fa-times fa-fw" aria-hidden="true"></i>
+                </button>
+                <button type="button" class="btn btn-success btn-sm" ng-click="save()" ng-disabled="state === 'edit'">
+                    <i class="fa fa-check fa-fw" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div ng-editor="question-container">
+                <h2 class="text-center">
+                    Question Header
+                </h2>
+                <p class="text-center">
+                    Question Body
+                </p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        {{regions}}
+    </div>
+</div>

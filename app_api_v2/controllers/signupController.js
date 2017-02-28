@@ -64,38 +64,6 @@ var createAdminKey = function (req, res, next)
     });
 }
 
-var getAllOnSuccess = function(req, res)
-{
-    console.log('signupController getAllOnSuccess');
-
-    RegistrationKey.find({'admin_creator.user_id' : req.decodedToken.sub}, function(err, keys)
-    {
-        if (err || !keys)
-        {
-            return res.status(404).json(
-                {
-                    success: false,
-                    message: 'No keys Found'
-                }
-            );
-        }
-        else
-        {
-            return res.status(201).json(
-                {
-                    success   :   true,
-                    jwt_token :   req.token,
-                    message   :   'Admin Key Creation Successsful',
-                    key       :   req.savedKey,
-                    keys      :   keys
-
-                }
-            );
-        }
-    });
-
-}
-
 var createInstructorKey = function (req, res, next)
 {
     console.log('signupController createInstructorKey');
@@ -110,6 +78,35 @@ var createInstructorKey = function (req, res, next)
         key             :     rand.generate(),
         admin_creator   :     adminCreator
     });
+
+    var saved_key = "";
+
+    newKey.save()
+    .then(function(key){
+        saved_key = key;
+        return RegistrationKey.find({'admin_creator.user_id' : req.decodedToken.sub}).exec();
+    })
+    .then(function(keys){
+        return res.status(201).json(
+            {
+                success   :   true,
+                jwt_token :   req.token,
+                message   :   'Admin Key Creation Successsful',
+                key       :   saved_key,
+                keys      :   keys
+
+            }
+        );
+    })
+    .catch(function(err){
+        return res.status(500).json(
+            {
+                success: false,
+                message: "Internal Error"
+            }
+        );
+    });
+    /*
     newKey.save(function(err, savedKey)
     {
         if (err)
@@ -124,12 +121,34 @@ var createInstructorKey = function (req, res, next)
         req.savedKey = savedKey;
         next();
     });
+    */
 }
 
 var getRegistrationKeys = function (req, res)
 {
     console.log('signupController getRegistrationKeys');
 
+    RegistrationKey.find({'admin_creator.user_id' : req.decodedToken.sub})
+    .exec()
+    .then(function(keys){
+        return res.status(201).json(
+            {
+                success   : true,
+                jwt_token : req.token,
+                message   : 'Request Sucess',
+                keys      : keys
+            }
+        );
+    })
+    .catch(function(err){
+        return res.status(404).json(
+            {
+                success: false,
+                message: 'No keys Found'
+            }
+        );
+    });
+    /*
     RegistrationKey.find({'admin_creator.user_id' : req.decodedToken.sub}, function(err, keys)
     {
         if (err || !keys)
@@ -153,6 +172,7 @@ var getRegistrationKeys = function (req, res)
             );
         }
     });
+    */
 }
 
 var registerAdmin = function (req, res, next)
@@ -179,7 +199,10 @@ var registerAdmin = function (req, res, next)
             firstname:  req.body.firstname,
             lastname:   req.body.lastname
         }
-        RegistrationKey.findOneAndUpdate({ 'key': req.body.key, 'validated': false }, { 'validated': true, 'user': keyUser}, { 'new': true }, function (err, key)
+        RegistrationKey.findOneAndUpdate(
+        {'key': req.body.key, 'validated': false, 'role': roles.ADMIN},
+        {'validated': true, 'user': keyUser},
+        {'new': true }, function (err, key)
         {
             if (err || !key)
             {
@@ -222,7 +245,10 @@ var registerInstructor = function (req, res, next)
             firstname:  req.body.firstname,
             lastname:   req.body.lastname
         }
-        RegistrationKey.findOneAndUpdate({ 'key': req.body.key, 'validated': false, 'role': roles.INSTRUCTOR}, {'validated': true, 'user': keyUser}, { 'new': true }, function (err, key)
+        RegistrationKey.findOneAndUpdate(
+        {'key': req.body.key, 'validated': false, 'role': roles.INSTRUCTOR},
+        {'validated': true, 'user': keyUser},
+        {'new': true}, function (err, key)
         {
             if (err || !key)
             {
@@ -235,7 +261,6 @@ var registerInstructor = function (req, res, next)
             }
             else
             {
-                console.log(key);
                 req.addUser = new User(
                 {
                     username:   req.body.username,
@@ -323,7 +348,6 @@ var preRegisterStudent = function (req, res, next)
             else
             {
                 req.student = new_student;
-                console.log(req.student);
                 next();
             }
         });
@@ -372,6 +396,5 @@ module.exports =
     registerAdmin           :   registerAdmin,
     registerInstructor      :   registerInstructor,
     registerStudent         :   registerStudent,
-    savedUserToDB           :   savedUserToDB,
-    getAllOnSuccess         :   getAllOnSuccess
+    savedUserToDB           :   savedUserToDB
 };

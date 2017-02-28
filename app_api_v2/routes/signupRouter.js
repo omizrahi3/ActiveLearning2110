@@ -72,7 +72,7 @@ signupRouter.route('/admin_key')
           tokenController.refreshToken,
           authorizeController.admin,
           signupController.createAdminKey,
-          signupController.getAllOnSuccess);
+          signupController.getRegistrationKeys);
 
 /**
 CREATE INSTRUCTOR REGISTRATION KEY
@@ -90,8 +90,7 @@ signupRouter.route('/instructor_key')
     .post(tokenController.validateToken,
           tokenController.refreshToken,
           authorizeController.admin,
-          signupController.createInstructorKey,
-          signupController.getAllOnSuccess);
+          signupController.createInstructorKey);
 
 /**
 GET REGISTRATION KEYS

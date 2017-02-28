@@ -170,7 +170,7 @@ Request Body: 	  appication/json 		required
 }
 **/
 questionRouter.route('/:QUESTIONID/answer_choice')
-	.post(tokenController.validateToken,
+	.put(tokenController.validateToken,
 		  tokenController.refreshToken,
 		  authorizeController.adminOrInstructorOrSelf,
 		  questionController.addAnswerChoice);

@@ -13,7 +13,7 @@
 //************************************************************
 var app = angular.module('app');
 
-app.factory('RESTService', function($http, $localStorage, $state, $q, Restangular, UserStorage, UserService) {
+app.factory('RESTService', function($http, $localStorage, $state, $q, Restangular, UserStorage, UserService, SocketService) {
 
     var service = {};
 
@@ -46,6 +46,7 @@ app.factory('RESTService', function($http, $localStorage, $state, $q, Restangula
                     jwt_token: response.jwt_token,
                     LoggedIn: true
                 };
+                SocketService.connect();
                 UserStorage.UpdateUserInfo(data);
                 callback(genRetInfo(response));
             },

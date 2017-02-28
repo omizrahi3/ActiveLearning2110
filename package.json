@@ -1,33 +1,35 @@
 {
-    "author": "Team 2B||!2B",
-    "bugs": {
-        "url": "https://github.com/omizrahi3/ActiveLearning2110/issues"
-    },
-    "dependencies": {
-        "bcryptjs": "^2.4.0",
-        "body-parser": "^1.15.2",
-        "client-sessions": "^0.7.0",
-        "cookie-parser": "^1.4.3",
-        "express": "^4.14.0",
-        "jsonwebtoken": "^7.2.1",
-        "mongoose": "^4.7.7",
-        "random-key": "^0.3.2"
-    },
-    "description": "Active Learning Application for 2110",
-    "homepage": "https://github.com/omizrahi3/ActiveLearning2110#readme",
-    "keywords": [
-        "cs",
-        "2110"
-    ],
-    "license": "MIT",
-    "main": "server.js",
-    "name": "activelearning2110",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/omizrahi3/ActiveLearning2110.git"
-    },
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "version": "1.0.0"
+  "author": "Team 2B||!2B",
+  "bugs": {
+    "url": "https://github.com/omizrahi3/ActiveLearning2110/issues"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.0",
+    "body-parser": "^1.15.2",
+    "client-sessions": "^0.7.0",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "jsonwebtoken": "^7.2.1",
+    "mongoose": "^4.7.7",
+    "random-key": "^0.3.2",
+    "socket.io": "^1.7.3",
+    "socketio-jwt": "^4.5.0"
+  },
+  "description": "Active Learning Application for 2110",
+  "homepage": "https://github.com/omizrahi3/ActiveLearning2110#readme",
+  "keywords": [
+    "cs",
+    "2110"
+  ],
+  "license": "MIT",
+  "main": "server.js",
+  "name": "activelearning2110",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omizrahi3/ActiveLearning2110.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.0"
 }

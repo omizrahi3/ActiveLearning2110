@@ -254,8 +254,6 @@ var deleteTag = function (req, res)
             {
                 if (req.body.delete_tag)
                 {
-
-
                     Question.update(
                         {"_id": req.params.QUESTIONID}, 
                         {$pull: {"tags": req.body.delete_tag}}, function(err, data)
@@ -278,11 +276,8 @@ var deleteTag = function (req, res)
                                     data : data
                                 });
                             }   
-                        });
-                    
-
-
-                    
+                        }
+                    );      
                 }
             }
         }
@@ -437,30 +432,30 @@ var deleteAnswerChoice = function (req, res)
             {
                 if (req.body.delete_answer_choice)
                 {
-                    var answerChoiceIndex = question.tags.indexOf(req.body.delete_answer_choice);
-                    question.answer_choices.splice(answerChoiceIndex,1);                
-                    question.save(function(err, updated_question)
-                    {
-                        if (err)
+                    Question.update(
+                        {"_id": req.params.QUESTIONID}, 
+                        {$pull: {"answer_choices": req.body.delete_answer_choice}}, function(err, data)
                         {
-                            return res.status(401).json(
+                            if (err || !data || data.nModified === 0)
+                            {
+                                return res.status(400).json(
                                 {
                                     success: false,
-                                    message: 'Unable to Delete Answer Choice'
-                                }
-                            );
-                        }
-                        else
-                        {
-                            return res.status(200).json(
+                                    message: "Cannot Delete Answer Choice"
+                                });
+                            }
+                            else
+                            {r
+                                return res.status(200).json(
                                 {
-                                    success : true,
-                                    message : 'Answer Choice Deleted',
-                                    question: updated_question
-                                }
-                            );
+                                    success: true,
+                                    jwt_token: req.token,
+                                    message: "Answer Choice Deleted",
+                                    data : data
+                                });
+                            }   
                         }
-                    });
+                    );      
                 }
             }
         }
@@ -499,8 +494,13 @@ var editAnswerChoice = function (req, res)
                 {
                     if (req.body.new_answer_choice)
                     {
-                        var answerChoiceIndex = question.answer_choices.indexOf(req.body.edit_answer_choice);
-                        question.body.answer_choices[answerChoiceIndex] = req.body.new_answer_choice;              
+                        console.log(question);
+                        console.log(question.answer_choices.indexOf("a"));
+                        var answerChoiceIndex = question.answer_choices.indexOf("a");
+                        console.log(answerChoiceIndex);
+                        question.answer_choices[answerChoiceIndex] = req.body.new_answer_choice;  
+
+
                         question.save(function(err, updated_question)
                         {
                             if (err)

@@ -15,47 +15,40 @@
 
 var app = angular.module('app');
 
-app.controller('Course.Student.Controller', function($scope, $localStorage, $window, $stateParams, $rootScope, UserService) {
+app.controller('Course.Student.Controller', function($scope, $localStorage, $rootScope, $stateParams, UserService, NgTableParams) {
 
     $rootScope.$stateParams = $stateParams;
     $scope.course = $localStorage.courses[$stateParams.selectedCourse];
 
-    $scope.itemsPerPage = 3;
-    $scope.currentLecturePage = 1;
+    $scope.tableParams = new NgTableParams({
+        count: 6,
+        sorting: { date: "asc" }
+    }, {
+        counts: [],
+        dataset: $scope.course.lectures,
+        getData: function(params) {
+            var orderedData;
+            data = $localStorage.courses[$stateParams.selectedCourse].lectures;
+            if (params.sorting().date === 'asc') {
 
-    $scope.updateLecturePage = function(index) {
-        $scope.currentLecturePage = index;
-    };
+                data.sort(function(a, b) {
+                    var dateA = new Date(a.schedule.date),
+                        dateB = new Date(b.schedule.date);
+                    return dateA - dateB;
+                });
+                orderedData = data;
+            } else if (params.sorting().date === 'desc') {
 
-    $scope.getPages = function(list, itemsPer) {
-        var total = Math.ceil(list.length / itemsPer);
-        var arr = [];
-        for (var i = 0; i < total; i++) {
-            arr.push(i);
-        }
-        return arr;
-    };
-
-    var w = angular.element($window);
-    $scope.$watch(
-        function() {
-            return $window.innerWidth;
-        },
-        function(value) {
-            $scope.windowWidth = value;
-            if (value <= 1542) {
-                $scope.itemsPerPage = 2;
-            } else if (value > 1542 && value <= 2186) {
-                $scope.itemsPerPage = 3;
-            } else {
-                $scope.itemsPerPage = 4;
+                data.sort(function(a, b) {
+                    var dateA = new Date(a.schedule.date),
+                        dateB = new Date(b.schedule.date);
+                    return dateB - dateA;
+                });
+                orderedData = data;
             }
-        },
-        true
-    );
-
-    w.on('resize', function() {
-        $scope.$apply();
+            return orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+        }
     });
+
 
 });

@@ -22,41 +22,17 @@
     <div class="divide-header pt-3 pb-3 text-uppercase">
         <span>lectures</span>
     </div>
-    <!-- Lecture cards  -->
-    <div class="row justify-content-md-center">
-        <div
-            class="col-12 col-xl-auto pb-2"
-            ng-repeat="lecture in course.lectures |
-                       offset: (currentLecturePage - 1) * itemsPerPage |
-                       limitTo: itemsPerPage">
-            <div class="card animated fadeIn card-center">
-                <div class="card-header text-uppercase text-center p-2">
-                    <b>{{lecture.title}}</b>
-                </div>
-                <div class="card-block">
-                    {{lecture.schedule | json}}
-                </div>
-                <div class="card-footer text-muted d-flex justify-content-between align-items-center">
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="d-flex justify-content-center">
-        <nav>
-            <ul class="pagination">
-                <li
-                    class="page-item"
-                    ng-repeat="section in getPages(course.lectures, itemsPerPage)">
-                    <a href="" ng-click="updateLecturePage($index+1)" class="pr-1">
-                        <i
-                            class="fa fa-2"
-                            aria-hidden="true"
-                            ng-class="{ 'fa-dot-circle-o': currentLecturePage === $index+1,
-                                        'fa-circle-o': currentLecturePage !== $index+1}">
-                        </i>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+    <table ng-table="tableParams" class="table table-sm table-bordered table-hover text-center">
+        <tr ng-repeat="lecture in $data">
+            <td class="align-middle text-capitalize" title="'Title'" sortable="'title'">
+                {{lecture.title}}
+            </td>
+            <td class="align-middle" title="'Date'" sortable="'date'">
+                {{lecture.schedule.date | date:'MM/dd/yy'}}
+            </td>
+            <td class="align-middle text-capitalize" title="'Day'" sortable="'day'">
+                {{lecture.schedule.day}}
+            </td>
+        </tr>
+    </table>
 </div>

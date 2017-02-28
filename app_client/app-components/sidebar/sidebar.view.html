@@ -29,6 +29,9 @@
         <li ng-show="$storage.role === 'instructor' && state === '/instructor'">
             <a href="" ng-click="createCourse()"><i class="fa fa-plus-square pr-3" aria-hidden="true"></i>Create Course</a>
         </li>
+        <li ng-show="$storage.role === 'instructor'">
+            <a ui-sref=".instructor_question" ng-click="$storage.hideSidebar = true"><i class="fa fa-magic pr-3" aria-hidden="true"></i></i>Create Question</a>
+        </li>
         <li ng-hide="$storage.role === 'admin'">
             <a
                 role="button" href="javascript:;"

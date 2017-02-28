@@ -86,25 +86,6 @@ userRouter.route('/:USERID')
          userController.updateUser);
 
 /**
-DELETE USER
-
-DELETE	/api_v2/user/{user_id}/
-
-Authentication:   user token        required
-Authorization:    admin or self     required
-
-Path Parameters:  user_id String   required
-Query String:     none
-Request Body:     none
-**/
-userRouter.route('/:USERID')
-   .delete(tokenController.validateToken,
-           tokenController.refreshToken,
-           authorizeController.adminOrSelf,
-           userController.deleteUser,
-           tokenController.clearToken);
-
-/**
 GET USER COURSES
 
 GET	/api_v2/user/{user_id}/courses
@@ -188,6 +169,6 @@ userRouter.route('/:USERID/deactivate')
           tokenController.refreshToken,
           authorizeController.admin,
           userController.deactivateUser);
-          
+
 
 module.exports = userRouter;

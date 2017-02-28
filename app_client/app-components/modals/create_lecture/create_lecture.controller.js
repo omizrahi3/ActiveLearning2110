@@ -15,7 +15,7 @@
 
 var app = angular.module('app');
 
-app.controller('Create.Lecture.Controller', function($scope, $state, $stateParams, $rootScope, $localStorage, RESTService) {
+app.controller('Create.Lecture.Controller', function($scope, $state, $stateParams, $element, $rootScope, $localStorage, RESTService) {
 
     $scope.loading = false;
     $scope.error = null;

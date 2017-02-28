@@ -1,15 +1,26 @@
 <div class="container-fluid p-2" ng-controller="Admin.Keys.Controller">
     <div class="container-fluid p-0 pb-2">
-      <div class="input-group">
-          <input type="text" class="form-control" placeholder="Instructor Key" ng-model="generatedKey" readonly>
-          <span class="input-group-btn">
-              <button class="btn btn-secondary" type="button" ng-click="getInstructorKey()" ng-disabled="keyLoading">
-                  <span ng-show="keyLoading">
-                      <i class="fa fa-circle-o-notch fa-spin"></i>
-                  </span>
-                  Instructor Key
-              </button>
-          </span>
+        <div class="input-group">
+            <span class="input-group-btn">
+                <button
+                    class="btn btn-secondary"
+                    type="button"
+                    ng-click="copySuccess(section.name)"
+                    ngclipboard
+                    ng-disabled="generatedKey === null"
+                    data-clipboard-text="{{generatedKey}}">
+                    <i class="fa fa-clipboard fa-fw" aria-hidden="true"></i>
+                </button>
+            </span>
+            <input type="text" class="form-control" placeholder="Instructor Key" ng-model="generatedKey" readonly>
+            <span class="input-group-btn">
+                <button class="btn btn-secondary" type="button" ng-click="getInstructorKey()" ng-disabled="keyLoading">
+                    <span ng-show="keyLoading">
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                    </span>
+                    Instructor Key
+                </button>
+            </span>
       </div>
         <div class="alert alert-danger alert-dismissible fade show" role="alert" ng-if="error">
             <button type="button" class="close" aria-label="Close" ng-click="error = null">

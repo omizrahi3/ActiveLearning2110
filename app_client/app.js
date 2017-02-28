@@ -62,19 +62,24 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $ocLazyLo
             name: 'instructor.manage_students',
             files: ['app-components/dashboard/instructor/course/manage_students.controller.js']
         }, {
+            name: 'instructor.question',
+            files: ['app-components/dashboard/instructor/question/question.controller.js']
+        }, {
             name: 'student.course',
             files: ['app-components/dashboard/student/course/course.student.controller.js']
         }, {
             name: 'services',
-            files: ['app-services/storage.service.js', 'app-services/user.service.js', 'app-services/rest.service.js']
+            files: ['app-services/storage.service.js',
+                    'app-services/user.service.js',
+                    'app-services/rest.service.js',
+                    'app-services/socket.service.js']
         }]
     });
 
     // app state and individual views
     $stateProvider
         .state('main', {
-            url: 'main',
-            abstract: true,
+            url: '/main',
             resolve: {
                 loadServices: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load('services'); // Resolve promise and load before view
@@ -151,6 +156,16 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $ocLazyLo
             }
         })
 
+        .state('main.instructor_question', {
+            url: '/instructor/question',
+            templateUrl: 'app-components/dashboard/instructor/question/question.view.html',
+            resolve: {
+                loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load('instructor.question');
+                }]
+            }
+        })
+
         .state('main.instructor_manage_students', {
             url: '/instructor/manage_students',
             templateUrl: 'app-components/dashboard/instructor/course/manage_students.view.html',
@@ -196,7 +211,7 @@ app.run(function($rootScope) {
     });
 });
 
-app.controller('Main.Controller', function($scope, $state, $localStorage, $injector, $ocLazyLoad) {
+app.controller('Main.Controller', function($scope, $state, $localStorage, $injector, $ocLazyLoad, $timeout) {
 
     $scope.$storage = $localStorage;
 
@@ -208,6 +223,7 @@ app.controller('Main.Controller', function($scope, $state, $localStorage, $injec
         var UserStorage = $injector.get('UserStorage');
         var RESTService = $injector.get('RESTService');
         var UserService = $injector.get('UserService');
+
 
         if (!UserStorage.LoggedIn()) {
             RESTService.Logout();

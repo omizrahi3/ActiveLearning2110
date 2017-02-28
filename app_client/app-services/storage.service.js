@@ -25,7 +25,6 @@ app.factory('UserStorage', function($localStorage, jwtHelper) {
         photo: '',
         role: 'student',
         courses: [],
-        selectedCourse: 0,
         classExpand: false,
         LoggedIn: false,
         jwt_token: null,
@@ -61,6 +60,22 @@ app.factory('UserStorage', function($localStorage, jwtHelper) {
         }
     };
 
+    service.UpdateSingleCourse = function(course) {
+        for (var key in $localStorage.courses) {
+            if ($localStorage.courses[key]._id === course._id) {
+                $localStorage.courses[key] = course;
+            }
+        }
+    };
+
+    service.UpdateCourseLectures = function(course_id, lectures) {
+        for (var key in $localStorage.courses) {
+            if ($localStorage.courses[key]._id === course_id) {
+                $localStorage.courses[key].lectures = lectures;
+            }
+        }
+    };
+
     service.LoggedIn = function() {
         if ($localStorage.jwt_token && !jwtHelper.isTokenExpired($localStorage.jwt_token) && $localStorage.LoggedIn) {
             $localStorage.LoggedIn = true;
@@ -68,6 +83,14 @@ app.factory('UserStorage', function($localStorage, jwtHelper) {
         } else {
             $localStorage.LoggedIn = false;
             return false;
+        }
+    };
+
+    service.FindSectionStudents = function(course, id) {
+        for (var key in course.sections) {
+            if (course.sections[key]._id === id) {
+                return course.sections[key].students;
+            }
         }
     };
 

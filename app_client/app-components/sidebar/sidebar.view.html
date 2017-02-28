@@ -16,12 +16,21 @@
             </div>
         </li>
         <li>
-            <a ui-sref=".admin" ng-show="$storage.role === 'admin'"><i class="fa fa-tachometer pr-3" aria-hidden="true"></i>Dashboard</a>
-            <a ui-sref=".instructor" ng-show="$storage.role === 'instructor'"><i class="fa fa-tachometer pr-3" aria-hidden="true"></i>Dashboard</a>
-            <a ui-sref=".student" ng-show="$storage.role === 'student'"><i class="fa fa-tachometer pr-3" aria-hidden="true"></i>Dashboard</a>
+            <a ui-sref=".admin" ng-click="$storage.selectedCourse = 0" ng-show="$storage.role === 'admin'"><i class="fa fa-tachometer pr-3" aria-hidden="true"></i>Dashboard</a>
+            <a ui-sref=".instructor" ng-click="$storage.selectedCourse = 0" ng-show="$storage.role === 'instructor'"><i class="fa fa-tachometer pr-3" aria-hidden="true"></i>Dashboard</a>
+            <a ui-sref=".student" ng-click="$storage.selectedCourse = 0" ng-show="$storage.role === 'student'"><i class="fa fa-tachometer pr-3" aria-hidden="true"></i>Dashboard</a>
         </li>
         <li ng-show="$storage.role === 'admin'">
             <a ui-sref=".admin_keys"><i class="fa fa-key pr-3" aria-hidden="true"></i>Keys</a>
+        </li>
+        <li ng-show="$storage.role === 'instructor' && state === '/instructor/course'">
+            <a href="" ng-click="createLecture()"><i class="fa fa-plus-square pr-3" aria-hidden="true"></i>Create Lecture</a>
+        </li>
+        <li ng-show="$storage.role === 'instructor' && state === '/instructor'">
+            <a href="" ng-click="createCourse()"><i class="fa fa-plus-square pr-3" aria-hidden="true"></i>Create Course</a>
+        </li>
+        <li ng-show="$storage.role === 'instructor'">
+            <a ui-sref=".instructor_question" ng-click="$storage.hideSidebar = true"><i class="fa fa-magic pr-3" aria-hidden="true"></i></i>Create Question</a>
         </li>
         <li ng-hide="$storage.role === 'admin'">
             <a
@@ -35,14 +44,24 @@
                     Courses
                     <i class="fa fa-angle-down" aria-hidden="true"></i>
             </a>
-            <div class="collapse" id="classList">
+            <div class="collapse classList" id="classList">
                 <ul>
                     <li ng-repeat="course in $storage.courses">
-                        <a ui-sref=".student_course" ng-click="courseClick($index)" ng-show="$storage.role === 'student'">{{course.title}}</a>
-                        <a ui-sref=".instructor_course" ng-click="courseClick($index)" ng-show="$storage.role === 'instructor'">{{course.title}}</a>
+                        <a ui-sref=".student_course({selectedCourse: $index})" ng-show="$storage.role === 'student'">{{course.title}}</a>
+                        <a ui-sref=".instructor_course({selectedCourse: $index})" ng-show="$storage.role === 'instructor'">{{course.title}}</a>
                     </li>
                 </ul>
             </div>
+        </li>
+        <li ng-show="$storage.role === 'student' && state === '/student/course'">
+            <a href=""><i class="fa fa-university pr-3" aria-hidden="true"></i>Instructors</a>
+            <ul class="classList">
+                <a class="text-capitalize text-truncate" href="mailto:{{instructor.username}}?subject={{course.title}}">
+                    <i class="fa fa-envelope-o pr-2" aria-hidden="true"></i>
+                    {{$storage.courses[$stateParams.selectedCourse].instructor.firstname}}
+                    {{$storage.courses[$stateParams.selectedCourse].instructor.lastname}}
+                </a>
+            </ul>
         </li>
         <!-- <li>
             <a href=""><i class="fa fa-graduation-cap pr-3" aria-hidden="true"></i>Students</a>

@@ -72,7 +72,7 @@ signupRouter.route('/admin_key')
           tokenController.refreshToken,
           authorizeController.admin,
           signupController.createAdminKey,
-          signupController.getAllOnSuccess);
+          signupController.getRegistrationKeys);
 
 /**
 CREATE INSTRUCTOR REGISTRATION KEY
@@ -90,8 +90,7 @@ signupRouter.route('/instructor_key')
     .post(tokenController.validateToken,
           tokenController.refreshToken,
           authorizeController.admin,
-          signupController.createInstructorKey,
-          signupController.getAllOnSuccess);
+          signupController.createInstructorKey);
 
 /**
 GET REGISTRATION KEYS
@@ -110,25 +109,5 @@ signupRouter.route('/registration_key')
         tokenController.refreshToken,
         authorizeController.admin,
         signupController.getRegistrationKeys);
-
-/**
-COMPLETE PREREGISTRATION
-
-POST	/api_v2/signup/preregister
-
-Authentication:   none
-Authorization:    none
-
-Path Parameters:  none
-Query String:     none
-Request Body application/json
-{
-  "pre_register_key"  : String Required
-}
-**/
-signupRouter.route('/preregister')
-  .post(inputController.requirePreRegisterKey,
-        userController.completePreRegistration,
-        courseController.updateStudentStatus);
 
 module.exports = signupRouter;

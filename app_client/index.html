@@ -19,6 +19,9 @@
     <link rel="stylesheet" href="//cdn.rawgit.com/indrimuska/angular-moment-picker/master/dist/angular-moment-picker.min.css" />
     <link rel="stylesheet" href="app-css/ng-tags-input.min.css" />
     <link rel="stylesheet" href="app-css/ng-tags-input.bootstrap.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/ng-table@3.0.1/bundles/ng-table.min.css" />
+    <link rel="stylesheet" href="https://rawgit.com/alexcrack/angular-ui-notification/master/dist/angular-ui-notification.min.css" />
+    <link rel="stylesheet" href="app-scripts/content-tools/content-tools.min.css" />
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -35,19 +38,19 @@
         <div ui-view="navbar"></div>
         <div id="wrapper" ng-class="{'toggled' : $storage.hideSidebar }">
             <div ui-view="sidebar"></div>
-            <div ui-view="dashboard"></div>
+            <div ui-view="dashboard" style="height: 100%;"></div>
         </div>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
     <!-- Angular related files and plugins -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.6/ngStorage.min.js"></script>
-    <script src="https://unpkg.com/angular-ui-router@0.4.2/release/angular-ui-router.min.js"></script>
+    <script src="//unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="https://rawgit.com/dwmkerr/angular-modal-service/master/dst/angular-modal-service.js"></script>
     <script src="https://rawgit.com/auth0/angular-jwt/master/dist/angular-jwt.min.js"></script>
     <script src="https://rawgit.com/ocombe/ocLazyLoad/master/dist/ocLazyLoad.min.js"></script>
@@ -56,12 +59,24 @@
     <script src="app-scripts/ng-tags-input.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
     <script src="https:/rawgit.com/mgonto/restangular/master/dist/restangular.min.js"></script>
+    <script src="https://unpkg.com/ng-table@3.0.1/bundles/ng-table.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script src="https://rawgit.com/jtblin/angular-chart.js/master/dist/angular-chart.min.js"></script>
+    <script src="https://rawgit.com/mholt/PapaParse/master/papaparse.min.js"></script>
+    <script src="https://rawgit.com/of17/angular-papa-promise/master/dist/angular-papa-promise.min.js"></script>
+    <script src="https://rawgit.com/crisbeto/angular-svg-round-progressbar/angular-1.x/build/roundProgress.min.js"></script>
+    <script src="https://cdn.rawgit.com/zenorocha/clipboard.js/master/dist/clipboard.min.js"></script>
+    <script src="https://rawgit.com/sachinchoolur/ngclipboard/master/dist/ngclipboard.min.js"></script>
+    <script src="https://rawgit.com/alexcrack/angular-ui-notification/master/dist/angular-ui-notification.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+    <script src="app-scripts/content-tools/content-tools.min.js"></script>
     <!-- application scripts -->
     <script src="app.js"></script>
     <script src="app-components/modals/login/login.controller.js"></script>
     <script src="app-components/modals/profile/profile.controller.js"></script>
     <script src="app-components/modals/join_course/join_course.controller.js"></script>
     <script src="app-components/modals/create_course/create_course.controller.js"></script>
+    <script src="app-components/modals/create_lecture/create_lecture.controller.js"></script>
 </body>
 
 </html>

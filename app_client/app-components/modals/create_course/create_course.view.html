@@ -17,9 +17,9 @@
                       <input
                           placeholder="Class Number"
                           type="text"
-                          name="firstname"
+                          name="number"
                           class="form-control mr-sm-2"
-                          ng-model="course.number" autofocus required/>
+                          ng-model="course.number" autofocus required numbers-only/>
                       <select
                           class="form-control text-capitalize"
                           ng-model="course.days"
@@ -50,13 +50,13 @@
                           class="text-uppercase form-control"
                           ng-model="course.sections"
                           min-length="1"
-                          placeholder="Add a section" required>
+                          placeholder="Add a section">
                         </tags-input>
                     </div>
                     <!-- Error Message -->
                     <div ng-if="error" class="alert alert-danger text-center animated fadeIn">{{error}}</div>
                     <div class="container-fluid text-center">
-                        <button class="btn btn-outline-success" ng-click="create()" ng-disabled="createCourseForm.$invalid">
+                        <button class="btn btn-outline-success" ng-click="create()" ng-disabled="createCourseForm.$invalid || course.sections.length == 0">
                             <span ng-show="loading">
                                 <i class="fa fa-circle-o-notch fa-spin"></i>
                             </span>

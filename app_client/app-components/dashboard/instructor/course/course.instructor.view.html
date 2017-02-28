@@ -1,7 +1,115 @@
-<div class="animated fadeIn container-fluid p-2">
-    <p>Course name: {{$storage.courses[$storage.selectedCourse].title}}</p>
-    <p>Course Key: {{$storage.courses[$storage.selectedCourse].course_key}}</p>
+<div class="animated fadeIn container-fluid p-2" ng-controller="Instructor.Course.Controller">
+    <div class="divide-header pt-3 pb-3 text-uppercase">
+        <span>sections</span>
+    </div>
+    <!-- Sections cards  -->
+    <div class="row justify-content-md-center">
+        <div
+            class="col-12 col-xl-auto pb-2"
+            ng-repeat="section in course.sections |
+                       offset: (currentSectionPage - 1) * itemsPerPage |
+                       limitTo: itemsPerPage"
+            ng-init="statusPopulate(section)">
+            <div class="card animated fadeIn card-center">
+                <div class="card-header text-uppercase p-2">
+                    <span><b>Section: {{section.name}}</b></span>
+                    <button
+                        type="btn"
+                        class="close"
+                        title="Copy section key"
+                        ng-click="copySuccess(section.name)"
+                        ngclipboard
+                        data-clipboard-text="{{section.section_key}}">
+                            <i class="fa fa-clipboard" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div class="card-block">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div ng-show="section.students.length === 0">
+                            <i
+                                class="fa fa-exclamation-circle"
+                                aria-hidden="true"
+                                style="font-size:120px; color: #ff6384;">
+                            </i>
+                        </div>
+                        <div ng-show="section.students.length !== 0">
+                            <canvas
+                                id="doughnut"
+                                class="chart chart-doughnut"
+                                chart-data="status_data[section.name]"
+                                chart-options="status_options"
+                                chart-labels="chart_options.labels"
+                                height="120"
+                                width="120"></canvas>
+                        </div>
+                        <div class="border-right"></div>
+                        <div class="text-center pr-3">
+                            <p class="m-0">
+                                Section AVG
+                            </p>
+                            <p class="m-0" style="font-size: 72px;">
+                                0%
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-muted d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="m-0">
+                            <span>
+                                <i class="fa fa-users" aria-hidden="true"></i>
+                            </span>
+                            {{section.students.length}} Students
+                        </p>
+                    </div>
+                    <div>
+                        <a
+                            ui-sref="main.instructor_manage_students({
+                                    selectedCourse:$stateParams.selectedCourse,
+                                    selectedSection: {
+                                        index: ((currentSectionPage - 1)  * itemsPerPage ) + $index,
+                                        section: section
+                                    }
+                                })">
+                            <button type="button" class="btn btn-primary btn-sm">Manage Students</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        <nav>
+            <ul class="pagination">
+                <li
+                    class="page-item"
+                    ng-repeat="section in getPages(course.sections, itemsPerPage)">
+                    <a href="" ng-click="updateSectionPage($index+1)" class="pr-1">
+                        <i
+                            class="fa fa-2"
+                            aria-hidden="true"
+                            ng-class="{ 'fa-dot-circle-o': currentSectionPage === $index+1,
+                                        'fa-circle-o': currentSectionPage !== $index+1}">
+                        </i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="divide-header pt-2 pb-2 text-uppercase">
+        <span>lectures</span>
+    </div>
+    <table ng-table="tableParams" class="table table-sm table-bordered table-hover text-center">
+        <tr ng-repeat="lecture in $data">
+            <td class="align-middle text-capitalize" title="'Title'" sortable="'title'">
+                {{lecture.title}}
+            </td>
+            <td class="align-middle" title="'Date'" sortable="'date'">
+                {{lecture.schedule.date | date:'MM/dd/yy'}}
+            </td>
+            <td class="align-middle text-capitalize" title="'Day'" sortable="'day'">
+                {{lecture.schedule.day}}
+            </td>
+        </tr>
+    </table>
 </div>
-<pre>
-    {{$storage.courses[$storage.selectedCourse] | json}}
-</pre>

@@ -15,15 +15,10 @@
 
 var app = angular.module('app');
 
-app.controller('Student.Dashboard.Controller', function($scope, $state, $localStorage, UserService) {
+app.controller('Student.Dashboard.Controller', function($scope, $localStorage, UserService) {
 
     $scope.joinCourse = function() {
         UserService.ShowJoinCourse();
-    };
-
-    $scope.cardClick = function(index) {
-        $scope.$storage.selectedCourse = index;
-        $state.go('main.' + $localStorage.role + '_course');
     };
 
 });

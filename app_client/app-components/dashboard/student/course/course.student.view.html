@@ -1,4 +1,38 @@
-<div class="animated fadeIn container-fluid p-2">
-    <p>Course name: {{$storage.courses[$storage.selectedCourse].title}}</p>
-    <p>Course Key: {{$storage.courses[$storage.selectedCourse].course_key}}</p>
+<div class="animated fadeIn container-fluid p-2 pt-4" ng-controller="Course.Student.Controller">
+    <div class="container-fluid text-center">
+        <div class="progress-wrapper">
+            <round-progress
+                max="100"
+                current="course.average"
+                color="{{course.average | gradecolor}}"
+                bgcolor="#eaeaea"
+                radius="70"
+                stroke="15"
+                semi="false"
+                rounded="true"
+                clockwise="false"
+                responsive="false"
+                duration="800"
+                animation="easeInOutQuart"
+                animation-delay="0">
+            </round-progress>
+            <div class="text text-muted" style="font-size: 34px;"><b>{{course.average}}%</b></div>
+        </div>
+    </div>
+    <div class="divide-header pt-3 pb-3 text-uppercase">
+        <span>lectures</span>
+    </div>
+    <table ng-table="tableParams" class="table table-sm table-bordered table-hover text-center">
+        <tr ng-repeat="lecture in $data">
+            <td class="align-middle text-capitalize" title="'Title'" sortable="'title'">
+                {{lecture.title}}
+            </td>
+            <td class="align-middle" title="'Date'" sortable="'date'">
+                {{lecture.schedule.date | date:'MM/dd/yy'}}
+            </td>
+            <td class="align-middle text-capitalize" title="'Day'" sortable="'day'">
+                {{lecture.schedule.day}}
+            </td>
+        </tr>
+    </table>
 </div>

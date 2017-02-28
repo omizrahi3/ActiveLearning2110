@@ -15,7 +15,7 @@
         <div class="align-self-center">
             <div class="input-group">
                 <div class="input-group-addon"><i class="fa fa-search fa-fw" aria-hidden="true"></i></div>
-                <input class="form-control" type="text" placeholder="Search Courses">
+                <input class="form-control" type="text" ng-model="searchCourses.title" placeholder="Search Courses">
             </div>
         </div>
     </div>
@@ -27,18 +27,58 @@
     </div>
     <!-- Courses cards  -->
     <div ng-show="$storage.courses.length !== 0">
-        <div class="row" style="overflow: hidden;">
-            <div class="col-md-4 pb-4" ng-repeat="course in $storage.courses">
-                <div class="card animated fadeIn" ng-click="cardClick($index)">
-                    <div class="card-header text-uppercase">
-                        {{course.title}}
+        <div class="row">
+            <div
+                class="col-12 col-xl-auto pb-2"
+                ng-repeat="course in $storage.courses | filter:searchCourses:strict">
+                <div class="card animated fadeIn card-center">
+                    <div class="card-header text-uppercase text-center p-2">
+                        <b>{{course.title}}</b>
                     </div>
-                    <div class="card-block">
-                        <p class="card-text">ID: {{course._id}}</p>
-                        <p class="card-text">Access Key: {{course.course_key}}</p>
+                    <div class="card-block d-flex justify-content-between align-items-center">
+                        <div class="progress-wrapper pr-2">
+                            <round-progress
+                                max="100"
+                                current="default"
+                                color="{{default | gradecolor}}"
+                                bgcolor="#eaeaea"
+                                radius="45"
+                                stroke="10"
+                                semi="false"
+                                rounded="true"
+                                clockwise="false"
+                                responsive="false"
+                                duration="800"
+                                animation="easeInOutQuart"
+                                animation-delay="0">
+                            </round-progress>
+                            <div class="text text-muted"><b>{{default}}%</b></div>
+                        </div>
+                        <div>
+                            <h3>
+                                {{course.students.length}} students
+                            </h3>
+                        </div>
+                        <div></div>
+                        <div></div>
                     </div>
-                    <div class="card-footer text-muted">
-                        {{course.students.length}} Total Students Enrolled
+                    <div class="card-footer text-muted d-flex justify-content-between align-items-center">
+                        <div>
+                            <span>
+                                <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+                            </span>
+                            {{course.schedule.days | days}}
+                        </div>
+                        <div>
+                            <span>
+                                <i class="fa fa-clock-o" aria-hidden="true"></i>
+                            </span>
+                            {{course.schedule.time}}
+                        </div>
+                        <div>
+                            <a ui-sref="main.instructor_course({selectedCourse: $index})">
+                                <button type="button" class="btn btn-success btn-sm">View Course</button>
+                            </a>
                     </div>
                 </div>
             </div>

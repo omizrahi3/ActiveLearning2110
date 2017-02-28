@@ -13,7 +13,7 @@
 //************************************************************
 var app = angular.module('app');
 
-app.factory('RESTService', function($http, $localStorage, $state, Restangular, UserStorage, UserService) {
+app.factory('RESTService', function($http, $localStorage, $state, $q, Restangular, UserStorage, UserService, SocketService) {
 
     var service = {};
 
@@ -46,6 +46,7 @@ app.factory('RESTService', function($http, $localStorage, $state, Restangular, U
                     jwt_token: response.jwt_token,
                     LoggedIn: true
                 };
+                SocketService.connect();
                 UserStorage.UpdateUserInfo(data);
                 callback(genRetInfo(response));
             },
@@ -177,6 +178,91 @@ app.factory('RESTService', function($http, $localStorage, $state, Restangular, U
         baseREST.one("course").post("", info).then(
             function(response) {
                 UserStorage.UpdateUserInfo({courses: response.courses});
+                callback(genRetInfo(response));
+            },
+            function(response) {
+                callback(genRetInfo(response));
+            }
+        );
+    };
+
+    service.JoinCourse = function(info, callback) {
+        baseREST.one("course").one("students").post("", info).then(
+            function(response) {
+                UserStorage.UpdateUserInfo({courses: response.courses});
+                callback(genRetInfo(response));
+            },
+            function(response) {
+                callback(genRetInfo(response));
+            }
+        );
+    };
+
+    service.CreateLecture = function(info, callback) {
+        baseREST.one("course", info.course_id).one("lectures").post("", info.data).then(
+            function(response) {
+                UserStorage.UpdateCourseLectures(response.course_id, response.lectures);
+                callback(genRetInfo(response));
+            },
+            function(response) {
+                callback(genRetInfo(response));
+            }
+        );
+    };
+
+    service.AddStudents = function(info, callback) {
+        calls = [];
+        retInfo = {
+            course: {
+                success: false,
+                message: null
+            },
+            students: []
+        };
+        for (var key in info.data) {
+            calls.push(
+                baseREST.one("course", info.course_id)
+                    .one("sections", info.section_id)
+                    .customPOST(info.data[key], "students"));
+        }
+        $q.all(calls).then(
+            function(values) {
+                for (var key in values) {
+                    retInfo.students[values[key].student_username] = {
+                        success: values[key].success,
+                        message: values[key].message
+                    };
+                }
+                service.GetCourseInfo(info.course_id, function(reply) {
+                    retInfo.course.success = reply.success;
+                    retInfo.course.message = reply.message;
+                    callback(retInfo);
+                });
+            },
+            function(values) {
+                console.log('ERRRRRRR');
+                console.log(values);
+            });
+    };
+
+    service.GetCourseInfo = function(id, callback) {
+        baseREST.one("course", id).get().then(
+            function(response) {
+                UserStorage.UpdateSingleCourse(response.course);
+                callback(genRetInfo(response));
+            },
+            function(response) {
+                callback(genRetInfo(response));
+            }
+        );
+    };
+
+    service.DeleteStudent = function(info, callback) {
+        baseREST.one("course", info.course_id)
+            .one("sections", info.section_id)
+            .one("students", info.student_id).remove().then(
+            function(response) {
+                UserStorage.UpdateSingleCourse(response.course);
                 callback(genRetInfo(response));
             },
             function(response) {

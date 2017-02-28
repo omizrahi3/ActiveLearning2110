@@ -18,7 +18,7 @@
                         <input
                             type="file"
                             id="file-input"
-                            fileread="selectedPhoto"
+                            picread="selectedPhoto"
                             context="context"
                             photo="selectedPhoto"
                             ng-disabled="!edit"
@@ -102,7 +102,7 @@
                         <button
                             type="button"
                             class="btn"
-                            ng-class="{'btn-danger btn-outline-danger' : !edit,
+                            ng-class="{'btn-danger btn-outline-info' : !edit,
                                        'btn-success btn-outline-success': edit}"
                             ng-click="editProfile()">
                                 <span ng-show="loading">

@@ -15,17 +15,18 @@
 
 var app = angular.module('app');
 
-app.controller('CreateCourse.Controller', function($scope, $element, $state, RESTService) {
+app.controller('Create.Course.Controller', function($scope, $element, $state, RESTService) {
 
     $scope.loading = false;
     $scope.error = null;
+    $scope.onlyNumbers = /^\d+$/;
 
     $scope.course = {
-        "prefix": 0,
-        "days": 0,
-        "sections": [],
-        "number": "",
-        "semester_pre": 0
+        prefix: 0,
+        days: 0,
+        sections: [],
+        number: "",
+        semester_pre: 0
     };
 
     $scope.semeseter_pre = [{
@@ -51,7 +52,7 @@ app.controller('CreateCourse.Controller', function($scope, $element, $state, RES
     }, {
         id: 3,
         name: "ME"
-    },  {
+    }, {
         id: 4,
         name: "MA"
     }];
@@ -70,9 +71,9 @@ app.controller('CreateCourse.Controller', function($scope, $element, $state, RES
         $scope.loading = true;
         var sections = [];
         for (var item in $scope.course.sections) {
-            sections.push($scope.course.sections[item].text);
+            sections.push({name: $scope.course.sections[item].text});
         }
-        var data =  {
+        var data = {
             "title": $scope.prefixes[$scope.course.prefix].name + " " + $scope.course.number,
             "sections": sections,
             "course_schedule": {
@@ -81,6 +82,7 @@ app.controller('CreateCourse.Controller', function($scope, $element, $state, RES
                 "time": $scope.course.time
             }
         };
+        console.log(data);
         RESTService.CreateCourse(data, finishCreateCourse);
     };
 
@@ -93,5 +95,24 @@ app.controller('CreateCourse.Controller', function($scope, $element, $state, RES
         $scope.loading = false;
         $element.modal('hide');
     }
+});
 
+app.directive('numbersOnly', function() {
+    return {
+        require: 'ngModel',
+        link: function(scope, element, attr, ngModelCtrl) {
+            function fromUser(text) {
+                if (text) {
+                    var transformedInput = text.replace(/[^0-9-]/g, '');
+                    if (transformedInput !== text) {
+                        ngModelCtrl.$setViewValue(transformedInput);
+                        ngModelCtrl.$render();
+                    }
+                    return transformedInput;
+                }
+                return undefined;
+            }
+            ngModelCtrl.$parsers.push(fromUser);
+        }
+    };
 });

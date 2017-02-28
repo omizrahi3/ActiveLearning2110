@@ -63,8 +63,6 @@ var requireSections = function (req, res, next)
 {
     console.log('inputController requireSections');
 
-    console.log(req.body.sections);
-
     if (!req.body.sections)
     {
         return res.status(400).json(
@@ -262,6 +260,84 @@ var requireRole = function (req, res, next)
     }
 };
 
+var requireTags = function (req, res, next)
+{
+    console.log('inputController requireTags');
+
+    if (!req.body.tags)
+    {
+        return res.status(400).json(
+            {
+                success: false,
+                message: 'Please enter tags'
+            }
+        );
+    }
+    else
+    {
+        next();
+    }
+}
+
+var requireProblemStatement = function (req, res, next)
+{
+    console.log('inputController requireProblemStatement');
+
+    if (!req.body.problem_statement)
+    {
+        return res.status(400).json(
+            {
+                success: false,
+                message: 'Please enter problem statement'
+            }
+        );
+    }
+    else
+    {
+        next();
+    }
+}
+
+var requireAnswerChoices = function (req, res, next)
+{
+    console.log('inputController requireAnswerChoices');
+
+    if (!req.body.answer_choices)
+    {
+        return res.status(400).json(
+            {
+                success: false,
+                message: 'Please enter answer choices'
+            }
+        );
+    }
+    else
+    {
+        next();
+    }
+}
+
+var requireAnswer = function (req, res, next)
+{
+    console.log('inputController requireAnswer');
+
+    if (!req.body.answer)
+    {
+        return res.status(400).json(
+            {
+                success: false,
+                message: 'Please enter answer number'
+            }
+        );
+    }
+    else
+    {
+        next();
+    }
+}
+
+
+
 module.exports =
 {
     requireCourseKey        :   requireCourseKey,
@@ -275,5 +351,9 @@ module.exports =
     requirePassword         :   requirePassword,
     requirePreRegisterKey   :   requirePreRegisterKey,
     requireRole             :   requireRole,
-    requireSections         :   requireSections
+    requireSections         :   requireSections,
+    requireTags             :   requireTags,
+    requireProblemStatement :   requireProblemStatement,
+    requireAnswerChoices    :   requireAnswerChoices,
+    requireAnswer           :   requireAnswer,
 };

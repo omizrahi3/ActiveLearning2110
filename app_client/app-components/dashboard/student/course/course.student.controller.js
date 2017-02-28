@@ -15,15 +15,40 @@
 
 var app = angular.module('app');
 
-app.controller('Container.Controller', function($scope, $element, $localStorage, $state, UserService) {
+app.controller('Course.Student.Controller', function($scope, $localStorage, $rootScope, $stateParams, UserService, NgTableParams) {
 
-    $scope.courseAC = function() {
-        UserService.ShowACCourse();
-    };
+    $rootScope.$stateParams = $stateParams;
+    $scope.course = $localStorage.courses[$stateParams.selectedCourse];
 
-    $scope.cardClick = function(index) {
-        $scope.$storage.selectedCourse = index;
-        $state.go('main.course');
-    };
+    $scope.tableParams = new NgTableParams({
+        count: 6,
+        sorting: { date: "asc" }
+    }, {
+        counts: [],
+        dataset: $scope.course.lectures,
+        getData: function(params) {
+            var orderedData;
+            data = $localStorage.courses[$stateParams.selectedCourse].lectures;
+            if (params.sorting().date === 'asc') {
+
+                data.sort(function(a, b) {
+                    var dateA = new Date(a.schedule.date),
+                        dateB = new Date(b.schedule.date);
+                    return dateA - dateB;
+                });
+                orderedData = data;
+            } else if (params.sorting().date === 'desc') {
+
+                data.sort(function(a, b) {
+                    var dateA = new Date(a.schedule.date),
+                        dateB = new Date(b.schedule.date);
+                    return dateB - dateA;
+                });
+                orderedData = data;
+            }
+            return orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+        }
+    });
+
 
 });

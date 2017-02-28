@@ -6,13 +6,13 @@
                     Register for Course
                     <button type="btn float-right" class="close" data-dismiss="modal">&times;</button>
                 </h4>
-                <form name="courseForm" class="text-center">
+                <form name="joinCourseForm" class="text-center">
                     <div class="input-group mb-3">
                         <div class="input-group-addon"><i class="fa fa-book fa-fw" aria-hidden="true"></i></div>
-                        <input name="course" class="form-control" type="text" ng-model="course" placeholder="Course Key" required />
+                        <input name="section" class="form-control" type="text" ng-model="section" placeholder="Section Key" required />
                     </div>
                     <div ng-if="error" class="alert alert-danger">{{error}}</div>
-                    <button class="btn btn-outline-success" ng-click="join()" ng-disabled="courseForm.$invalid">
+                    <button class="btn btn-outline-success" ng-click="join()" ng-disabled="joinCourseForm.$invalid">
                         <span ng-show="loading">
                             <i class="fa fa-circle-o-notch fa-spin"></i>
                         </span>

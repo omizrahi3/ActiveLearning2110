@@ -1,0 +1,75 @@
+<div class="container-fluid p-2 animated fadeIn" ng-controller="Manage.Students.Controller">
+    <div class="divide-header pt-3 pb-3 text-uppercase">
+        <span>
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link active" href="javascript:;" data-target="#current" data-toggle="pill">Current</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:;" data-target="#add_students" data-toggle="pill">Add</a>
+                </li>
+            </ul>
+        </span>
+    </div>
+    <div class="tab-content">
+        <div class="tab-pane active" id="current">
+            <table ng-table="student_tableParams" class="table table-bordered table-sm text-center">
+                <tr ng-repeat="student in $data">
+                    <td class="align-middle text-capitalize" title="'First'" sortable="'firstname'">
+                        {{student.firstname}}
+                    </td>
+                    <td class="align-middle text-capitalize" title="'Last'" sortable="'lastname'">
+                        {{student.lastname}}
+                    </td>
+                    <td class="align-middle" title="'Username'" sortable="'username'">
+                        {{student.username}}
+                    </td>
+                    <td class="align-middle" title="'Status'" sortable="'status'">
+                        {{student.status}}
+                    </td>
+                    <td class="align-middle">
+                        <button type="button" class="btn btn-danger btn-sm" ng-click="deleteStudent(student)" ng-disabled="loading">
+                            <span ng-show="loading">
+                                <i class="fa fa-circle-o-notch fa-spin"></i>
+                            </span>
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="tab-pane" id="add_students">
+            <label class="btn btn-info btn-sm">
+                Choose CSV <input type="file" ng-click="selectedCSV = null" fileread="selectedCSV" accept="text/comma-separated-values" class="form-control-file pb-2" id="studentCSVInput" style="display: none;">
+            </label>
+            <table ng-table="upload_tableParams" class="table table-bordered table-sm text-center">
+                <tr ng-repeat="student in $data"
+                    ng-init="initUser(student)"
+                    ng-class="{ 'table-success': changes[student.username].commited === true,
+                                'table-error': changes[student.username].error === true}">
+                    <td class="align-middle text-capitalize" title="'First'" sortable="'firstname'">
+                        {{student.firstname}}
+                    </td>
+                    <td class="align-middle text-capitalize" title="'Last'" sortable="'lastname'">
+                        {{student.lastname}}
+                    </td>
+                    <td title="'Username'" sortable="'username'">
+                        {{student.username}}
+                    </td>
+                    <td title="'Role'" sortable="'role'">
+                        {{student.role}}
+                    </td>
+                </tr>
+            </table>
+            <div class="row"></div>
+            <div class="d-flex flex-row-reverse pt-2">
+                <button type="button" class="btn btn-primary" ng-click="submit_newStudents()" ng-disabled="loading">
+                    <span ng-show="loading">
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                    </span>
+                    Submit
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

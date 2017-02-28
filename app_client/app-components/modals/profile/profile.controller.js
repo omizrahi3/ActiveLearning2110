@@ -152,23 +152,3 @@ app.controller('Profile.Controller', function($scope, $element, $localStorage, U
         $scope.croppedPhoto = canvas.toDataURL('image/jpeg', 0.7);
     }
 });
-
-app.directive("fileread", [function() {
-    return {
-        scope: {
-            fileread: "="
-        },
-        link: function(scope, element, attributes) {
-            element.on("change", function(changeEvent) {
-                var reader = new FileReader();
-                reader.onload = function(loadEvent) {
-                    scope.$apply(function() {
-                        scope.fileread = loadEvent.target.result;
-                        element.val(null);
-                    });
-                };
-                reader.readAsDataURL(changeEvent.target.files[0]);
-            });
-        }
-    };
-}]);

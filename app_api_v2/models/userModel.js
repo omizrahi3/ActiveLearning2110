@@ -62,7 +62,13 @@ var UserSchema  = new Schema(
     pre_register_key:
     {
         type    : String
-    }
+    },
+    pre_registered:
+    {
+        password    :  String,
+        course_id   :  String,
+        section_id  :  String
+    },
 });
 
 UserSchema.methods.encryptPassword = function(password)

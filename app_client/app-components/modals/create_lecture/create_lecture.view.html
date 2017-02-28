@@ -1,0 +1,50 @@
+<div class="login modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h2 class="text-center pb-4">
+                    <span>Create a Lecture</span>
+                    <button type="btn float-right" class="close" data-dismiss="modal">&times;</button>
+                </h2>
+                <!-- Create Lecture Form -->
+                <form name="createCourseForm">
+                    <div class="d-flex justify-content-center mb-2">
+                        <div class="pr-2">
+                            <input
+                              placeholder="Lecture title"
+                              type="text"
+                              name="title"
+                              class="form-control"
+                              ng-model="lecture.title" autofocus required />
+                        </div>
+                          <div class="input-group"
+                            moment-picker="lecture.date_day"
+                            locale="en"
+                            format="YYYY-MM-DD,ddd"
+                            min-view="month"
+                            max-view="day"
+                            autoclose="true">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                </span>
+                                <input class="form-control"
+                                placeholder="Select a date"
+                                ng-model="lecture.date"
+                                ng-model-options="{ updateOn: 'blur' }" required>
+                          </div>
+                    </div>
+                    <!-- Error Message -->
+                    <div ng-if="error" class="alert alert-danger text-center animated fadeIn">{{error}}</div>
+                    <div class="container-fluid text-center">
+                        <button class="btn btn-outline-success" ng-click="create()" ng-disabled="createCourseForm.$invalid || course.sections.length == 0">
+                            <span ng-show="loading">
+                                <i class="fa fa-circle-o-notch fa-spin"></i>
+                            </span>
+                            Create
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

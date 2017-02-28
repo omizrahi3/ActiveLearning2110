@@ -1,7 +1,7 @@
 /* jshint node: true */
 
 //************************************************************
-//  dashboard.instructor.controller.js                      //
+//  course.student.controller.js                            //
 //  Active Learning 2110                                    //
 //                                                          //
 //  Created by Jeremy Carter on 02/03/17.                   //
@@ -15,12 +15,28 @@
 
 var app = angular.module('app');
 
-app.controller('Instructor.Dashboard.Controller', function($scope, $localStorage, $window, UserService) {
+app.controller('Instructor.Question.Controller', function($scope, $state, $rootScope) {
 
-    $scope.default = 100;
+    $scope.state = 'edit';
 
-    $scope.createCourse = function() {
-        UserService.ShowCreateCourse();
+    $scope.edit = function() {
+        $scope.state = 'cancel';
+        $scope.editor.start();
     };
 
+    $scope.save = function() {
+        $scope.state = 'edit';
+        $scope.editor.stop(true);
+    };
+
+    $scope.cancel = function() {
+        $scope.state = 'edit';
+        $scope.editor.stop(false);
+    };
+
+    $rootScope.$on('$stateChangeStart', function() {
+        if ($scope.editor.isEditing()) {
+            $scope.editor.stop(false);
+        }
+    });
 });

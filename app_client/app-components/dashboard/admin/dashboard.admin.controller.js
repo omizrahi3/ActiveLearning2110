@@ -15,14 +15,25 @@
 
 var app = angular.module('app');
 
-app.controller('Admin.Dashboard.Controller', function($scope, $localStorage, $state, $timeout, RESTService) {
+app.controller('Admin.Dashboard.Controller', function($scope, $localStorage, $state, $timeout, RESTService, NgTableParams) {
 
     $scope.loading = false;
-    $scope.sortType = 'firstname';
-    $scope.sortReverse = false;
-    $scope.searchUsers = '';
 
     $scope.changes = {};
+
+    var cnts = [];
+
+    if ($localStorage.users.length > 5) {
+        cnts = [5, 10, 15];
+    }
+
+    $scope.tableParams = new NgTableParams({
+        count: 10,
+        sorting: { username: "asc" }
+    }, {
+        counts: cnts,
+        dataset: $localStorage.users
+    });
 
     $scope.roles = [{
         id: 1,
@@ -81,6 +92,8 @@ app.controller('Admin.Dashboard.Controller', function($scope, $localStorage, $st
         $scope.changes[info.key].commited = true;
         $scope.changes[info.key].changed_role = false;
         $scope.changes[info.key].changed_deactivated = false;
+        $scope.tableParams.settings().dataset = $localStorage.users;
+        $scope.tableParams.reload();
         $timeout(function() {
             $scope.changes[info.key].commited = false;
         }, 5000);

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* jshint node: true */
 
 //************************************************************
@@ -98,3 +99,6 @@ app.controller('Instructor.Course.Controller', function($scope, $localStorage, $
     });
 
 });
+=======
+
+>>>>>>> origin/kelsey

@@ -17,6 +17,7 @@ var app = angular.module('app');
 
 app.controller('Sidebar.Controller', function($scope, $state, $stateParams, $rootScope, $localStorage, UserService) {
 
+<<<<<<< HEAD
     $scope.state = null;
     $rootScope.$stateParams = $stateParams;
 
@@ -40,4 +41,10 @@ app.controller('Sidebar.Controller', function($scope, $state, $stateParams, $roo
         }
     });
 
+=======
+
+        $scope.courseClick = function(index) {
+            $scope.$storage.selectedCourse = index;
+        };
+>>>>>>> origin/kelsey
 });

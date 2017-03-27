@@ -138,7 +138,89 @@ app.directive("fileread", [function() {
 
 app.directive('ngEditor', function() {
 
+    function base64ImageUploader(dialog) {
+        var reader, image_url, img, width, height;
+        var canvas = document.createElement("canvas");
+        var canvas_context = canvas.getContext('2d');
+
+
+        function rotateImage(direction) {
+            canvas.width = height;
+            canvas.height = width;
+            canvas_context.rotate(direction * Math.PI / 2);
+            if (direction > 0) {
+                canvas_context.translate(0, -canvas.height);
+            } else {
+                canvas_context.translate(-canvas.width, 0);
+            }
+            canvas_context.drawImage(img, 0, 0);
+            setImageFromDataURL(canvas.toDataURL("image/png"), img.alt);
+        }
+
+        function setImageFromDataURL(data_url, file_name) {
+            image_url = data_url;
+            img = new Image();
+            img.src = image_url;
+            img.onload = function() {
+                img.alt = file_name;
+                width = this.width;
+                height = this.height;
+                dialog.populate(image_url, [width, height]);
+            };
+        }
+
+        function cropImage(crop_region) {
+            canvas.width = width * crop_region[2];
+            canvas.height = height * crop_region[3];
+            canvas_context.translate(-width * crop_region[0], -height * crop_region[1]);
+            canvas_context.drawImage(img, 0, 0);
+            setImageFromDataURL(canvas.toDataURL("image/png"), img.alt);
+        }
+
+        dialog.addEventListener('imageuploader.cancelUpload', function() {
+
+        });
+
+        dialog.addEventListener('imageuploader.clear', function() {
+            dialog.clear();
+            img = null;
+        });
+
+        dialog.addEventListener('imageuploader.fileready', function(ev) {
+            var reader = new FileReader();
+            if (ev) {
+                var file = ev.detail().file;
+                reader.readAsDataURL(file);
+                reader.addEventListener('load', function() {
+                    setImageFromDataURL(reader.result, file.name);
+                });
+            }
+        });
+
+
+        dialog.addEventListener('imageuploader.rotateccw', function() {
+            rotateImage(-1);
+        });
+
+        dialog.addEventListener('imageuploader.rotatecw', function() {
+            rotateImage(1);
+        });
+
+        dialog.addEventListener('imageuploader.save', function() {
+            if (dialog.cropRegion()) {
+                cropImage(dialog.cropRegion());
+            }
+            dialog.save(
+                image_url, [width, height], {
+                    'alt': img.alt,
+                    'data-ce-max-width': width
+                }
+            );
+        });
+    }
+
     function link(scope, element, attrs) {
+        ContentTools.IMAGE_UPLOADER = base64ImageUploader;
         scope.editor = new ContentTools.EditorApp.get();
         scope.editor.init('*[data-editable], *[data-fixture]', 'data-editable', null, false);
 
@@ -177,8 +259,7 @@ app.directive('ngConfirmClick', [
                 });
             }
         };
-    }]
-);
+    }]);
 
 app.filter('gradecolor', function() {
     return function(str) {
@@ -187,7 +268,7 @@ app.filter('gradecolor', function() {
         } else if (str < 70) {
             return "#FF851B";
         } else {
-            return "#3083FF";
+            return "#2D76E8";
         }
     };
 });

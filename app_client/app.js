@@ -39,6 +39,36 @@ var app = angular
 
 app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $ocLazyLoadProvider, tooltipsConfProvider, cfpLoadingBarProvider) {
 
+    ContentTools.StylePalette.add([
+        new ContentTools.Style('Muted', 'text-muted', ['p', 'h1', 'h2']),
+        new ContentTools.Style('Lead', 'lead', ['p']),
+        new ContentTools.Style('Fluid', 'img-fluid', ['img']),
+        new ContentTools.Style('Thumbnail', 'img-thumbnail', ['img']),
+        new ContentTools.Style('Rounded', 'rounded', ['img']),
+        new ContentTools.Style('Left', 'float-left', ['img']),
+        new ContentTools.Style('Right', 'float-right', ['img']),
+        new ContentTools.Style('Center', 'mx-auto d-block', ['img']),
+        new ContentTools.Style('Small', 'table-sm', ['table']),
+        new ContentTools.Style('Striped', 'table-striped', ['table']),
+        new ContentTools.Style('Wide', 'table', ['table']),
+        new ContentTools.Style('Bordered', 'table-bordered', ['table']),
+        new ContentTools.Style('Hover', 'table-hover', ['table']),
+        new ContentTools.Style('Center', 'text-center', ['table']),
+        new ContentTools.Style('Success', 'table-success', ['tr']),
+        new ContentTools.Style('Info', 'table-info', ['tr']),
+        new ContentTools.Style('Danger', 'table-danger', ['tr']),
+        new ContentTools.Style('Warning', 'table-warning', ['tr']),
+        new ContentTools.Style('Group', 'list-group', ['ul']),
+        new ContentTools.Style('Group Item', 'list-group-item list-group-item-action', ['li']),
+        new ContentTools.Style('Group Item Success', 'list-group-item-success', ['li']),
+        new ContentTools.Style('Group Item Info', 'list-group-item-info', ['li']),
+        new ContentTools.Style('Group Item Danger', 'list-group-item-danger', ['li']),
+        new ContentTools.Style('Group Item Warning', 'list-group-item-warning', ['li']),
+        new ContentTools.Style('No Padding', 'p-0', ['li', 'table', 'img', 'p', 'h1', 'h2']),
+        new ContentTools.Style('1-Padding', 'p-1', ['li', 'table', 'img', 'p', 'h1', 'h2']),
+        new ContentTools.Style('2-Padding', 'p-2', ['li', 'table', 'img', 'p', 'h1', 'h2']),
+    ]);
+
     cfpLoadingBarProvider.includeSpinner = false;
 
     tooltipsConfProvider.configure({
@@ -282,8 +312,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $ocLazyLo
                 }]
             }
         });
-    }
-);
+});
 
 app.run(function($rootScope, ngNotify) {
     $rootScope.$on('$stateChangeSuccess', function() {

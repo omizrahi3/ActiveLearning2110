@@ -22,7 +22,8 @@ app.controller('Instructor.Course.Controller', function($scope, $localStorage, $
     $scope.course_index = $stateParams.selectedCourse;
 
     $scope.chart_options = {
-        labels: ["Verified", "Pending"]
+        labels: ["Verified", "Pending"],
+        colors: ['#2F81FF', '#D1D1D1']
     };
 
     $scope.copySuccess = function(name) {

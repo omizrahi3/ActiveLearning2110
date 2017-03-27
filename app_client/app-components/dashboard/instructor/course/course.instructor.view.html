@@ -29,7 +29,7 @@
                             <i
                                 class="fa fa-exclamation-circle"
                                 aria-hidden="true"
-                                style="font-size:120px; color: #ff6384;">
+                                style="font-size:120px; color: #FF0D61;">
                             </i>
                         </div>
                         <div ng-show="section.students.length !== 0">
@@ -39,8 +39,10 @@
                                 chart-data="status_data[section.name]"
                                 chart-options="status_options"
                                 chart-labels="chart_options.labels"
+                                chart-colors="chart_options.colors"
                                 height="120"
-                                width="120"></canvas>
+                                width="120">
+                            </canvas>
                         </div>
                         <div class="border-right"></div>
                         <div class="text-center pr-3">

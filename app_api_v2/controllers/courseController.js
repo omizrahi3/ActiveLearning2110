@@ -41,7 +41,7 @@ var checkForNull = function(data) {
 };
 
 var instructorAddStudent = function(req, res, next) {
-  console.log('courseController instructorAddStudent2');
+  console.log('courseController instructorAddStudent');
 
   var newStudent;
   var student_status;
@@ -260,11 +260,11 @@ var deleteStudentFromCourse = function(req, res) {
 var getCourse = function(req, res) {
     console.log('courseController getCourse');
 
-    Course.findById(req.params.COURSEID, {"__v": 0})
+    Course.findById(req.params.COURSEID)
     .exec()
     .then(function(course){
         return Course.aggregate([
-          {$match: {"_id": course._id}},
+          {$match: {_id: course._id}},
           {$lookup: {from: "sections", localField: "_id", foreignField: "course_id", as: "sections"}}
         ]);
     })

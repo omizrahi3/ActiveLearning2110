@@ -19,6 +19,7 @@
 
 var app_api_v2 = require('./app_api_v2'),
     app_client = require('./app_client'),
+    app_support = require('./app_support'),
     bodyparser = require('body-parser'),
     cookieParser = require('cookie-parser'),
     express = require('express'),
@@ -27,9 +28,9 @@ var app_api_v2 = require('./app_api_v2'),
     sessions = require('client-sessions'),
     config = require('./config'),
     app = express(),
-    http = require('http').Server(app),
-    io = require('socket.io')(http),
-    socketioJwt = require('socketio-jwt');
+    //http = require('http').Server(app),
+    //io = require('socket.io')(http),
+    live_lectures = [];
 
 /**
 Must have MongoDB installed and run mongod
@@ -37,6 +38,7 @@ Must have MongoDB installed and run mongod
 mongoose.Promise = global.Promise;
 mongoose.connect(config.database);
 
+/*
 io.sockets
     .on('connection', socketioJwt.authorize({
         secret: config.jwt_secret,
@@ -45,6 +47,7 @@ io.sockets
         //this socket is authenticated, we are good to handle more events from it.
         console.log('hello! ' + JSON.stringify(socket.decoded_token));
     });
+  */
 
 app.use(express.static(path.join(__dirname, '/app_client')));
 
@@ -58,13 +61,26 @@ app.use(bodyparser.json());
 
 app_client(app);
 app_api_v2(app);
+app_support(app);
 
-/**
-Binds and listens for connections on the specified host and port
-
-- parameter PORT:       8081
-- parameter HANDLER:    callback
-**/
+/*
+app.set('port', process.env.PORT || 8081);
 http.listen(process.env.PORT || 8081, function() {
     console.log('listening on port 8081');
+});
+*/
+
+app.set('port', process.env.PORT || 8081);
+var server = require('http').Server(app);
+var io = require('socket.io').listen(server);
+require('./app_socket/connect')(io);
+require('./app_socket/lectures')(io, live_lectures);
+//var socketController = require('./app_socket');
+//socketController.authenticate(io);
+//socketController.live_lecture(io);
+//socketController.lecture_list(io, live_lectures);
+
+
+server.listen(app.get('port'), function(){
+  console.log('listening on port 8081');
 });

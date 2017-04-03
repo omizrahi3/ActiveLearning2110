@@ -17,7 +17,7 @@
 
 var User = require('./../models/userModel');
 var Course = require('./../models/courseModel');
-var Section = require('./../models/SectionModel');
+var Section = require('./../models/sectionModel');
 var rand = require("random-key");
 var bcrypt = require('bcryptjs');
 

@@ -15,7 +15,7 @@
 "use strict";
 
 module.exports = function(app) {
-  app.get('/support', function(req, res){
-    res.sendFile(__dirname + '/views/support.html');
+  app.get('/Home', function(req, res){
+    res.sendFile(__dirname + '/views/Home.html');
   });
 };

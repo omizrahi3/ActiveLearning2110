@@ -71,9 +71,8 @@ http.listen(process.env.PORT || 8081, function() {
 */
 
 app.set('port', process.env.PORT || 8081);
-var server = require('http').Server(app);
-var io = require('socket.io').listen(server);
-require('./app_socket/connect')(io);
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
 require('./app_socket/lectures')(io, live_lectures);
 //var socketController = require('./app_socket');
 //socketController.authenticate(io);

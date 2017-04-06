@@ -15,10 +15,17 @@
 
 var app = angular.module('app');
 
-app.controller('Course.Student.Controller', function($scope, $localStorage, $rootScope, $stateParams, UserService, NgTableParams) {
+app.controller('Course.Student.Controller', function($scope, $localStorage, $rootScope, $stateParams, UserService, NgTableParams, SocketService) {
 
     $rootScope.$stateParams = $stateParams;
     $scope.course = $localStorage.courses[$stateParams.selectedCourse];
+    SocketService.connectLectures();
+
+    $rootScope.$on('coursesUpdated', function() {
+        $scope.course = $localStorage.courses[$stateParams.selectedCourse];
+        $scope.tableParams.settings().dataset = $scope.course.lectures;
+        $scope.tableParams.reload();
+    });
 
     $scope.tableParams = new NgTableParams({
         count: 6,

@@ -34,7 +34,7 @@
                 {{lecture.schedule.day}}
             </td>
             <td class="align-middle" title="'Manage'">
-                <button type="button" class="btn btn-outline-success btn-sm" disabled>Join</button>
+                <button type="button" class="btn btn-outline-success btn-sm" ng-disabled="!lecture.live">Join</button>
             </td>
         </tr>
     </table>

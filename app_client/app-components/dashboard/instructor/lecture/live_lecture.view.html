@@ -1,0 +1,58 @@
+<div class="animated fadeIn container-fluid p-3 animated fadeIn" ng-controller="Instructor.Live.Lecture.Controller">
+    <div class="d-flex justify-content-between align-items-center p-2">
+        <div class="input-group">
+            <timer interval="1000" countdown="50" hidden="true" autostart="false"></timer>
+            <select
+                class="custom-select select-inline text-capitalize"
+                ng-model="selectedQuestion"
+                ng-click="questionSelected()"
+                ng-options="question.question_id as question.title for question in lecture.questions">
+                <option value="" disabled selected>
+                    Select question to start
+                </option>
+            </select>
+            <span class="input-group-btn">
+                <button class="btn btn-outline-success btn-sm" type="button" ng-click="startQuestion()" ng-disabled="selectedQuestion === '' || timerEnabled">
+                    <span ng-show="addLoading">
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                    </span>
+                    Start Question
+                </button>
+            </span>
+        </div>
+        <div class="d-flex align-items-center">
+            <div class="btn-group-vertical pr-2">
+                <button class="btn btn-info btn-sm" ng-click="add10Seconds()" type="button"><i class="fa fa-plus fa-fw" aria-hidden="true"></i></button>
+                <button class="btn btn-info btn-sm" ng-click="remove10Seconds()" type="button"><i class="fa fa-minus fa-fw" aria-hidden="true"></i></button>
+            </div>
+            <div class="progress-wrapper">
+                <round-progress
+                    max="60"
+                    current="time"
+                    color="#2F81FF"
+                    bgcolor="#eaeaea"
+                    radius="55"
+                    stroke="10"
+                    semi="true"
+                    rounded="false"
+                    clockwise="false"
+                    responsive="false"
+                    duration="800"
+                    animation="easeInOutQuart"
+                    animation-delay="0">
+                </round-progress>
+                <div class="text pt-3">{{time}}</div>
+            </div>
+        </div>
+    </div>
+    <hr class="m-0 pb-2" style="border-top: dashed 1px; color: #D5D6D8" />
+    <canvas id="bar" class="chart chart-bar" chart-data="data"
+        chart-labels="labels" chart-options="options"
+        chart-dataset-override="datasetOverride">
+    </canvas>
+    <div class="pt-4">
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="choice in choices" ng-class="{ 'list-group-item-success': choice.answer }">{{$index + 1}}: {{choice.text}}</li>
+        </ul>
+    </div>
+</div>

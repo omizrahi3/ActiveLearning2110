@@ -97,7 +97,7 @@
             </div>
             <div>
                 <span class="badge badge-default mr-1 text-uppercase" ng-repeat="tag in data.tags">{{tag}}</span>
-                <span class="badge ml-2" ng-class="{ 'badge-success': !data.copied, 'badge-warning': data.copied }">Owner</span>
+                <span class="badge ml-2" ng-class="{ 'badge-success': (data.instructor_id === data.my_id), 'badge-warning': !(data.instructor_id === data.my_id) }">Owner</span>
             </div>
         </div>
     </script>

@@ -113,13 +113,27 @@
                 {{lecture.schedule.day}}
             </td>
             <td class="align-middle" title="'Edit'">
-                <button
+                <!-- <button
+                    ng-show="!joinAvail('{{lecture.schedule.date | date:'MM/dd/yy'}}')"
                     type="button"
                     class="btn btn-secondary btn-sm"
                     ui-sref="main.instructor_edit_lecture({
                         selectedCourse: course_index,
                         selectedLecture: $index
-                    })"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i></button>
+                    })"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i></button> -->
+                <!-- <button
+                    type="button"
+                    ui-sref="main.instructor_live_lecture({
+                        selectedCourse: course_index,
+                        selectedLecture: $index
+                    })"
+                    class="btn btn-success btn-sm">
+                        <i class="fa fa-sign-in fa-fw" aria-hidden="true"></i></button> -->
+                    <button
+                        type="button"
+                        ng-click="startLecture(lecture)"
+                        class="btn btn-success btn-sm">
+                            <i class="fa fa-sign-in fa-fw" aria-hidden="true"></i></button>
             </td>
         </tr>
     </table>

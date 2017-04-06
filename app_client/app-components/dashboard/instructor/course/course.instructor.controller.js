@@ -15,11 +15,12 @@
 
 var app = angular.module('app');
 
-app.controller('Instructor.Course.Controller', function($scope, $localStorage, $stateParams, $rootScope, $window, UserService, NgTableParams, ngNotify) {
+app.controller('Instructor.Course.Controller', function($scope, $localStorage, $stateParams, $rootScope, $window, UserService, NgTableParams, ngNotify, SocketService) {
 
     $rootScope.$stateParams = $stateParams;
     $scope.course = $localStorage.courses[$stateParams.selectedCourse];
     $scope.course_index = $stateParams.selectedCourse;
+    SocketService.connectLectures();
 
     $scope.chart_options = {
         labels: ["Verified", "Pending"],
@@ -106,6 +107,14 @@ app.controller('Instructor.Course.Controller', function($scope, $localStorage, $
             }
         }
         $scope.status_data[section.name] = [verified, pending];
+    };
+
+    $scope.joinAvail = function(date) {
+        return date === moment().format("MM/DD/YY") ? true : false;
+    };
+
+    $scope.startLecture = function(lecture) {
+        SocketService.startLecture(lecture.lecture_id);
     };
 
     var w = angular.element($window);

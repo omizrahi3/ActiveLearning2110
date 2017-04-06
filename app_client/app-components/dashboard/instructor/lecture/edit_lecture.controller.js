@@ -56,6 +56,9 @@ app.controller('Instructor.Edit.Lecture.Controller', function($scope, $localStor
             }).then(
                 function(response) {
                     var questions = response.data.questions;
+                    for (var i in questions) {
+                        questions[i].my_id = $localStorage._id;
+                    }
                     return questions.filter(function(question) {
                         return new RegExp(tags.join("|")).test(question.tags.toString());
                     });

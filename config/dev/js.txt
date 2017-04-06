@@ -22,7 +22,7 @@ https://rawgit.com/crisbeto/angular-svg-round-progressbar/angular-1.x/build/roun
 https://cdn.rawgit.com/zenorocha/clipboard.js/master/dist/clipboard.min.js
 https://rawgit.com/sachinchoolur/ngclipboard/master/dist/ngclipboard.min.js
 https://rawgit.com/matowens/ng-notify/master/dist/ng-notify.min.js
-https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js
+https://rawgit.com/socketio/socket.io-client/master/dist/socket.io.min.js
 https://cdnjs.cloudflare.com/ajax/libs/ng-tags-input/3.1.1/ng-tags-input.js
 https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.6.3/angular-sanitize.min.js
 https://rawgit.com/angular-ui/ui-sortable/master/src/sortable.js
@@ -30,3 +30,5 @@ https://rawgit.com/720kb/angular-tooltips/master/dist/angular-tooltips.min.js
 https://rawgit.com/chieffancypants/angular-loading-bar/master/build/loading-bar.min.js
 https://cdn.jsdelivr.net/intro.js/2.4.0/intro.min.js
 https://rawgit.com/mendhak/angular-intro.js/master/build/angular-intro.min.js
+https://cdnjs.cloudflare.com/ajax/libs/humanize-duration/3.10.0/humanize-duration.min.js
+https://rawgit.com/siddii/angular-timer/master/dist/angular-timer.min.js

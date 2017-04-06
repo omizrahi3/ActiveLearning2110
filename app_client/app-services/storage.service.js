@@ -13,7 +13,7 @@
 //************************************************************
 var app = angular.module('app');
 
-app.factory('UserStorage', function($localStorage) {
+app.factory('UserStorage', function($localStorage, $rootScope) {
 
     var service = {};
 
@@ -82,6 +82,20 @@ app.factory('UserStorage', function($localStorage) {
                 $localStorage.courses[course_key].lectures[key] = lecture;
             }
         }
+    };
+
+    service.LectureLiveUpdate = function(lecture_list) {
+        for (var i in $localStorage.courses) {
+            for (var j in $localStorage.courses[i].lectures) {
+                var curr_id = $localStorage.courses[i].lectures[j].lecture_id;
+                if (lecture_list.indexOf(curr_id) > -1) {
+                    $localStorage.courses[i].lectures[j].live = true;
+                } else {
+                    $localStorage.courses[i].lectures[j].live = false;
+                }
+            }
+        }
+        $rootScope.$emit('coursesUpdated');
     };
 
     service.UpdateCourseLectures = function(course_id, lectures) {

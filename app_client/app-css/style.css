@@ -41,14 +41,25 @@ h1, h2, h3, h4, h5 {
 .hamburger-inner, .hamburger-inner::before, .hamburger-inner::after {
     background-color: white;
     width: 1.875rem;
+    outline: 0;
 }
 
 .hamburger:hover {
     opacity: 100;
+    outline: 0;
+}
+
+.hamburger:focus {
+    outline: 0;
+}
+
+.btn:focus {
+    outline: 0;
 }
 
 .hamburger-inner:hover {
     background-color: white;
+    outline: 0;
 }
 
 .ng-hide.ng-hide-animate {
@@ -84,9 +95,18 @@ a:hover {
     background-color: rgba(45, 118, 232, 0.1);
 }
 
+.table-hover tbody tr {
+    border-left: 0.1875rem solid transparent;
+}
+
 .table-hover tbody tr:hover {
     background-color: rgba(45, 118, 232, 0.05);
     border-left: 0.1875rem solid #2D76E8;
+    color: #2D76E8;
+    -webkit-transition: color .3s ease-in-out;
+    -moz-transition: color .3s ease-in-out;
+    -o-transition: color .3s ease-in-out;
+    transition: color .3s ease-in-out;
 }
 
 .table-hover .table-active:hover {
@@ -229,6 +249,9 @@ a:hover {
     background: rgba(45, 118, 232, 0.07);
     border-left: 0.3125rem solid #2D76E8;
     text-decoration: none;
+    -webkit-transition: border-color .5s ease-in-out;
+    -moz-transition: border-color .5s ease-in-out;
+    -o-transition: border-color .5s ease-in-out;
     transition: border-color .5s ease-in-out;
 }
 
@@ -259,6 +282,7 @@ a:hover {
 
 .sidebar-nav li>.classList {
     background: rgba(45, 118, 232, 0.07);
+    border-bottom: 0.125rem solid rgba(45, 118, 232, 0.1);
     text-decoration: none;
 }
 
@@ -372,7 +396,11 @@ button.close {
     border: 0;
     border-radius: 0;
     color: white;
+    -webkit-transition: background-color .2s ease-in-out;
+    -moz-transition: background-color .2s ease-in-out;
+    -o-transition: background-color .2s ease-in-out;
     transition: background-color .2s ease-in-out;
+
 }
 
 .btn-card:hover {
@@ -437,6 +465,7 @@ button.close {
 }
 
 .progress-wrapper {
+    display: inline-block;
     position: relative;
 }
 

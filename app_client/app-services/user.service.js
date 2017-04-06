@@ -262,10 +262,10 @@ app.directive('ngConfirmClick', [
     }]);
 
 app.filter('gradecolor', function() {
-    return function(str) {
-        if (str < 50) {
+    return function(grade) {
+        if (grade < 50) {
             return "#EF4723";
-        } else if (str < 70) {
+        } else if (grade < 70) {
             return "#FF851B";
         } else {
             return "#2D76E8";

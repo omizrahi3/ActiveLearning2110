@@ -42,7 +42,7 @@ app.controller('Student.Live.Lecture.Controller', function($scope, $localStorage
         $scope.timeMax = data.timeMax;
     });
 
-    $rootScope.$on('questionAnswerResult', function(evt, correct) {
+    $rootScope.$on('answer_result', function(evt, correct) {
         $scope.loading = false;
         $scope.correct = correct;
     });
@@ -57,7 +57,7 @@ app.controller('Student.Live.Lecture.Controller', function($scope, $localStorage
         }
     });
 
-    $rootScope.$on('newQuestion', function(evt, info) {
+    $rootScope.$on('new_question', function(evt, info) {
         $scope.$apply(function() {
             $scope.question_id = info.question_id;
             $scope.title = info.question.html_title;

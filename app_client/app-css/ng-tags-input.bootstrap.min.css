@@ -18,6 +18,8 @@ tags-input .tags {
     -webkit-box-shadow: inset 0 0 0;
     -moz-box-shadow: inset 0 0 0;
     box-shadow: inset 0 0 0;
+    overflow: hidden !important;
+    word-wrap: break-word !important;
     -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
     -moz-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
     transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;

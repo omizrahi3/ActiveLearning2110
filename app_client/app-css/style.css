@@ -23,7 +23,6 @@ html, body, input, button, select, ul, li, auto-complete, label {
     -webkit-font-smoothing: antialiased !important;
     font-family: 'Roboto Condensed', sans-serif !important;
     text-rendering: optimizeLegibility !important;
-    overflow-x: hidden;
 }
 
 html, body {
@@ -42,6 +41,10 @@ h1, h2, h3, h4, h5 {
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
+}
+
+button {
+    overflow: hidden;
 }
 
 .footer {

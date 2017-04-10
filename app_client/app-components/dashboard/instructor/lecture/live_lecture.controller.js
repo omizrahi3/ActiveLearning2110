@@ -31,6 +31,11 @@ app.controller('Instructor.Live.Lecture.Controller', function($scope, $localStor
         SocketService.StopLecture($scope.lecture.lecture_id);
     });
 
+    $rootScope.$on('student_answer', function(evnt, answer) {
+        var indx = $scope.choices.indexOf(answer);
+        $scope.data[0][idx]++;
+    });
+
     RESTService.GetLectureInfo({
         lecture_id: $scope.lecture.lecture_id,
         course_id: $scope.course._id

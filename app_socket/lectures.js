@@ -64,7 +64,7 @@ exports = module.exports = function(io, lectures_list) {
             emitUserNumer(data.lecture_id);
         });
 
-        socket.on('newQuestion', function(data) {
+        socket.on('new_question', function(data) {
             console.log('question:' + JSON.stringify(data));
             Question.findById(data.question_id, {
                     "__v": 0,
@@ -73,10 +73,10 @@ exports = module.exports = function(io, lectures_list) {
                 .exec()
                 .then(function(question) {
                     data.question = question;
-                    socket.broadcast.to(data.lecture_id).emit('questionFeed', data);
+                    socket.broadcast.to(data.lecture_id).emit('question_feed', data);
                 })
                 .catch(function(err) {
-                    socket.emit('questionFeed', 'error');
+                    socket.emit('question_feed', 'error');
                 });
         });
 
@@ -105,15 +105,15 @@ exports = module.exports = function(io, lectures_list) {
                 .then(function(question) {
                     if (question[0].answer_choices[0].answer === true) {
                         //answer is correct, emit to student they scored correctly
-                        socket.emit('question_result', true);
+                        socket.emit('answer_result', true);
                     } else {
                         //answer is wrong, emit to student they scored incorrectly
-                        socket.emit('question_result', false);
+                        socket.emit('answer_result', false);
                     }
                     //emit to instructor the updated stats
                 })
                 .catch(function(err) {
-                    socket.emit('question_result', 'error');
+                    socket.emit('answer_result', 'error');
                 });
         });
 
@@ -134,7 +134,7 @@ exports = module.exports = function(io, lectures_list) {
             // var users = lectures.sockets.adapter.rooms[lecture];
             if (users) {
                 console.log(users.length);
-                socket.to(lecture).emit('updatedUserTotal', users.length);
+                socket.to(lecture).emit('updated_user_total', users.length);
             }
         }
 
@@ -168,7 +168,6 @@ exports = module.exports = function(io, lectures_list) {
                                 }
                             }
                         }
-                        // clearRoom(lecture_id);
                         lectures.emit('lectures_update', JSON.stringify(lectures_list));
                     });
             }

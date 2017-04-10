@@ -22,7 +22,7 @@ https://cdn.rawgit.com/zenorocha/clipboard.js/master/dist/clipboard.min.js
 https://rawgit.com/sachinchoolur/ngclipboard/master/dist/ngclipboard.min.js
 https://rawgit.com/matowens/ng-notify/master/dist/ng-notify.min.js
 https://rawgit.com/socketio/socket.io-client/master/dist/socket.io.min.js
-https://cdnjs.cloudflare.com/ajax/libs/ng-tags-input/3.1.1/ng-tags-input.js
+https://cdnjs.cloudflare.com/ajax/libs/ng-tags-input/3.1.2/ng-tags-input.min.js
 https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.6.3/angular-sanitize.min.js
 https://rawgit.com/angular-ui/ui-sortable/master/src/sortable.js
 https://rawgit.com/720kb/angular-tooltips/master/dist/angular-tooltips.min.js

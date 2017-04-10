@@ -29,21 +29,25 @@ app.factory('SocketService', function($rootScope, UserStorage) {
         console.log('lecture disconnected ' + reason);
     });
 
-    liveSocket.on('questionFeed', function(data) {
+    liveSocket.on('question_feed', function(data) {
         console.log('new questions recieved');
-        $rootScope.$emit('newQuestion', data);
+        $rootScope.$emit('new_question', data);
     });
 
     liveSocket.on('question_result', function(data) {
-        $rootScope.$emit('questionAnswerResult', data);
+        $rootScope.$emit('answer_result', data);
     });
 
-    liveSocket.on('updatedUserTotal', function(total) {
+    liveSocket.on('updated_user_total', function(total) {
         $rootScope.$emit('newUserTotal', total);
     });
 
     liveSocket.on('new_end', function(data) {
         $rootScope.$emit('new_end', data);
+    });
+
+    liveSocket.on('new_answer', function(answer) {
+        $rootScope.$emit('new_answer', answer);
     });
 
     service.JoinLiveLecture = function(info) {
@@ -60,7 +64,7 @@ app.factory('SocketService', function($rootScope, UserStorage) {
     };
 
     service.StartQuestion = function(question_id) {
-        liveSocket.emit('newQuestion', question_id);
+        liveSocket.emit('new_question', question_id);
     };
 
     service.StartLecture = function(info) {

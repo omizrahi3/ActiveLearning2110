@@ -90,6 +90,12 @@ img {
   max-width: 590px;
 }
 
+#up {
+  position: fixed;
+  bottom: 0px;
+  right: 0px; 
+}
+
 .container {
   max-width: 600px;
 }

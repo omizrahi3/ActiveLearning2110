@@ -54,7 +54,7 @@
 
   <!--content -->
   <div class="main container-fluid">
-    <div class="container">
+    <div class="content container">
       <!-- Account Basics -->
       <h1 class="pt-5">Contents</h1>
 
@@ -64,14 +64,14 @@
             <h3>Account Basics</h3>
             <ul class="row">
               <div class="col-md-6">
-                <li>Login and Register an Account</li>
-                <li>Edit your profile</li>
-                <li>Manage Passwords</li>
+                <li><a href="#login">Login and Register an Account</a></li>
+                <li><a href="#profile">Edit your profile</a></li>
+                <li><a href="#password">Manage Passwords</a></li>
               </div>
               <div class-"col-md-6">
-                <li>Sign out of Account</li>
-                <li>Create a Course</li>
-                <li>Add Students</li>
+                <li><a href="#signout">Sign out of Account</a></li>
+                <li><a href="#createcourse">Create a Course</a></li>
+                <li><a href="#addstudent">Add Students</a></li>
               </div>
               <!-- includes creating a course key -->
             </ul>
@@ -80,14 +80,10 @@
             <h3>Lecture Basics</h3>
             <ul class="row">
               <div class="col-md-6">
-                <li>Create a Question</li>
-                <li>Create a Daily Lecture</li>
-                <li>Set Question Timer</li>
-              </div>
-              <div class="col-md-6">
-                <li>Start a Daily lecture</li>
-                <li>End a daily lecture</li>
-                <li>Review Student Progress</li>
+                <li><a href="#question">Create a Question</a></li>
+                <li><a href="#lecture">Create a Daily Lecture</a></li>
+                <li><a href="#start">Start/End a Daily Lecture</a></li>
+                <li><a href="#review">Review Student Progress</a></li>
               </div>
             </ul>
           </div>
@@ -100,7 +96,7 @@
     <!--Middle Container -->
     <div id="content" class="container">
       <!-- Login and Register ------------------------------------------->
-      <div>
+      <div id="login" class="slideanim">
         <h1>Login and Register Account</h1>
         <ul>
           <li><b>Enter your email address</b> you signed up with. This should be your Georgia Tech email address.</li>
@@ -117,7 +113,7 @@
       </div>
 
       <!-- Edit Profile ---------------------------------------------------->
-      <hr><div>
+      <hr><div id="profile" class="slideanim">
         <h1>Edit Profile</h1>
         <ul>
           <li>Click your name in the top-left to open the Menu.</li>
@@ -137,7 +133,7 @@
       </div><!-- End of Edit Profile -->
 
       <!-- Manage Passwords -------------------------------------------------------------------------------------------------->
-      <hr><div>
+      <hr><div id="password" class="slideanim">
         <h1>Manage Passwords</h1>
         <ul>
           <li>Click your name in the top-left to open the menu.</li>
@@ -150,7 +146,7 @@
   </div><!-- End of Manage Passwords-->
 
   <!-- Sign Out of Account ---------------------------------------------------------------------------------------------------------->
-  <hr><div>
+  <hr><div id="signout" class="slideanim">
     <h1>Sign Out of an Account</h1>
     <ul>
       <li>Click your name in the top-left to open the menu</li>
@@ -159,7 +155,7 @@
   </div><!--End of Sign out -->
 
   <!-- Create a Course ---------------------------------------------------------------------------------------------------------------->
-  <hr><div>
+  <hr><div id="createcourse" class="slideanim">
     <h1>Create a Course</h1>
     <ul>
       <li>Press the <b>Create Course</b> button located on the left side of the menu or the <b>[+]</b> button located on the top of your dashboard.</li>
@@ -179,7 +175,7 @@
   </div><!--End of create course -->
 
   <!--Add Students -------------------------------------------------------------------------------------------------------------------------------------->
-  <hr><div>
+  <hr><div id="addstudent" class="slideanim">
     <h1>Add Students</h1>
     <ul>
       <li>Under the course section, to retrieve the <b>Student Key</b> for students to join the section, press the <b>clipboard</b> icon on the top-right corner of the section card.</li>
@@ -201,15 +197,26 @@
   </div><!--End of add students-->
 
   <!-- Create a Question ----------------------------------------------------------------------------------------------------->
-  <hr><div>
+  <hr><div id="question" class="slideanim">
     <h1>Create a Question</h1>
     <ul>
-      <li></li>
+      <li>On the sidebar menu to the left, click on <b>Create Question</b>.</li>
     </ul>
+    <img src="../img/instructor-new-question-default.png" class="rounded mx-auto my-3 d-block img-fluid" alt="Responsive image">
+    <ul>
+      <li>To edit the question, Select <b>pen icon</b> on the top left.</li>
+      <li>Click on portion of the question you want to edit to edit.</li>
+      <li>Click on the <b>check icon</b> to save edits.</li>
+    </ul>
+    <div class="card card-ouline-info my-3 text-center">
+      <div class="card-block">
+        In order to change the question to multiple choice from True/False, press the toggle on the top left. To set the correct answer choice, press the <b>check icon</b> next to the corresponding answer choice.
+      </div>
+    </div>
   </div><!--End of Question -->
 
   <!--Create a Daily Lecture ---------------------------------------------------------------------------------------------->
-  <hr><div>
+  <hr><div id="lecture" class="slideanim">
     <h1>Create a Daily Lecture</h1>
     <ul>
       <li>From the dashboard, make sure you go into a course you want to create the lecture under.</li>
@@ -225,8 +232,33 @@
       <li>In order to add questions to lectures you have created, look into the list of lectures. Find the lecture you want to edit on the list.</li>
       <li>Press corresponding <b>pen icon</b> to the right.</li>
     </ul>
+    <img src="../img/instructor-add-question-lecture.png" class="rounded mx-auto my-3 d-block img-fluid" alt="Responsive image">
+    <ul>
+      <li>In the text box, look up the question you want to include in the lecture.</li>
+      <li>Select the question and press <b>Add Question</b> right of the text box.</li>
+    </ul>
+  </div><!--End of create a daily lecture-->
 
-  </div>
+  <!--Start a Daily Lecture ----------------------------------------------------------------------------------------------------------------------------->
+  <hr><div id="start" class="slideanim">
+    <h1>Start/End a Daily Lecture</h1>
+    <ul>
+      <li>Under your course, look under <b>Lectures</b> section and find the lecture you want to start.</li>
+      <li>Select the <b>Play</b> button.</li>
+      <li>From the dropdown menu on the top of the page, select the question you want to start.</li>
+      <li>To adjust the time a student has on the question, adjust using <b>+</b> to add time or <b>-</b> to deduct time.</li>
+      <li>To end a daily lecture, simply exit out of the lecture by going back to the course section page.</li>
+    </ul>
+  </div><!--end of Start a Daily Lecture-->
+
+  <!--Review Student Progress ------------------------------------------------------------------------------------------------------------------------------>
+  <hr><div id="review" class="slideanim">
+    <h1>Review Student Progress</h1>
+    <ul>
+      <li>As students answer the question during a lecture session, a results graph will be populated on screen.</li>
+    </ul>
+    <img src="../img/instructor-review-result.png" class="rounded mx-auto my-3 d-block img-fluid" alt="Responsive image">
+  </div><!-- end of review student progress -->
 </div> <!-- End of main -->
 
   <footer class="end-footer">
@@ -237,6 +269,42 @@
   <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  <script>
+  $(document).ready(function(){
+    // Add smooth scrolling to all links in navbar + footer link
+    $(".content a").on('click', function(event) {
+      // Make sure this.hash has a value before overriding default behavior
+      if (this.hash !== "") {
+        // Prevent default anchor click behavior
+        event.preventDefault();
+
+        // Store hash
+        var hash = this.hash;
+
+        // Using jQuery's animate() method to add smooth page scroll
+        // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+        $('html, body').animate({
+          scrollTop: $(hash).offset().top
+        }, 900, function(){
+
+          // Add hash (#) to URL when done scrolling (default click behavior)
+          window.location.hash = hash;
+        });
+      } // End if
+    });
+
+    $(window).scroll(function() {
+      $(".slideanim").each(function(){
+        var pos = $(this).offset().top;
+
+        var winTop = $(window).scrollTop();
+          if (pos < winTop + 600) {
+            $(this).addClass("slide");
+          }
+      });
+    });
+  })
+  </script>
 
 
 </body>

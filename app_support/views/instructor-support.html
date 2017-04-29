@@ -17,25 +17,23 @@
   <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-</head>
-<body>
-<!--
-  <nav class="navbar navbar-toggleable-sm">
-    <a class="navbar-brand flex-sm-fill" href="#">Active Learning</a>
-  </nav> -->
+  <!-- FONTS -->
+  <link href="https://fonts.googleapis.com/css?family=Lobster|Raleway" rel="stylesheet">
 
-  <nav class="navbar navbar-toggleable-sm navbar-light container">
+<body>
+
+  <nav class="navbar navbar-toggleable-sm navbar-light container-fluid fixed-top">
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
       <span><i class="fa fa-bars fa-1x" aria-hidden="false"></i></span>
     </button>
-    <a class="navbar-brand" href="#">Active Learning</a>
+    <a class="navbar-brand font-lobster" href="#">Active Learning</a>
     <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
       <ul class="navbar-nav">
         <li class="nav-item mx-1">
           <a class="nav-link btn btn-primary" href="#" role="button">About</a>
         </li>
         <li class="nav-item mx-1">
-          <a class="nav-link btn btn-primary" href="primary_support.html">Support</a>
+          <a class="nav-link btn btn-primary active" href="primary_support.html">Support</a>
         </li>
         <li class="nav-item mx-1">
           <a class="nav-link btn btn-primary">Signin</a>
@@ -47,9 +45,10 @@
     </div>
   </nav>
 
+  <div class="padding"></div>
   <!-- Jumbotron -->
   <div class="header container text-white py-5">
-    <h1>Instructor Guide</h1>
+    <h1 class="font-lobster">Instructor Guide</h1>
     <p class="lead">Everything an Instructor needs to know to drive students to success.</p>
   </div>
 
@@ -57,47 +56,178 @@
   <div class="main container-fluid">
     <div class="container">
       <!-- Account Basics -->
+      <h1 class="pt-5">Contents</h1>
+
       <div class="account-basics py-5">
         <div class="row justify-content-between">
           <div class="col-md-6">
-            <h1>Account Basics</h1>
+            <h3>Account Basics</h3>
             <ul class="row">
               <div class="col-md-6">
                 <li>Login and Register an Account</li>
-                <li>Manage Dashboard</li>
                 <li>Edit your profile</li>
                 <li>Manage Passwords</li>
               </div>
               <div class-"col-md-6">
                 <li>Sign out of Account</li>
-                <li>Deactivate Account</li>
                 <li>Create a Course</li>
+                <li>Add Students</li>
               </div>
               <!-- includes creating a course key -->
             </ul>
           </div>
           <div class="col-md-6">
-            <h1>Lecture Basics</h1>
+            <h3>Lecture Basics</h3>
             <ul class="row">
               <div class="col-md-6">
-                <li>Create a daily Lecture</li>
                 <li>Create a Question</li>
-                <li>Question Sets</li>
+                <li>Create a Daily Lecture</li>
                 <li>Set Question Timer</li>
               </div>
               <div class="col-md-6">
-                <li>Start a daily lecture</li>
-                <li>Start a Question in a lecture</li>
+                <li>Start a Daily lecture</li>
                 <li>End a daily lecture</li>
                 <li>Review Student Progress</li>
               </div>
             </ul>
-          </div>    
+          </div>
         </div>
       </div>
+      <hr>
+    </div> <!-- End of Contents -->
 
+
+    <!--Middle Container -->
+    <div id="content" class="container">
+      <!-- Login and Register ------------------------------------------->
+      <div>
+        <h1>Login and Register Account</h1>
+        <ul>
+          <li><b>Enter your email address</b> you signed up with. This should be your Georgia Tech email address.</li>
+          <li>Enter your <b>password</b> you signed up with.</li>
+          <li>Click <b>Login</b></li>
+        </ul>
+        <img src="../img/register-instructor.png" class="rounded mx-auto my-3 d-block img-fluid" alt="Responsive image">
+        <ul>
+          <li>If you don't have an account, <b>Contact admin</b> for an <b>Instructor Key</b>. This key will allow you to create an account in instructor priviledges.</li>
+          <li>Enter your <b>first and last name</b> and <b>Georgia Tech email address</b> and then choose a <b>password</b>.</li>
+          <li>Click on the <b>Professor Button</b> to enable the text field and then enter the <b>Instructor Key</b> you were given by admin.</li>
+          <li>Click on <b>Register</b></li>
+        </ul>
+      </div>
+
+      <!-- Edit Profile ---------------------------------------------------->
+      <hr><div>
+        <h1>Edit Profile</h1>
+        <ul>
+          <li>Click your name in the top-left to open the Menu.</li>
+          <li>Select <b>Profile</b>
+        </ul>
+        <img src="../img/instructor-profile.png" class="rounded mx-auto my-3 d-block img-fluid" alt="Responsive image">
+        <ul>
+          <li>Press <b>Edit Profile</b> at the bottom of the page.</li>
+          <li>Make edits and press <b>Save Changes</b> when you are done.</li>
+        </ul>
+        <img src="../img/instructor-edit-profile.png" class="rounded mx-auto my-3 d-block img-fluid" alt="Responsive image">
+        <div class="card card-ouline-info my-3 text-center">
+          <div class="card-block">
+            To change your profile picture, press the image under <b>Edit Profile</b> and file manager will pop up.
+          </div>
+        </div>
+      </div><!-- End of Edit Profile -->
+
+      <!-- Manage Passwords -------------------------------------------------------------------------------------------------->
+      <hr><div>
+        <h1>Manage Passwords</h1>
+        <ul>
+          <li>Click your name in the top-left to open the menu.</li>
+          <li>Select <b>Profile</b>.</li>
+          <li>Press <b>Edit Profile</b> at the bottom of the page.</li>
+          <li>Enter your <b>Old Password</b>, the one that is to be changed.</li>
+          <li>Enter your <b>New Password</b>.</li>
+          <li>Press <b>Save Changes</b> located on the bottom of the page.</li>
+        </ul>
+  </div><!-- End of Manage Passwords-->
+
+  <!-- Sign Out of Account ---------------------------------------------------------------------------------------------------------->
+  <hr><div>
+    <h1>Sign Out of an Account</h1>
+    <ul>
+      <li>Click your name in the top-left to open the menu</li>
+      <li>Select <b>Logout</b>.</li>
+    </ul>
+  </div><!--End of Sign out -->
+
+  <!-- Create a Course ---------------------------------------------------------------------------------------------------------------->
+  <hr><div>
+    <h1>Create a Course</h1>
+    <ul>
+      <li>Press the <b>Create Course</b> button located on the left side of the menu or the <b>[+]</b> button located on the top of your dashboard.</li>
+    </ul>
+    <img src="../img/instructor-create-course.png" class="rounded mx-auto my-3 d-block img-fluid" alt="Responsive image">
+    <ul>
+      <li>Enter class type and class number.</li>
+      <li>Enter class days, class time, and the semester the class is offered.</li>
+      <li>Enter section numbers.</li>
+      <li>Click <b>Create</b>.</li>
+    </ul>
+    <div class="card card-ouline-info my-3 text-center">
+      <div class="card-block">
+        You can enter multiple sections at once. Type out all sections in the <b>Add Sections</b> text box. Press <b>enter</b> after each section.
+      </div>
     </div>
+  </div><!--End of create course -->
+
+  <!--Add Students -------------------------------------------------------------------------------------------------------------------------------------->
+  <hr><div>
+    <h1>Add Students</h1>
+    <ul>
+      <li>Under the course section, to retrieve the <b>Student Key</b> for students to join the section, press the <b>clipboard</b> icon on the top-right corner of the section card.</li>
+    </ul>
+    <img src="../img/instructor-manage-students.png" class="rounded mx-auto my-3 d-block img-fluid" alt="Responsive image">
+    <ul>
+      <li>Alternatively, to add a group of students at once via .csv or to manage students, press <b>Manage Students</b> on the bottom of the section card.</li>
+      <li>On top of the page, select <b>Add</b>.</li>
+      <li>Click <b>Choose CSV</b> and select .csv file with students.</li>
+      <li>Click <b>Submit</b>.</li>
+    </ul>
+    <img src="../img/instructor-add-student.png" class="rounded mx-auto my-3 d-block img-fluid" alt="Responsive image">
+    <div class="card card-ouline-info my-3 text-center">
+      <div class="card-block">
+        The CSV file of students can directly be pulled from the TSquare website.
+      </div>
+    </div>
+
+  </div><!--End of add students-->
+
+  <!-- Create a Question ----------------------------------------------------------------------------------------------------->
+  <hr><div>
+    <h1>Create a Question</h1>
+    <ul>
+      <li></li>
+    </ul>
+  </div><!--End of Question -->
+
+  <!--Create a Daily Lecture ---------------------------------------------------------------------------------------------->
+  <hr><div>
+    <h1>Create a Daily Lecture</h1>
+    <ul>
+      <li>From the dashboard, make sure you go into a course you want to create the lecture under.</li>
+      <li>In the sidebar menu to the left, click on <b>Create Lecture</b>.</li>
+      <li>Enter a title and date.</li>
+    </ul>
+    <img src="../img/instructor-create-lecture.png" class="rounded mx-auto my-3 d-block img-fluid" alt="Responsive image">
+    <ul>
+      <li>Under Lectures, you should now see the lecture you have just created.</li>
+    </ul>
+    <img src="../img/instructor-manage-lecture.png" class="rounded mx-auto my-3 d-block img-fluid" alt="Responsive image">
+    <ul>
+      <li>In order to add questions to lectures you have created, look into the list of lectures. Find the lecture you want to edit on the list.</li>
+      <li>Press corresponding <b>pen icon</b> to the right.</li>
+    </ul>
+
   </div>
+</div> <!-- End of main -->
 
   <footer class="end-footer">
     <div class="container">

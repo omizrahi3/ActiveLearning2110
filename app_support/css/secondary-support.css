@@ -65,17 +65,26 @@ body {
 }
 .padding {height: 50px;}
 .main {
-  height: 1000px;
+  height: 100000px;
   /*background-color: #f6f6f6;*/
   background-color: #fff;
 }
-.main h1,h3, li{
+.main h1, h3 {
   color: black;
+}
+.main li{
+  color: #6a6f77;
+}
+.card {
+    color: #35cce0;
 }
 .header h1 {
   font-size: 50px;
 }
+img {
+  max-width: 590px;
+}
 
 .container {
-  max-width: 750px;
+  max-width: 600px;
 }

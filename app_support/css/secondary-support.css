@@ -64,8 +64,13 @@ body {
     /*color: #fff !important;*/
 }
 .padding {height: 50px;}
-.main {
+#instructor {
   height: 8000px;
+  /*background-color: #f6f6f6;*/
+  background-color: #fff;
+}
+#student {
+  height: 4500px;
   /*background-color: #f6f6f6;*/
   background-color: #fff;
 }

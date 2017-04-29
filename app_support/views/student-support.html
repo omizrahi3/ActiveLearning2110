@@ -59,7 +59,7 @@
   </div>
 
   <!--content -->
-  <div class="main container-fluid">
+  <div id="student" class="main container-fluid">
     <div class="container">
       <!-- Account Basics -->
       <h1 class="pt-5">Contents</h1>
@@ -70,23 +70,21 @@
             <h3>Account Basics</h3>
             <ul class="row">
               <div class="col-md-6">
-                <li>Login and Register an Account</li>
-                <li>Edit your profile</li>
-                <li>Manage Passwords</li>
+                <li><a href="#login">Login and Register an Account</a></li>
+                <li><a href="#profile">Edit your profile</a></li>
+                <li><a href="#password">Manage Passwords</a></li>
               </div>
               <div class="col-md-6">
-                <li>Sign out of Account</li>
-                <li>Deactivate Account</li>
-                <li>Join a Course</li>
+                <li><a href="#signout">Sign out of Account</a></li>
+                <li><a href="#course">Join a Course</a></li>
               </div>
             </ul>
           </div>
           <div class="col-md-6 mb-5">
             <h3>Lecture Basics</h3>
               <ul>
-                <li>Join a daily lecture</li>
-                <li>Answering Questions</li>
-                <li>Review Question and Answers</li>
+                <li><a href="#lecture">Join a daily lecture</a></li>
+                <li><a href="#question">Answering Questions</a></li>
               </ul>
           </div>
         </div>
@@ -97,7 +95,7 @@
     <!--Middle Container -->
     <div id="content" class="container">
       <!--Login and Register -->
-      <div>
+      <div id="login">
         <h1>Login and Register Account</h1>
         <ul>
           <li><b>Enter your email address</b> you signed up with and <b>password</b>.</li>
@@ -113,13 +111,96 @@
             Note that as a student, you don't need a Professor Key so you may ignore that field and press <b>Register</b> when required fields are complete.
           </div>
         </div>
-        <!-- <img src="../img/register-instructor.png" class="rounded mx-auto my-3 d-block img-fluid" alt="Responsive image"> -->
       </div>
 
       <!-- Edit Profile -------------------------------------------------------------------------------------------->
-      <hr><div>
+      <hr><div id="profile">
         <h1>Edit Profile</h1>
+        <ul>
+          <li>Click your name in the top-left to open the Menu.</li>
+          <li>Select <b>Profile</b>
+          <li>Press <b>Edit Profile</b> at the bottom of the page.</li>
+          <li>Make edits and press <b>Save Changes</b> when you are done.</li>
+        </ul>
+        <div class="card card-ouline-info my-3 text-center">
+          <div class="card-block">
+            To change your profile picture, press the image under <b>Edit Profile</b> and file manager will pop up.
+          </div>
+        </div>
       </div> <!--End of Edit Profile -->
+
+      <!-- Manage Passwords -------------------------------------------------------------------------------------------------->
+      <hr><div id="password" class="slideanim">
+        <h1>Manage Passwords</h1>
+        <ul>
+          <li>Click your name in the top-left to open the menu.</li>
+          <li>Select <b>Profile</b>.</li>
+          <li>Press <b>Edit Profile</b> at the bottom of the page.</li>
+          <li>Enter your <b>Old Password</b>, the one that is to be changed.</li>
+          <li>Enter your <b>New Password</b>.</li>
+          <li>Press <b>Save Changes</b> located on the bottom of the page.</li>
+        </ul>
+  </div><!-- End of Manage Passwords-->
+
+  <!-- Sign Out of Account ---------------------------------------------------------------------------------------------------------->
+      <hr><div id="signout" class="slideanim">
+        <h1>Sign Out of an Account</h1>
+        <ul>
+          <li>Click your name in the top-left to open the menu</li>
+          <li>Select <b>Logout</b>.</li>
+        </ul>
+      </div><!--End of Sign out -->
+
+<!-- Join Course --------------------------------------------------------------------------------------------------->
+      <hr><div id="course">
+        <h1>Join Course</h1>
+        <ul>
+          <li>Press the <b>Join Course</b> button located on the left side of the menu or the <b>[+]</b> button located on the top of your dashboard.</li>
+        </ul>
+        <img src="../img/student-register-course.png" class="rounded mx-auto my-3 d-block img-fluid" alt="Responsive image">
+        <ul>
+          <li>Enter the <b>Section key</b> provided by your instructor.</li>
+          <li>Click <b>Join</b>.</li>
+        </ul>
+        <img src="../img/student-dashboard-added-course.png" class="rounded mx-auto my-3 d-block img-fluid" alt="Responsive image">
+        <ul>
+          <li>Upon successful join, course will appear on your dashboard. Press <b>View course</b> to enter into course lectures.</li>
+        </ul>
+      </div><!--end of join course -->
+
+      <!-- Join a Daily lecture ------------------------------------------------------------------------------------>
+      <hr><div id="lecture">
+        <h1>Join a Daily Lecture</h1>
+        <ul>
+          <li>From your dashboard, <b>View Course</b>.</li>
+          <li>Navigate into the Lectures section.</li>
+          <li>Press <b>Join</b> next to the daily lecture.</li>
+        </ul>
+        <img src="../img/student-view-join-course.png" class="rounded mx-auto my-3 d-block img-fluid" alt="Responsive image">
+        <div class="card card-ouline-info my-3 text-center">
+          <div class="card-block">
+            Once you are joined, you will wait on your professor to start a question. The question will automatically appear on screen.
+          </div>
+        </div>
+      </div> <!-- end of join lecture -->
+
+      <!-- Answering Questions ------------------------------------------------------------------------------------------->
+      <hr><div id="question">
+        <h1>Answering Questions</h1>
+        <ul>
+          <li>Select the radio button with the correct answer to the question.</li>
+          <li>Click <b>Submit</b>. Keep in mind that answering the question is timed according to the timer in the top right.</li>
+        </ul>
+        <img src="../img/student-answered.png" class="rounded mx-auto my-3 d-block img-fluid" alt="Responsive image">
+        <div class="card card-ouline-info my-3 text-center">
+          <div class="card-block">
+            Note that once you submit an answer, you will not be able to answer the question again.
+            Once you submit, your answer marked in green will indicate that the answer is correct - red if the answer is not.
+            Your grade is indicated on the top left.
+          </div>
+        </div>
+      </div><!--end of answering questions-->
+
     </div>
   </div> <!-- End of main ----------------------------------------------------------------------------------------->
 
@@ -131,7 +212,33 @@
   <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+  $(document).ready(function(){
+  // Add smooth scrolling to all links
+  $("a").on('click', function(event) {
 
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+      // Prevent default anchor click behavior
+      event.preventDefault();
+
+      // Store hash
+      var hash = this.hash;
+
+      // Using jQuery's animate() method to add smooth page scroll
+      // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 800, function(){
+
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = hash;
+      });
+    } // End if
+  });
+  });
+  </script>
 
 </body>
 </html>

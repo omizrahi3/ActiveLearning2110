@@ -33,7 +33,7 @@
           <a class="nav-link btn btn-primary" href="#" role="button">About</a>
         </li>
         <li class="nav-item mx-1">
-          <a class="nav-link btn btn-primary active" href="primary_support.html">Support</a>
+          <a class="nav-link btn btn-primary" href="primary_support.html">Support</a>
         </li>
         <li class="nav-item mx-1">
           <a class="nav-link btn btn-primary">Signin</a>
@@ -53,7 +53,7 @@
   </div>
 
   <!--content -->
-  <div class="main container-fluid">
+  <div id="instructor" class="main container-fluid">
     <div class="content container">
       <!-- Account Basics -->
       <h1 class="pt-5">Contents</h1>
@@ -269,42 +269,33 @@
   <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script>
-  $(document).ready(function(){
-    // Add smooth scrolling to all links in navbar + footer link
-    $(".content a").on('click', function(event) {
-      // Make sure this.hash has a value before overriding default behavior
-      if (this.hash !== "") {
-        // Prevent default anchor click behavior
-        event.preventDefault();
+$(document).ready(function(){
+  // Add smooth scrolling to all links
+  $("a").on('click', function(event) {
 
-        // Store hash
-        var hash = this.hash;
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+      // Prevent default anchor click behavior
+      event.preventDefault();
 
-        // Using jQuery's animate() method to add smooth page scroll
-        // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
-        $('html, body').animate({
-          scrollTop: $(hash).offset().top
-        }, 900, function(){
+      // Store hash
+      var hash = this.hash;
 
-          // Add hash (#) to URL when done scrolling (default click behavior)
-          window.location.hash = hash;
-        });
-      } // End if
-    });
+      // Using jQuery's animate() method to add smooth page scroll
+      // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 800, function(){
 
-    $(window).scroll(function() {
-      $(".slideanim").each(function(){
-        var pos = $(this).offset().top;
-
-        var winTop = $(window).scrollTop();
-          if (pos < winTop + 600) {
-            $(this).addClass("slide");
-          }
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = hash;
       });
-    });
-  })
-  </script>
+    } // End if
+  });
+});
+</script>
 
 
 </body>

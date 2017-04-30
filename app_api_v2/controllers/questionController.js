@@ -15,218 +15,252 @@
 //************************************************************
 "use strict";
 
-var User = require('./../models/userModel');
-var Question = require('./../models/questionModel');
+var User = require('./../models/userModel'),
+    Question = require('./../models/questionModel'),
+    winston = require('winston');
 
 var checkForNull = function(data) {
-   var promise = new Promise(function(resolve, reject){
-       if (!data) {
-         var error_message = new Error('Does Not Exist');
-          reject(error_message);
-       }
-       else {
-          resolve(data);
-       }
-   });
-   return promise;
+    var promise = new Promise(function(resolve, reject) {
+        if (!data) {
+            var error_message = new Error('Does Not Exist');
+            reject(error_message);
+        } else {
+            resolve(data);
+        }
+    });
+    return promise;
 };
 
 var editQuestion = function(req, res) {
-    console.log('questionController editQuestion');
+    winston.info('questionController: edit question');
 
-    Question.findOneAndUpdate({_id: req.params.QUESTIONID, instructor_id: req.decodedToken.sub, copied: false},
-      {
-        title: req.body.title,
-        tags: req.body.tags,
-        instructor_id: req.decodedToken.sub,
-        html_title: req.body.html_title,
-        html_body: req.body.html_body,
-        answer_choices: req.body.answer_choices,
-        copied: false
-      },
-      {new: true})
-    .exec()
-    .then(checkForNull)
-    .then(function(question) {
-        return res.status(200).json({
-            success: true,
-            jwt_token: req.token,
-            message: 'Question Updated',
-            question: question
+    Question.findOneAndUpdate({
+            _id: req.params.QUESTIONID,
+            instructor_id: req.decodedToken.sub,
+            copied: false
+        }, {
+            title: req.body.title,
+            tags: req.body.tags,
+            instructor_id: req.decodedToken.sub,
+            html_title: req.body.html_title,
+            html_body: req.body.html_body,
+            answer_choices: req.body.answer_choices,
+            copied: false
+        }, {
+            new: true
+        })
+        .exec()
+        .then(checkForNull)
+        .then(function(question) {
+            return res.status(200).json({
+                success: true,
+                jwt_token: req.token,
+                message: 'Question Updated',
+                question: question
+            });
+        })
+        .catch(function(err) {
+            return res.status(404).json({
+                success: false,
+                message: "Cannot Edit Question"
+            });
         });
-    })
-    .catch(function(err) {
-        return res.status(404).json({
-            success: false,
-            message: "Cannot Edit Question"
-        });
-    });
 };
 
 var copyQuestion = function(req, res) {
-    console.log('questionController copyQuestion');
+    winston.info('questionController: copy question');
 
     Question.findById(req.params.QUESTIONID)
-    .exec()
-    .then(checkForNull)
-    .then(function(question) {
-        return new Promise((resolve, reject) => {
-            if (question.instructor_id === req.decodedToken.sub) {
-                var error_message = new Error('Cannot Copy Own Question');
-                reject(error_message);
-            }
-            resolve(question);
+        .exec()
+        .then(checkForNull)
+        .then(function(question) {
+            return new Promise((resolve, reject) => {
+                if (question.instructor_id === req.decodedToken.sub) {
+                    var error_message = new Error('Cannot Copy Own Question');
+                    reject(error_message);
+                }
+                resolve(question);
+            });
+        })
+        .then(function(question) {
+            var newQuestion = new Question({
+                title: question.title,
+                tags: question.tags,
+                instructor_id: req.decodedToken.sub,
+                html_title: question.html_title,
+                html_body: question.html_body,
+                answer_choices: question.answer_choices,
+                copied: true
+            });
+            return newQuestion.save();
+        })
+        .then(function(question) {
+            return res.status(200).json({
+                success: true,
+                jwt_token: req.token,
+                message: 'Question Copied',
+                question: question
+            });
+        })
+        .catch(function(err) {
+            return res.status(404).json({
+                success: false,
+                message: err.message
+            });
         });
-    })
-    .then(function(question) {
-        var newQuestion = new Question({
-            title: question.title,
-            tags: question.tags,
-            instructor_id: req.decodedToken.sub,
-            html_title: question.html_title,
-            html_body: question.html_body,
-            answer_choices: question.answer_choices,
-            copied: true
-        });
-        return newQuestion.save();
-    })
-    .then(function(question) {
-        return res.status(200).json({
-            success: true,
-            jwt_token: req.token,
-            message: 'Question Copied',
-            question: question
-        });
-    })
-    .catch(function(err) {
-        return res.status(404).json({
-            success: false,
-            message: err.message
-        });
-    });
 };
 
 var deleteQuestion = function(req, res) {
-    console.log('questionController deleteQuestion');
+    winston.info('questionController: delete question');
 
-    Question.remove({_id: req.params.QUESTIONID, instructor_id: req.decodedToken.sub})
-    .exec()
-    .then(function(data) {
-        return new Promise((resolve, reject) => {
-            console.log(data.result);
-            if (data.result.n === 0) {
-                var error_message = new Error('Cannot Delete Question');
-                reject(error_message);
-            }
-            resolve(data);
+    Question.remove({
+            _id: req.params.QUESTIONID,
+            instructor_id: req.decodedToken.sub
+        })
+        .exec()
+        .then(function(data) {
+            return new Promise((resolve, reject) => {
+                if (data.result.n === 0) {
+                    var error_message = new Error('Cannot Delete Question');
+                    reject(error_message);
+                }
+                resolve(data);
+            });
+        })
+        .then(function(data) {
+            return res.status(200).json({
+                success: true,
+                jwt_token: req.token,
+                message: 'Question Deleted'
+            });
+        })
+        .catch(function(err) {
+            return res.status(404).json({
+                success: false,
+                message: err.message
+            });
         });
-    })
-    .then(function(data) {
-        return res.status(200).json({
-            success: true,
-            jwt_token: req.token,
-            message: 'Question Deleted'
-        });
-    })
-    .catch(function(err) {
-        return res.status(404).json({
-            success: false,
-            message: err.message
-        });
-    });
 };
 
 var getAllQuestions = function(req, res) {
-    console.log('questionController getAllQuestions');
+    winston.info('questionController: get all questions');
 
     if (req.query.tag !== undefined) {
-        Question.find({ tags: { $all: req.query.tag}, copied: false }, { "html_title": 0, "html_body": 0, "__v": 0, "answer_choices": 0 })
-        .exec()
-        .then(function(questions) {
-            return res.status(200).json({
-                success: true,
-                jwt_token: req.token,
-                questions: questions,
-                message: "Success on getAllQuestions"
+        Question.find({
+                tags: {
+                    $all: req.query.tag
+                },
+                copied: false
+            }, {
+                "html_title": 0,
+                "html_body": 0,
+                "__v": 0,
+                "answer_choices": 0
+            })
+            .exec()
+            .then(function(questions) {
+                return res.status(200).json({
+                    success: true,
+                    jwt_token: req.token,
+                    questions: questions,
+                    message: "Success on getAllQuestions"
+                });
+            })
+            .catch(function(err) {
+                return res.status(500).json({
+                    success: false,
+                    message: 'Internal Error'
+                });
             });
-        })
-        .catch(function(err) {
-            return res.status(500).json({
-                success: false,
-                message: 'Internal Error'
+    } else {
+        Question.find({
+                copied: false
+            }, {
+                "html_title": 0,
+                "html_body": 0,
+                "__v": 0,
+                "answer_choices": 0
+            })
+            .exec()
+            .then(function(questions) {
+                return res.status(200).json({
+                    success: true,
+                    jwt_token: req.token,
+                    questions: questions,
+                    message: "Success on getAllQuestions"
+                });
+            })
+            .catch(function(err) {
+                return res.status(500).json({
+                    success: false,
+                    message: 'Internal Error'
+                });
             });
-        });
-    }
-    else {
-        Question.find( {copied: false }, { "html_title": 0, "html_body": 0, "__v": 0, "answer_choices": 0 })
-        .exec()
-        .then(function(questions) {
-            return res.status(200).json({
-                success: true,
-                jwt_token: req.token,
-                questions: questions,
-                message: "Success on getAllQuestions"
-            });
-        })
-        .catch(function(err) {
-            return res.status(500).json({
-                success: false,
-                message: 'Internal Error'
-            });
-        });
     }
 };
 
 var getAllInstructorQuestions = function(req, res) {
-    console.log('questionController getAllInstructorQuestions');
+    winston.info('questionController: get instructor questions');
 
     if (req.decodedToken.sub !== req.params.USERID) {
         return res.status(404).json({
             success: false,
             message: 'Not Authorized'
         });
-    }
-    else
-    {
+    } else {
         if (req.query.tag !== undefined) {
-            Question.find(
-              {"instructor_id": req.params.USERID, copied: false, tags: { $all: req.query.tag} },
-              { "html_title": 0, "html_body": 0, "__v": 0, "answer_choices": 0 })
-            .exec()
-            .then(function(questions) {
-                return res.status(200).json({
-                    success: true,
-                    jwt_token: req.token,
-                    questions: questions,
-                    message: "Success on getAllInstructorQuestions"
+            Question.find({
+                    "instructor_id": req.params.USERID,
+                    copied: false,
+                    tags: {
+                        $all: req.query.tag
+                    }
+                }, {
+                    "html_title": 0,
+                    "html_body": 0,
+                    "__v": 0,
+                    "answer_choices": 0
+                })
+                .exec()
+                .then(function(questions) {
+                    return res.status(200).json({
+                        success: true,
+                        jwt_token: req.token,
+                        questions: questions,
+                        message: "Success on getAllInstructorQuestions"
+                    });
+                })
+                .catch(function(err) {
+                    return res.status(500).json({
+                        success: false,
+                        message: 'Internal Error'
+                    });
                 });
-            })
-            .catch(function(err) {
-                return res.status(500).json({
-                    success: false,
-                    message: 'Internal Error'
+        } else {
+            Question.find({
+                    "instructor_id": req.params.USERID,
+                    copied: false
+                }, {
+                    "html_title": 0,
+                    "html_body": 0,
+                    "__v": 0,
+                    "answer_choices": 0
+                })
+                .exec()
+                .then(function(questions) {
+                    return res.status(200).json({
+                        success: true,
+                        jwt_token: req.token,
+                        questions: questions,
+                        message: "Success on getAllInstructorQuestions"
+                    });
+                })
+                .catch(function(err) {
+                    return res.status(500).json({
+                        success: false,
+                        message: 'Internal Error'
+                    });
                 });
-            });
-        }
-        else {
-            Question.find(
-              {"instructor_id": req.params.USERID, copied: false },
-              { "html_title": 0, "html_body": 0, "__v": 0, "answer_choices": 0 })
-            .exec()
-            .then(function(questions) {
-                return res.status(200).json({
-                    success: true,
-                    jwt_token: req.token,
-                    questions: questions,
-                    message: "Success on getAllInstructorQuestions"
-                });
-            })
-            .catch(function(err) {
-                return res.status(500).json({
-                    success: false,
-                    message: 'Internal Error'
-                });
-            });
         }
         /*
         Question.find({"instructor_id": req.params.USERID, copied: false},
@@ -252,32 +286,34 @@ var getAllInstructorQuestions = function(req, res) {
 };
 
 var getQuestion = function(req, res) {
-    console.log('questionController getQuestion');
+    winston.info('questionController: get question');
 
-    Question.findById(req.params.QUESTIONID, {"__v": 0})
-    .exec()
-    .then(checkForNull)
-    .then(function(question) {
-        return res.status(200).json({
-            success: true,
-            jwt_token: req.token,
-            message: 'Request Success',
-            question: question
+    Question.findById(req.params.QUESTIONID, {
+            "__v": 0
+        })
+        .exec()
+        .then(checkForNull)
+        .then(function(question) {
+            return res.status(200).json({
+                success: true,
+                jwt_token: req.token,
+                message: 'Request Success',
+                question: question
+            });
+        })
+        .catch(function(err) {
+            return res.status(404).json({
+                success: false,
+                message: err.message
+            });
         });
-    })
-    .catch(function(err) {
-        return res.status(404).json({
-            success: false,
-            message: err.message
-        });
-    });
 };
 
 var savedQuestionToDB = function(req, res) {
-    console.log('questionController savedQuestionToDB');
+    winston.info('questionController: save question to database');
 
     var answer_choices = [];
-    for(var i=0; i<req.body.answer_choices.length; i++) {
+    for (var i = 0; i < req.body.answer_choices.length; i++) {
         answer_choices.push(req.body.answer_choices[i]);
     }
 
@@ -292,24 +328,24 @@ var savedQuestionToDB = function(req, res) {
     });
 
     newQuestion.save()
-    .then(function(question) {
-        return res.status(200).json({
-            success: true,
-            jwt_token: req.token,
-            message: 'Question Created',
-            question: question
+        .then(function(question) {
+            return res.status(200).json({
+                success: true,
+                jwt_token: req.token,
+                message: 'Question Created',
+                question: question
+            });
+        })
+        .catch(function(err) {
+            return res.status(404).json({
+                success: false,
+                message: err.message
+            });
         });
-    })
-    .catch(function(err) {
-        return res.status(404).json({
-            success: false,
-            message: err.message
-        });
-    });
 };
 
 var addTag = function(req, res) {
-    console.log('questionController addTag');
+    winston.info('questionController: question add tag');
 
     Question.findById(req.params.QUESTIONID, function(err, question) {
         if (err || !question) {
@@ -324,9 +360,7 @@ var addTag = function(req, res) {
                     message: 'User not Authorized to delete question'
                 });
             } else {
-                console.log(req.body.new_tag);
                 if (req.body.new_tag) {
-                    console.log("ready to push to array");
                     question.tags.push(req.body.new_tag);
                     question.save(function(err, updated_question) {
                         if (err) {
@@ -349,7 +383,7 @@ var addTag = function(req, res) {
 };
 
 var deleteTag = function(req, res) {
-    console.log('questionController deleteTag');
+    winston.info('questionController: delete tag');
 
     Question.findById(req.params.QUESTIONID, function(err, question) {
         if (err || !question) {
@@ -393,7 +427,7 @@ var deleteTag = function(req, res) {
 };
 
 var editProblemStatement = function(req, res) {
-    console.log('questionController editProblemStatement');
+    winston.info('questionController: edit problem statement');
 
     Question.findById(req.params.USERID)
         .exec()
@@ -452,7 +486,7 @@ var editProblemStatement = function(req, res) {
 };
 
 var addAnswerChoice = function(req, res) {
-    console.log('questionController addAnswerChoice');
+    winston.info('questionController: add answer choice');
 
     Question.findById(req.params.QUESTIONID, function(err, question) {
         if (err || !question) {
@@ -490,7 +524,7 @@ var addAnswerChoice = function(req, res) {
 };
 
 var deleteAnswerChoice = function(req, res) {
-    console.log('questionController deleteAnswerChoice');
+    winston.info('questionController: delete answer choice');
 
     Question.findById(req.params.QUESTIONID, function(err, question) {
         if (err || !question) {
@@ -534,7 +568,7 @@ var deleteAnswerChoice = function(req, res) {
 };
 
 var editAnswerChoice = function(req, res) {
-    console.log('questionController editAnswerChoice');
+    winston.info('questionController: edit answer choice');
 
     Question.findById(req.params.QUESTIONID, function(err, question) {
         if (err || !question) {
@@ -551,12 +585,8 @@ var editAnswerChoice = function(req, res) {
             } else {
                 if (req.body.edit_answer_choice) {
                     if (req.body.new_answer_choice) {
-                        console.log(question);
-                        console.log(question.answer_choices.indexOf("a"));
                         var answerChoiceIndex = question.answer_choices.indexOf("a");
-                        console.log(answerChoiceIndex);
                         question.answer_choices[answerChoiceIndex] = req.body.new_answer_choice;
-
 
                         question.save(function(err, updated_question) {
                             if (err) {
@@ -580,7 +610,7 @@ var editAnswerChoice = function(req, res) {
 };
 
 var editAnswer = function(req, res) {
-    console.log('questionController editAnswer');
+    winston.info('questionController: edit answer');
 
     Question.findById(req.params.QUESTIONID, function(err, question) {
         if (err || !question) {
@@ -620,7 +650,7 @@ var editAnswer = function(req, res) {
 module.exports = {
     getAllQuestions: getAllQuestions,
     getAllInstructorQuestions: getAllInstructorQuestions,
-    getQuestion : getQuestion,
+    getQuestion: getQuestion,
     savedQuestionToDB: savedQuestionToDB,
     editQuestion: editQuestion,
     copyQuestion: copyQuestion,

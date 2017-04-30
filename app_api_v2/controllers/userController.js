@@ -15,8 +15,9 @@
 //************************************************************
 "use strict";
 
-var User = require('./../models/userModel');
-var bcrypt = require('bcryptjs');
+var User = require('./../models/userModel'),
+    bcrypt = require('bcryptjs'),
+    winston = require('winston');
 
 var roles = {
     ADMIN: 'admin',
@@ -25,7 +26,7 @@ var roles = {
 };
 
 var updateRole = function(req, res, next) {
-    console.log('userController updateRole');
+    winston.info('userController: update user role');
 
     User.findById(req.params.USERID)
         .exec()
@@ -50,7 +51,7 @@ var updateRole = function(req, res, next) {
 };
 
 var deactivateUser = function(req, res, next) {
-    console.log('userController deactivateUser');
+    winston.info('userController: deactivate user');
 
     User.findById(req.params.USERID)
         .exec()
@@ -75,7 +76,7 @@ var deactivateUser = function(req, res, next) {
 };
 
 var getAll = function(req, res) {
-    console.log('userController getAll');
+    winston.info('userController: get all users');
 
     User.find()
         .exec()
@@ -96,7 +97,7 @@ var getAll = function(req, res) {
 };
 
 var getUser = function(req, res) {
-    console.log('userController getUser');
+    winston.info('userController: get user');
 
     User.findById(req.params.USERID)
         .exec()
@@ -119,7 +120,7 @@ var getUser = function(req, res) {
 };
 
 var setUserName = function(req, res, next) {
-    console.log('userController setUserName');
+    winston.info('userController: set username');
 
     User.findById(req.decodedToken.sub, function(err, user) {
         if (err) {
@@ -135,7 +136,7 @@ var setUserName = function(req, res, next) {
 };
 
 var isValidStudent = function(req, res, next) {
-    console.log('userController isValidStudent');
+    winston.info('userController: checking if user is valid');
 
     User.findOne({
         'username': req.body.username
@@ -154,7 +155,7 @@ var isValidStudent = function(req, res, next) {
 };
 
 var updateUser = function(req, res) {
-    console.log('userController updateUser');
+    winston.info('userController: update user');
 
     User.findById(req.params.USERID)
         .exec()
@@ -204,7 +205,7 @@ var updateUser = function(req, res) {
 };
 
 var updatePassword = function(req, res) {
-    console.log('userController updatePassword');
+    winston.info('userController: update password');
 
     User.findById(req.params.USERID)
         .exec()

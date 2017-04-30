@@ -52,9 +52,17 @@ var LectureSchema = new Schema({
         type: Boolean,
         default: false
     },
+    post_lecture: {
+        type: Boolean,
+        default: false
+    },
     course_id: {
         type: String,
         required: true
+    },
+    course_oid: {
+        type: Schema.Types.ObjectId,
+        ref: 'Course'
     },
     instructor_id: {
         type: String,

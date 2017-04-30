@@ -15,7 +15,7 @@
 
 var app = angular.module('app');
 
-app.controller('Manage.Students.Controller', function($scope, $localStorage, $timeout, $stateParams, $rootScope, RESTService, NgTableParams, Papa, ngNotify) {
+app.controller('Manage.Students.Controller', function($scope, $localStorage, $timeout, $stateParams, $rootScope, RESTService, UserStorage, NgTableParams, Papa, ngNotify) {
 
     $rootScope.$stateParams = $stateParams;
     $scope.selectedCSV = null;
@@ -95,6 +95,7 @@ app.controller('Manage.Students.Controller', function($scope, $localStorage, $ti
     }
 
     function newStudentFinish(info) {
+        $scope.loading = false;
         for (var key in info.students) {
             if (info.students[key].success) {
                 $scope.changes[key].commited = true;
@@ -103,8 +104,6 @@ app.controller('Manage.Students.Controller', function($scope, $localStorage, $ti
             }
             $scope.changes[key].message = info.students[key].message;
         }
-        $scope.loading = false;
-        updateStudentTable();
         $timeout(function() {
             var old_data = $scope.upload_tableParams.settings().dataset;
             var new_data = [];
@@ -115,6 +114,7 @@ app.controller('Manage.Students.Controller', function($scope, $localStorage, $ti
             }
             updateUploadTable(new_data);
         }, 5000);
+        updateStudentTable();
     }
 
     function deleteStudentFinish(info) {
@@ -143,14 +143,16 @@ app.controller('Manage.Students.Controller', function($scope, $localStorage, $ti
     }
 
     function updateStudentTable() {
-        var students = $localStorage.courses[cidx].sections[sidx].students;
+        var course_id = $localStorage.courses[cidx]._id;
+        var section_id = section._id;
+        var students = UserStorage.GetSectionStudents(course_id, section_id);
         if (students.length > 5) {
             student_cnts = [5, 10, 15];
         } else {
             student_cnts = [];
         }
         $scope.student_tableParams.settings().counts = student_cnts;
-        $scope.student_tableParams.settings().dataset = $localStorage.courses[cidx].sections[sidx].students;
+        $scope.student_tableParams.settings().dataset = students;
         $scope.student_tableParams.reload();
     }
 

@@ -28,7 +28,7 @@ app.controller('Instructor.Edit.Lecture.Controller', function($scope, $localStor
     updateLectureInfo();
 
     RESTService.GetLectureInfo({
-        lecture_id: $scope.lecture.lecture_id,
+        lecture_id: $scope.lecture._id,
         course_id: $scope.course._id
     }, function(info) {
         if (!info.success) {
@@ -52,7 +52,7 @@ app.controller('Instructor.Edit.Lecture.Controller', function($scope, $localStor
         if (query !== '') {
             var tags = getTags(query);
             return $http.get('/api_v2/question?tag=' + tags.join('&tag='), {
-                cache: true
+                cache: false
             }).then(
                 function(response) {
                     var questions = response.data.questions;
@@ -73,7 +73,7 @@ app.controller('Instructor.Edit.Lecture.Controller', function($scope, $localStor
     $scope.loadQuestionSets = function(query) {
         if (query !== '') {
             return $http.get('/api_v2/user/' + $localStorage._id + '/questionsets', {
-                cache: true
+                cache: false
             }).then(
                 function(response) {
                     var sets = response.data.questionsets;
@@ -99,7 +99,7 @@ app.controller('Instructor.Edit.Lecture.Controller', function($scope, $localStor
         $scope.addLoading = true;
         RESTService.AddQuestionToLecture({
             question_id: $scope.selectedQuestion[0]._id,
-            lecture_id: $scope.lecture.lecture_id,
+            lecture_id: $scope.lecture._id,
             course_id: $scope.course._id
         }, finishAddQuestionToLecture);
     };
@@ -108,7 +108,7 @@ app.controller('Instructor.Edit.Lecture.Controller', function($scope, $localStor
         $scope.removeLoading = true;
         RESTService.RemoveQuestionFromLecture({
             question_id: selected_question.question_id,
-            lecture_id: $scope.lecture.lecture_id,
+            lecture_id: $scope.lecture._id,
             course_id: $scope.course._id
         }, finishRemoveQuestionFromLecture);
     };
@@ -140,7 +140,7 @@ app.controller('Instructor.Edit.Lecture.Controller', function($scope, $localStor
     $scope.createQuestionSet = function() {
         RESTService.CreateQuestionSet({
             title: $scope.setName.toLowerCase(),
-            lecture_id: $scope.lecture.lecture_id
+            lecture_id: $scope.lecture._id
         }, finishCreateQuestionSet);
     };
 
@@ -171,7 +171,7 @@ app.controller('Instructor.Edit.Lecture.Controller', function($scope, $localStor
     $scope.addQuestionSet = function() {
         $scope.addLoading = true;
         RESTService.AddQuestionSetToLecture({
-            lecture_id: $scope.lecture.lecture_id,
+            lecture_id: $scope.lecture._id,
             course_id: $scope.course._id,
             questionset_id: $scope.selectedQuestionSet[0]._id
         }, finishAddQuestionToLecture);
@@ -185,7 +185,7 @@ app.controller('Instructor.Edit.Lecture.Controller', function($scope, $localStor
         },
         stop: function(e, ui) {
             RESTService.MoveLectureQuestion({
-                lecture_id: $scope.lecture.lecture_id,
+                lecture_id: $scope.lecture._id,
                 question_id: $scope.lecture.questions[ui.item.index()].question_id,
                 index: ui.item.index()
             }, function(info) {

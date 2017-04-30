@@ -13,11 +13,9 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="app-css/ng-tags-input.min.css" />
-    <link rel="stylesheet" href="app-css/ng-tags-input.bootstrap.min.css" />
-    <link rel="stylesheet" href="app-scripts/content-tools/content-tools.min.css" />
     <link rel="stylesheet" href="app-css/default.css" />
     <link rel="stylesheet" href="app-css/style.css" />
+    <link rel="stylesheet" href="app-css/ng-tags-input.bootstrap.min.css" />
     <link rel="stylesheet" href="app-css/stars.css" />
     <!-- Get rid of annoying favico error -->
     <link rel="shortcut icon" href=" " />
@@ -32,18 +30,18 @@
 
 <body>
     <!-- Views -->
-    <div class="super-container" ng-controller="Main.Controller">
-        <div class="container-fluid login-back p-0" ng-hide="$storage.LoggedIn" ui-view="splash"></div>
+    <div class="height-100" ng-controller="Main.Controller">
+        <div class="login-back" ng-hide="$storage.LoggedIn" ui-view="splash"></div>
         <div ui-view="navbar"></div>
-        <div id="wrapper" ng-class="{'toggled' : $storage.hideSidebar }" ng-show="$storage.LoggedIn">
+        <div class="height-100" id="wrapper" ng-class="{'toggled' : $storage.hideSidebar }" ng-show="$storage.LoggedIn">
             <div ui-view="sidebar"></div>
-            <div ui-view="dashboard" style="height: 100%;"></div>
+            <div ui-view="dashboard" class="height-100"></div>
         </div>
     </div>
 
     <!-- Necessary JS -->
     <script src="app-scripts/default.js"></script>
-    <script src="app-scripts/content-tools/content-tools.min.js"></script>
+    <!-- <script src="app-scripts/content-tools/content-tools.min.js"></script> -->
     <!-- application scripts -->
     <script src="app.js"></script>
 </body>

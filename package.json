@@ -6,24 +6,25 @@
   "dependencies": {
     "bcryptjs": "^2.4.0",
     "body-parser": "^1.15.2",
-    "client-sessions": "^0.7.0",
     "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
     "jsonwebtoken": "^7.2.1",
     "mongoose": "^4.7.7",
     "random-key": "^0.3.2",
     "socket.io": "^1.7.3",
-    "socketio-jwt": "^4.5.0"
+    "socketio-jwt": "^4.5.0",
+    "winston": "^2.3.1"
   },
-  "description": "Active Learning Application for 2110",
+  "description": "Active Learning Application",
   "homepage": "https://github.com/omizrahi3/ActiveLearning2110#readme",
   "keywords": [
-    "cs",
-    "2110"
+    "active",
+    "learning",
+    "georgia tech"
   ],
   "license": "MIT",
   "main": "server.js",
-  "name": "activelearning2110",
+  "name": "ActiveLearning",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/omizrahi3/ActiveLearning2110.git"

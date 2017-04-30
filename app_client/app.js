@@ -18,7 +18,6 @@ var app = angular
     .module('app', [
         'ui.router',
         'ngStorage',
-        'ngAnimate',
         'angularModalService',
         'angular-jwt',
         'oc.lazyLoad',
@@ -46,15 +45,14 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $ocLazyLo
         new ContentTools.Style('Fluid', 'img-fluid', ['img']),
         new ContentTools.Style('Thumbnail', 'img-thumbnail', ['img']),
         new ContentTools.Style('Rounded', 'rounded', ['img']),
-        new ContentTools.Style('Left', 'float-left', ['img', 'iframe']),
-        new ContentTools.Style('Right', 'float-right', ['img', 'iframe']),
-        new ContentTools.Style('Center', 'mx-auto d-block', ['img', 'iframe']),
+        new ContentTools.Style('Left', 'text-left', ['p', 'h1', 'h2', 'table']),
+        new ContentTools.Style('Right', 'text-right', ['p', 'h1', 'h2', 'table']),
         new ContentTools.Style('Small', 'table-sm', ['table']),
         new ContentTools.Style('Striped', 'table-striped', ['table']),
         new ContentTools.Style('Wide', 'table', ['table']),
         new ContentTools.Style('Bordered', 'table-bordered', ['table']),
         new ContentTools.Style('Hover', 'table-hover', ['table']),
-        new ContentTools.Style('Center', 'text-center', ['table']),
+        new ContentTools.Style('Center', 'text-center', ['p', 'h1', 'h2', 'table']),
         new ContentTools.Style('Success', 'table-success', ['tr']),
         new ContentTools.Style('Info', 'table-info', ['tr']),
         new ContentTools.Style('Danger', 'table-danger', ['tr']),
@@ -80,7 +78,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $ocLazyLo
     });
 
     $ocLazyLoadProvider.config({
-        'debug': true,
+        'debug': false,
         'events': true,
         'modules': [{
             name: 'navbar',
@@ -136,8 +134,14 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $ocLazyLo
             name: 'instructor.create_course',
             files: ['app-components/modals/create_course/create_course.controller.js']
         }, {
+            name: 'instructor.review_lecture',
+            files: ['app-components/dashboard/instructor/lecture/review_lecture.controller.js']
+        }, {
             name: 'student.join_course',
             files: ['app-components/modals/join_course/join_course.controller.js']
+        }, {
+            name: 'student.live_lecture',
+            files: ['app-components/dashboard/student/lecture/live_lecture.controller.js']
         }, {
             name: 'instructor.create_lecture',
             files: ['app-components/modals/create_lecture/create_lecture.controller.js']
@@ -219,6 +223,20 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $ocLazyLo
             }
         })
 
+        .state('main.student_live_lecture', {
+            url: '/student/live_lecture',
+            templateUrl: 'app-components/dashboard/student/lecture/live_lecture.view.html',
+            params: {
+                selectedCourse: null,
+                selectedLecture: null
+            },
+            resolve: {
+                loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load('student.live_lecture'); // Resolve promise and load before view
+                }]
+            }
+        })
+
         .state('main.instructor', {
             url: '/instructor',
             templateUrl: 'app-components/dashboard/instructor/dashboard.instructor.view.html',
@@ -293,6 +311,21 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $ocLazyLo
             }
         })
 
+        .state('main.instructor_review_lecture', {
+            url: '/instructor/review_lecture',
+            templateUrl: 'app-components/dashboard/instructor/lecture/review_lecture.view.html',
+            params: {
+                selectedCourse: null,
+                selectedLecture: null,
+                selectedLectureId: null
+            },
+            resolve: {
+                loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load('instructor.review_lecture');
+                }]
+            }
+        })
+
         .state('main.instructor_manage_students', {
             url: '/instructor/manage_students',
             templateUrl: 'app-components/dashboard/instructor/course/manage_students.view.html',
@@ -351,7 +384,7 @@ app.run(function($rootScope, ngNotify) {
     });
 });
 
-app.controller('Main.Controller', function($scope, $state, $localStorage, $injector, $ocLazyLoad, $timeout) {
+app.controller('Main.Controller', function($scope, $state, $localStorage, $rootScope, $injector, $ocLazyLoad, $timeout) {
 
     $scope.$storage = $localStorage;
 
@@ -371,5 +404,15 @@ app.controller('Main.Controller', function($scope, $state, $localStorage, $injec
         } else {
             $state.go('main.' + $localStorage.role);
         }
+
+        $rootScope.$on('$stateChangeError', function() {
+            RESTService.Logout();
+            $state.go('main');
+        });
+
+        $rootScope.$on('socketio_failed', function() {
+            RESTService.Logout();
+            $state.go('main');
+        });
     });
 });

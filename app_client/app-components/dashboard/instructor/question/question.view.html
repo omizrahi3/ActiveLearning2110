@@ -1,4 +1,4 @@
-<div class="container-fluid p-5 animated fadeIn" ng-controller="Instructor.Question.Controller">
+<div class="container-fluid p-5 animated fadeIn height-100" ng-controller="Instructor.Question.Controller">
     <div class="container-fluid">
         <div class="d-flex justify-content-between pb-2">
             <div class="btn-group" role="group">
@@ -36,13 +36,13 @@
             </div>
         </div>
         <div ng-editor="question-container" value="question.html" editor="editor">
-            <div data-editable="title" ng-if="question.html.title !== null" ng-bind-html="question.html.title"></div>
+            <div data-editable="title" ng-if="question.html.title !== null" ng-bind-html="question.html.title" class="pb-4"></div>
             <div data-editable="title" ng-if="question.html.title === null" class="pb-4">
                 <h2 class="text-center">Question Title</h2>
             </div>
-            <div data-editable="body" ng-if="question.html.body !== null" ng-bind-html="question.html.body"></div>
-            <div data-editable="body" ng-if="question.html.body === null">
-                <p>
+            <div data-editable="body" ng-if="question.html.body !== null" ng-bind-html="question.html.body" class="text-center"></div>
+            <div data-editable="body" ng-if="question.html.body === null" class="text-center">
+                <p class="text-left">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec cursus ac ex eget malesuada. Pellentesque tincidunt nulla dictum
                     nibh porta molestie. Nunc rutrum ultricies venenatis. Sed vulputate placerat elementum. Vivamus commodo sit amet eros nec facilisis.
                     Nulla neque nulla, consectetur non lobortis ut, congue vitae massa. Quisque condimentum dui massa, interdum semper urna tristique et.
@@ -58,10 +58,10 @@
         </div>
         <div class="pt-4" ng-show="state === 'edit'">
             <div ng-repeat="choice in question.choices">
-                <div class="pretty smooth circle success">
-                    <input type="radio" name="answers">
-                    <label class="pt-2"><i class="fa fa-check"></i> {{choice.text}}</label>
-                </div>
+                <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="answers">
+                     {{choice.text}}
+                </label>
             </div>
         </div>
         <div class="pt-4" ng-show="state === 'cancel'">

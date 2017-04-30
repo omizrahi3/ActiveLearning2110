@@ -1,4 +1,4 @@
-<div class="animated fadeIn container-fluid p-2 animated fadeIn" ng-controller="Instructor.Course.Controller">
+<div class="animated fadeIn container-fluid p-2 animated fadeIn height-100" ng-controller="Instructor.Course.Controller">
     <div class="divide-header pt-3 pb-3 text-uppercase">
         <span>sections</span>
     </div>
@@ -112,28 +112,37 @@
             <td class="align-middle text-capitalize" title="'Day'" sortable="'day'">
                 {{lecture.schedule.day}}
             </td>
-            <td class="align-middle" title="'Edit'">
-                <!-- <button
-                    ng-show="!joinAvail('{{lecture.schedule.date | date:'MM/dd/yy'}}')"
-                    type="button"
-                    class="btn btn-secondary btn-sm"
-                    ui-sref="main.instructor_edit_lecture({
-                        selectedCourse: course_index,
-                        selectedLecture: $index
-                    })"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i></button> -->
-                <!-- <button
-                    type="button"
-                    ui-sref="main.instructor_live_lecture({
-                        selectedCourse: course_index,
-                        selectedLecture: $index
-                    })"
-                    class="btn btn-success btn-sm">
-                        <i class="fa fa-sign-in fa-fw" aria-hidden="true"></i></button> -->
+            <td class="align-middle" title="'Manage'">
+                <div class="btn-group" role="group" ng-show="!lecture.post_lecture">
                     <button
                         type="button"
-                        ng-click="startLecture(lecture)"
+                        class="btn btn-secondary btn-sm"
+                        ui-sref="main.instructor_edit_lecture({
+                            selectedCourse: course_index,
+                            selectedLecture: $index
+                        })">
+                            <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                    </button>
+                    <button
+                        type="button"
+                        ng-click="startLecture(lecture, $index)"
                         class="btn btn-success btn-sm">
-                            <i class="fa fa-sign-in fa-fw" aria-hidden="true"></i></button>
+                            <i class="fa fa-play" aria-hidden="true"></i>
+                    </button>
+                    <!-- ng-disabled="!joinAvail('{{lecture.schedule.date | date:'MM/dd/yy'}}')" -->
+                </div>
+                <div ng-show="lecture.post_lecture">
+                    <button
+                        type="button"
+                        class="btn btn-info btn-sm"
+                        ui-sref="main.instructor_review_lecture({
+                            selectedCourse: course_index,
+                            selectedLecture: $index,
+                            selectedLectureId: lecture._id
+                        })">
+                            <i class="fa fa-line-chart" aria-hidden="true"></i>
+                    </button>
+                </div>
             </td>
         </tr>
     </table>

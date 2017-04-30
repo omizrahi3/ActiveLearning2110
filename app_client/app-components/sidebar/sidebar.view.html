@@ -43,8 +43,8 @@
             <div class="collapse classList" id="classList">
                 <ul>
                     <li ng-repeat="course in $storage.courses">
-                        <a ui-sref=".student_course({selectedCourse: $index})" ng-show="$storage.role === 'student'">{{course.title}}</a>
-                        <a ui-sref=".instructor_course({selectedCourse: $index})" ng-show="$storage.role === 'instructor'">{{course.title}}</a>
+                        <a ui-sref=".student_course({selectedCourse: $index})" ng-show="$storage.role === 'student'">{{course.title}} : {{course.schedule.days | days}} - {{course.schedule.semester}}</a>
+                        <a ui-sref=".instructor_course({selectedCourse: $index})" ng-show="$storage.role === 'instructor'">{{course.title}} : {{course.schedule.days | days}} - {{course.schedule.semester}}</a>
                     </li>
                 </ul>
             </div>

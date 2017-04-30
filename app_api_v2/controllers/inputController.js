@@ -15,6 +15,8 @@
 //************************************************************
 "use strict";
 
+var winston = require('winston');
+
 var roles = {
     ADMIN: 'admin',
     INSTRUCTOR: 'instructor',
@@ -22,7 +24,7 @@ var roles = {
 };
 
 var requirePreRegisterKey = function(req, res, next) {
-    console.log('inputController requirePreRegisterKey');
+    winston.info('inputController: require pre register key');
 
     if (!req.body.pre_register_key) {
         return res.status(400).json({
@@ -35,7 +37,7 @@ var requirePreRegisterKey = function(req, res, next) {
 };
 
 var requireCourseTitle = function(req, res, next) {
-    console.log('inputController requireCourseTitle');
+    winston.info('inputController: require course title');
 
     if (!req.body.title) {
         return res.status(400).json({
@@ -48,7 +50,7 @@ var requireCourseTitle = function(req, res, next) {
 };
 
 var requireSections = function(req, res, next) {
-    console.log('inputController requireSections');
+    winston.info('inputController: require sections');
 
     if (!req.body.sections) {
         return res.status(400).json({
@@ -61,7 +63,7 @@ var requireSections = function(req, res, next) {
 };
 
 var requireCourseSchedule = function(req, res, next) {
-    console.log('inputController requireCourseSchedule');
+    winston.info('inputController: require course schedule');
 
     if (!req.body.course_schedule) {
         return res.status(400).json({
@@ -74,7 +76,7 @@ var requireCourseSchedule = function(req, res, next) {
 };
 
 var requireCourseKey = function(req, res, next) {
-    console.log('inputController requireCourseKey');
+    winston.info('inputController: require course key');
 
     if (!req.body.course_key) {
         return res.status(400).json({
@@ -87,7 +89,7 @@ var requireCourseKey = function(req, res, next) {
 };
 
 var requireCurrentPassword = function(req, res, next) {
-    console.log('inputController requireCurrentPassword');
+    winston.info('inputController: require current password');
 
     if (!req.body.cur_password) {
         return res.status(400).json({
@@ -100,7 +102,7 @@ var requireCurrentPassword = function(req, res, next) {
 };
 
 var requireNewPassword = function(req, res, next) {
-    console.log('inputController requireNewPassword');
+    winston.info('inputController: require new password');
 
     if (!req.body.new_password) {
         return res.status(400).json({
@@ -113,7 +115,7 @@ var requireNewPassword = function(req, res, next) {
 };
 
 var requireUsername = function(req, res, next) {
-    console.log('inputController requireUsername');
+    winston.info('inputController: require username');
 
     if (!req.body.username) {
         return res.status(400).json({
@@ -126,7 +128,7 @@ var requireUsername = function(req, res, next) {
 };
 
 var requireFirstname = function(req, res, next) {
-    console.log('inputController requireFirstname');
+    winston.info('inputController: require first name');
 
     if (!req.body.firstname) {
         return res.status(400).json({
@@ -139,7 +141,7 @@ var requireFirstname = function(req, res, next) {
 };
 
 var requireLastname = function(req, res, next) {
-    console.log('inputController requireLastname');
+    winston.info('inputController: require last name');
 
     if (!req.body.lastname) {
         return res.status(400).json({
@@ -152,7 +154,7 @@ var requireLastname = function(req, res, next) {
 };
 
 var requirePassword = function(req, res, next) {
-    console.log('inputController requirePassword');
+    winston.info('inputController: require password');
 
     if (!req.body.password) {
         return res.status(400).json({
@@ -165,9 +167,7 @@ var requirePassword = function(req, res, next) {
 };
 
 var requireRole = function(req, res, next) {
-    console.log('inputController requireRole');
-
-    console.log(req.body.new_role);
+    winston.info('inputController: require role');
 
     if (!req.body.new_role) {
         return res.status(400).json({
@@ -185,7 +185,7 @@ var requireRole = function(req, res, next) {
 };
 
 var requireTags = function(req, res, next) {
-    console.log('inputController requireTags');
+    winston.info('inputController: require tags');
 
     if (!req.body.tags) {
         return res.status(400).json({
@@ -198,7 +198,7 @@ var requireTags = function(req, res, next) {
 };
 
 var requireQuestionBody = function(req, res, next) {
-    console.log('inputController requireQuestionBody');
+    winston.info('inputController: require question body');
 
     if (!req.body.html_body) {
         return res.status(400).json({
@@ -211,7 +211,7 @@ var requireQuestionBody = function(req, res, next) {
 };
 
 var requireAnswerChoices = function(req, res, next) {
-    console.log('inputController requireAnswerChoices');
+    winston.info('inputController: require answer choices');
 
     if (!req.body.answer_choices) {
         return res.status(400).json({
@@ -224,7 +224,7 @@ var requireAnswerChoices = function(req, res, next) {
 };
 
 var requireAnswer = function(req, res, next) {
-    console.log('inputController requireAnswer');
+    winston.info('inputController: require answer');
 
     if (!req.body.answer) {
         return res.status(400).json({

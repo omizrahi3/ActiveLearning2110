@@ -15,7 +15,8 @@
 //************************************************************
 "use strict";
 
-var User = require('./../models/userModel');
+var User = require('./../models/userModel'),
+    winston = require('winston');
 
 var roles = {
     ADMIN: 'admin',
@@ -24,7 +25,7 @@ var roles = {
 };
 
 var admin = function(req, res, next) {
-    console.log('authorizeController admin');
+    winston.info('authorizeController: admin authorization check');
 
     if (req.decodedToken.role !== roles.ADMIN) {
         return res.status(401).json({
@@ -37,7 +38,7 @@ var admin = function(req, res, next) {
 };
 
 var adminOrInstructorOrSelf = function(req, res, next) {
-    console.log('authorizeController adminOrInstructorOrSelf');
+    winston.info('authorizeController: admin/instructor/self check');
 
     if (req.decodedToken.sub !== req.query.id && req.decodedToken.role !== roles.ADMIN && req.decodedToken.role !== roles.INSTRUCTOR) {
         return res.status(401).json({
@@ -50,7 +51,7 @@ var adminOrInstructorOrSelf = function(req, res, next) {
 };
 
 var adminOrSelf = function(req, res, next) {
-    console.log('authorizeController adminOrSelf');
+    winston.info('authorizeController: admin/self check');
 
     if (req.decodedToken.sub !== req.params.USERID && req.decodedToken.role !== roles.ADMIN) {
         return res.status(401).json({
@@ -63,7 +64,7 @@ var adminOrSelf = function(req, res, next) {
 };
 
 var instructor = function(req, res, next) {
-    console.log('authorizeController instructor');
+    winston.info('authorizeController: instructor check');
 
     if (req.decodedToken.role !== roles.INSTRUCTOR) {
         return res.status(401).json({
@@ -76,7 +77,7 @@ var instructor = function(req, res, next) {
 };
 
 var roleUpdate = function(req, res, next) {
-    console.log('authorizeController updateRole');
+    winston.info('authorizeController: update role');
 
     if (!req.body.new_role) {
         next();
@@ -93,7 +94,7 @@ var roleUpdate = function(req, res, next) {
 };
 
 var self = function(req, res, next) {
-    console.log('authController authorizeSelf');
+    winston.info('authorizeController: self authorize');
 
     if (req.decodedToken.sub !== req.params.USERID) {
         return res.status(401).json({
@@ -106,7 +107,7 @@ var self = function(req, res, next) {
 };
 
 var student = function(req, res, next) {
-    console.log('authorizeController instructor');
+    winston.info('authorizeController: student authroize');
 
     if (req.decodedToken.role !== roles.STUDENT) {
         return res.status(401).json({
@@ -119,7 +120,7 @@ var student = function(req, res, next) {
 };
 
 var studentOrInstructor = function(req, res, next) {
-    console.log('authorizeController instructor');
+    winston.info('authorizeController: student/instructor authorize');
 
     if (req.decodedToken.role !== roles.STUDENT && req.decodedToken.role !== roles.INSTRUCTOR) {
         return res.status(401).json({

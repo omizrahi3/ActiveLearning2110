@@ -187,22 +187,4 @@ courseRouter.route('/:COURSEID/lectures')
         authorizeController.instructor,
         lectureController.getCourseLectures);
 
-/**
-Delete course lecture
-
-DELETE	/api_v2/course/{course_id}/lectures/{lecture_id}/
-
-Authentication:   user token
-Authorization:    instructor
-
-Path Parameters:  course_id String, lecture_id String     required
-Query String:     none
-Request Body:     none
-**/
-courseRouter.route('/:COURSEID/lectures/:LECTUREID')
-    .delete(tokenController.validateToken,
-        tokenController.refreshToken,
-        authorizeController.instructor,
-        lectureController.deleteLecture);
-
 module.exports = courseRouter;

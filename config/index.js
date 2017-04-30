@@ -15,8 +15,9 @@
 "use strict";
 
 module.exports = {
-    'database': 'mongodb://localhost/ActiveLearning2110',
+    'database': 'mongodb://localhost/ActiveLearning',
     'jwt_secret': 'activelearning',
+    'log_file': 'system.log',
     'jwt_settings': {
         expiresIn: '1hr'
     }

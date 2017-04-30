@@ -15,8 +15,9 @@
 //************************************************************
 "use strict";
 
-var User = require('./../models/userModel');
-var RegistrationKey = require('./../models/keyModel');
+var User = require('./../models/userModel'),
+    RegistrationKey = require('./../models/keyModel'),
+    winston = require('winston');
 
 var bcrypt = require('bcryptjs');
 var rand = require("random-key");
@@ -33,7 +34,7 @@ var keys = {
 };
 
 var createAdminKey = function(req, res, next) {
-    console.log('signupController createAdminKey');
+    winston.info('signupController: create admin key');
 
     var adminCreator = {
         user_id: req.decodedToken.sub
@@ -57,7 +58,7 @@ var createAdminKey = function(req, res, next) {
 };
 
 var createInstructorKey = function(req, res, next) {
-    console.log('signupController createInstructorKey');
+    winston.info('signupController: create instructor key');
 
     var adminCreator = {
         user_id: req.decodedToken.sub
@@ -93,26 +94,10 @@ var createInstructorKey = function(req, res, next) {
                 message: "Internal Error"
             });
         });
-    /*
-    newKey.save(function(err, savedKey)
-    {
-        if (err)
-        {
-            return res.status(500).json(
-                {
-                    success: false,
-                    message: "Internal Error"
-                }
-            );
-        }
-        req.savedKey = savedKey;
-        next();
-    });
-    */
 };
 
 var getRegistrationKeys = function(req, res) {
-    console.log('signupController getRegistrationKeys');
+    winston.info('signupController: get registration keys');
 
     RegistrationKey.find({
             'admin_creator.user_id': req.decodedToken.sub
@@ -132,35 +117,10 @@ var getRegistrationKeys = function(req, res) {
                 message: 'No keys Found'
             });
         });
-    /*
-    RegistrationKey.find({'admin_creator.user_id' : req.decodedToken.sub}, function(err, keys)
-    {
-        if (err || !keys)
-        {
-            return res.status(404).json(
-                {
-                    success: false,
-                    message: 'No keys Found'
-                }
-            );
-        }
-        else
-        {
-            return res.status(201).json(
-                {
-                    success   : true,
-                    jwt_token : req.token,
-                    message   : 'Request Sucess',
-                    keys      : keys
-                }
-            );
-        }
-    });
-    */
 };
 
 var registerAdmin = function(req, res, next) {
-    console.log('signupController registerAdmin');
+    winston.info('signupController: register admin');
 
     if (req.body.username === 'admin@gatech.edu') {
         req.addUser = new User({
@@ -209,7 +169,7 @@ var registerAdmin = function(req, res, next) {
 };
 
 var registerInstructor = function(req, res, next) {
-    console.log('signupController registerInstructor');
+    winston.info('signupController: register instructor');
 
     if (req.query.role === roles.INSTRUCTOR) {
         var keyUser = {
@@ -249,7 +209,7 @@ var registerInstructor = function(req, res, next) {
 };
 
 var registerStudent = function(req, res, next) {
-    console.log('signupController registerStudent');
+    winston.info('signupController: register student');
 
     if (!req.addUser) {
         req.addUser = new User({
@@ -266,7 +226,7 @@ var registerStudent = function(req, res, next) {
 };
 
 var preRegisterStudent = function(req, res, next) {
-    console.log('signupController preRegisterStudent');
+    winston.info('signupController: pre-register student');
 
     if (!req.instructorRegisteredStudent) {
         next();
@@ -306,7 +266,7 @@ var preRegisterStudent = function(req, res, next) {
 };
 
 var savedUserToDB = function(req, res) {
-    console.log('signupController savedUserToDB');
+    winston.info('signupController: save user to database');
 
     req.addUser.save(function(err, savedUser) {
         if (err) {

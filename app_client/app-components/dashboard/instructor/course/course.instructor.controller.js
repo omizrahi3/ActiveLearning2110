@@ -15,12 +15,11 @@
 
 var app = angular.module('app');
 
-app.controller('Instructor.Course.Controller', function($scope, $localStorage, $stateParams, $rootScope, $window, UserService, NgTableParams, ngNotify, SocketService) {
+app.controller('Instructor.Course.Controller', function($scope, $state, $localStorage, $stateParams, $rootScope, $window, UserService, NgTableParams, ngNotify, SocketService) {
 
     $rootScope.$stateParams = $stateParams;
     $scope.course = $localStorage.courses[$stateParams.selectedCourse];
     $scope.course_index = $stateParams.selectedCourse;
-    SocketService.connectLectures();
 
     $scope.chart_options = {
         labels: ["Verified", "Pending"],
@@ -78,10 +77,8 @@ app.controller('Instructor.Course.Controller', function($scope, $localStorage, $
         }
     });
 
-    $scope.$watch(function() {
-        return $localStorage.courses[$stateParams.selectedCourse].lectures;
-    }, function(newVal, oldVal) {
-        if (newVal !== null && newVal !== undefined) {
+    $rootScope.$on('coursesUpdated', function() {
+        if ($stateParams.selectedCourse !== null && $state.current.name === 'main.instructor_course') {
             $scope.tableParams.settings().dataset = $localStorage.courses[$stateParams.selectedCourse].lectures;
             $scope.tableParams.reload();
         }
@@ -101,9 +98,9 @@ app.controller('Instructor.Course.Controller', function($scope, $localStorage, $
         var pending = 0;
         for (var key in section.students) {
             if (section.students[key].status === "complete") {
-                verified += 1;
+                verified++;
             } else {
-                pending += 1;
+                pending++;
             }
         }
         $scope.status_data[section.name] = [verified, pending];
@@ -113,8 +110,19 @@ app.controller('Instructor.Course.Controller', function($scope, $localStorage, $
         return date === moment().format("MM/DD/YY") ? true : false;
     };
 
-    $scope.startLecture = function(lecture) {
-        SocketService.startLecture(lecture.lecture_id);
+    $scope.startLecture = function(lecture, index) {
+        SocketService.StartLecture({
+            username: $localStorage.username,
+            user_id: $localStorage._id,
+            user_role: $localStorage.role,
+            lecture_id: lecture._id,
+            course_id: $scope.course._id
+        });
+        $localStorage.hideSidebar = false;
+        $state.go('main.instructor_live_lecture', {
+            selectedCourse: $scope.course_index,
+            selectedLecture: index
+        });
     };
 
     var w = angular.element($window);

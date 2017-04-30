@@ -29,15 +29,7 @@ app.controller('Instructor.Edit.Question.Controller', function($scope, $state, $
         dataset: $scope.questions
     });
 
-    RESTService.GetAllQuestions(function(info) {
-        if (!info.success) {
-            ngNotify.set('Could not fetch questions', 'error');
-            return;
-        }
-        $scope.questions = info.questions;
-        $scope.tableParams.settings().dataset = info.questions;
-        $scope.tableParams.reload();
-    });
+    getAllQuestions();
 
     $scope.viewQuestion = function(selected_question) {
         RESTService.GetQuestionDetails(selected_question._id, function(info) {
@@ -55,7 +47,7 @@ app.controller('Instructor.Edit.Question.Controller', function($scope, $state, $
                 ngNotify.set('Failed to delete question from database', 'error');
                 return;
             }
-
+            getAllQuestions();
         });
     };
 
@@ -72,4 +64,15 @@ app.controller('Instructor.Edit.Question.Controller', function($scope, $state, $
             });
         });
     };
+    function getAllQuestions() {
+        RESTService.GetAllQuestions(function(info) {
+            if (!info.success) {
+                ngNotify.set('Could not fetch questions', 'error');
+                return;
+            }
+            $scope.questions = info.questions;
+            $scope.tableParams.settings().dataset = info.questions;
+            $scope.tableParams.reload();
+        });
+    }
 });

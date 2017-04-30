@@ -1,15 +1,15 @@
 /* jshint node: true */
 
 //************************************************************
-//  sectionModel.js                                         //
+//  resultModel.js                                          //
 //  Active Learning 2110                                    //
 //                                                          //
-//  Created by Odell Mizrahi on 03/18/2017.                 //
+//  Created by Odell Mizrahi on 04/12/2017.                 //
 //  Copyright © 2017 Odell Mizrahi. All rights reserved.    //
 //                                                          //
 //  Date        Name        Description                     //
 //  -------     ---------   --------------                  //
-//  03/18/17    O. Miz      Initial Design                  //
+//  04/12/17    O. Miz      Initial Design                  //
 //                                                          //
 //************************************************************
 "use strict";
@@ -17,54 +17,36 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var student_snapshot = {
+var ResultSchema = new Schema({
     student_id: {
         type: String,
         required: true
     },
-    username: {
+    question_id: {
         type: String,
         required: true
     },
-    firstname: {
-        type: String,
-        required: true
-    },
-    lastname: {
-        type: String,
-        required: true
-    },
-    status: {
-        type: String,
-        enum: ['pending', 'complete'],
-        default: 'pending'
-    },
-    average: {
-        type: Number,
-        default: 0
-    },
-    "_id": false
-};
-
-var SectionSchema = new Schema({
-    name: {
-        type: String,
-        required: true,
-    },
-    course_oid: { 
+    course_oid: {
         type: Schema.Types.ObjectId,
         ref: 'Course'
     },
-    course_id: {
+    question_oid: {
+        type: Schema.Types.ObjectId,
+        ref: 'Result'
+    },
+    lecture_id: {
         type: String,
         required: true
     },
-    section_key: {
+    lecture_oid: { type: Schema.Types.ObjectId, ref: 'Lecture' },
+    answer: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
-    students: [student_snapshot]
+    correct: {
+        type: Boolean,
+        required: true
+    }
 });
 
-module.exports = mongoose.model('Section', SectionSchema);
+module.exports = mongoose.model('Result', ResultSchema);

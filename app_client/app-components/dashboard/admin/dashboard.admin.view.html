@@ -1,4 +1,4 @@
-<div class="container-fluid p-3 animated fadeIn" ng-controller="Admin.Dashboard.Controller">
+<div class="container-fluid p-3 animated fadeIn height-100" ng-controller="Admin.Dashboard.Controller">
     <div class="container-fluid p-0 pb-2">
       <div class="input-group">
           <div class="input-group-addon"><i class="fa fa-search fa-fw" aria-hidden="true"></i></div>
@@ -32,14 +32,13 @@
                 {{user.username}}
             </td>
             <td title="'Active'" class="align-items-center">
-                <div class="pretty success smooth m-0">
-                    <input
-                        type="checkbox"
+                <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox"
                         ng-model="changes[user.username].active"
                         ng-click="changes[user.username].changed_active = !changes[user.username].changed_active;
-                                  changes[user.username].commited = false">
-                        <label class="m-0"><i class="fa fa-check"></i></label>
-                </div>
+                              changes[user.username].commited = false">
+                     {{choice.text}}
+                </label>
             </td>
             <td title="'Role'" sortable="'role'" class="align-middle">
                 <select

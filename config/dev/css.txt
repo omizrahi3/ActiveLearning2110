@@ -7,4 +7,6 @@ https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css
 https://rawgit.com/jonsuh/hamburgers/master/dist/hamburgers.min.css
 https://rawgit.com/daneden/animate.css/master/animate.min.css
 https://cdn.jsdelivr.net/intro.js/2.4.0/introjs.min.css
-https://rawgit.com/lokesh-coder/pretty-checkbox/master/src/pretty.min.css
+https://rawgit.com/l-lin/font-awesome-animation/master/dist/font-awesome-animation.min.css
+https://cdn.jsdelivr.net/contenttools/1.3.1/content-tools.min.css
+https://cdnjs.cloudflare.com/ajax/libs/ng-tags-input/3.1.2/ng-tags-input.min.css

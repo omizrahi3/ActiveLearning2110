@@ -15,22 +15,23 @@
 //************************************************************
 "use strict";
 
-var User = require('./../models/userModel');
-var jwt = require('jsonwebtoken');
-var config = require('./../../config');
+var User = require('./../models/userModel'),
+    jwt = require('jsonwebtoken'),
+    config = require('./../../config'),
+    winston = require('winston');
 
 var SIXTY_MINUTES = 60;
 var TEN_MINUTES = 600;
 
 function clearCookieJWT(res, callback) {
-    console.log('tokenController clearCookieJWT');
+    winston.info('tokenController: clear cookie JWT');
 
     res.clearCookie('jwtToken');
     callback();
 }
 
 function setCookieJWT(res, token, callback) {
-    console.log('tokenController setCookieJWT');
+    winston.info('tokenController: set cookie JWT');
 
     res.cookie('jwtToken', token, {
         httpOnly: true
@@ -39,7 +40,7 @@ function setCookieJWT(res, token, callback) {
 }
 
 var clearToken = function(req, res) {
-    console.log('tokenController clearToken');
+    winston.info('tokenController: clear token');
 
     clearCookieJWT(res, function() {
         if (req.user_deleted) {
@@ -61,7 +62,7 @@ var clearToken = function(req, res) {
 };
 
 var generateToken = function(req, res) {
-    console.log('tokenController generateToken');
+    winston.info('tokenController: generate token');
 
     var claims = {
         exp: Math.floor(Date.now() / 1000) + (60 * SIXTY_MINUTES),
@@ -91,14 +92,12 @@ var generateToken = function(req, res) {
 };
 
 var refreshToken = function(req, res, next) {
-    console.log('tokenController refreshToken');
+    winston.info('tokenController: refresh token');
 
     var timeInS = Math.floor(Date.now() / 1000);
     var secondsTilExp = req.decodedToken.exp - timeInS;
 
     if (secondsTilExp < TEN_MINUTES) {
-        console.log("REFRESHING TOKEN");
-
         var claims = {
             exp: Math.floor(Date.now() / 1000) + (60 * SIXTY_MINUTES),
             iss: req.decodedToken.iss,
@@ -109,7 +108,6 @@ var refreshToken = function(req, res, next) {
         jwt.sign(claims, config.jwt_secret, {}, function(err, token) {
             if (!err) {
                 setCookieJWT(res, token, function() {
-                    //console.log('token: '+token);
                     req.token = token;
                     next();
                 });
@@ -121,17 +119,7 @@ var refreshToken = function(req, res, next) {
 };
 
 var validateToken = function(req, res, next) {
-    console.log('tokenController validateToken');
-    //console.log( req.headers['Authorization']);
-    //console.log(req.get('Authorization'));
-
-    //var token = req.body.token || req.headers['Authorization'] || req.headers['x-access-token'] || req.cookies['jwtToken'];
-    //req.token = req.body.token || req.cookies['jwtToken'];
-    //var token = req.cookies.jwtToken || req.headers.Authorization;
-    //var token = req.cookies.jwtToken;
-
-    //console.log("headers: "+req.headers.token);
-    //console.log("cookies: "+req.cookies.jwtToken);
+    winston.info('tokenController: validate token');
     var token = req.cookies.jwtToken || req.headers.token;
 
     if (!token) {

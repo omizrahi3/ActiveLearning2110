@@ -13,20 +13,20 @@
 //************************************************************
 var app = angular.module('app');
 
-app.factory('RESTService', function($http, $localStorage, $state, $q, Restangular, UserStorage, UserService, SocketService, jwtHelper) {
+app.factory('RESTService', function($http, $localStorage, $state, $q, Restangular, UserStorage, UserService, SocketService, jwtHelper, ngNotify) {
 
     var service = {};
 
     var baseREST = Restangular.all("api_v2");
 
-    // Restangular.setErrorInterceptor(function(response, deferred, responseHandler) {
-    //     console.log(response);
-    //     if (response.status === 401) {
-    //         service.Logout();
-    //         return false; // error handled
-    //     }
-    //     return true; // error not handled
-    // });
+    Restangular.setErrorInterceptor(function(response, deferred, responseHandler) {
+        if (response.status === -1) {
+            service.Logout();
+            ngNotify.set("Failed to connect to server. Server may be down.", 'error');
+            return false; // error handled
+        }
+        return true; // error not handled
+    });
 
     service.LoggedIn = function() {
         if ($localStorage.jwt_token && !jwtHelper.isTokenExpired($localStorage.jwt_token) && $localStorage.LoggedIn) {
@@ -34,6 +34,7 @@ app.factory('RESTService', function($http, $localStorage, $state, $q, Restangula
             Restangular.setDefaultHeaders({
                 token: $localStorage.jwt_token
             });
+            SocketService.connectToServer();
             return true;
         } else {
             $localStorage.LoggedIn = false;
@@ -73,6 +74,7 @@ app.factory('RESTService', function($http, $localStorage, $state, $q, Restangula
                 var retInfo = genRetInfo(response);
                 UserStorage.UpdateUserInfo(data);
                 callback(retInfo);
+                SocketService.connectToServer();
             },
             function(response) {
                 callback(genRetInfo(response));
@@ -239,6 +241,7 @@ app.factory('RESTService', function($http, $localStorage, $state, $q, Restangula
     service.CreateLecture = function(info, callback) {
         baseREST.one("course", info.course_id).one("lectures").post("", info.data).then(
             function(response) {
+                console.log(response);
                 UserStorage.UpdateCourseLectures(info.course_id, response.lectures);
                 callback(genRetInfo(response));
             },
@@ -298,7 +301,7 @@ app.factory('RESTService', function($http, $localStorage, $state, $q, Restangula
     service.GetCourseInfo = function(id, callback) {
         baseREST.one("course", id).get().then(
             function(response) {
-                UserStorage.UpdateSingleCourse(response.course);
+                UserStorage.UpdateSingleCourse(response.courses[0]);
                 callback(genRetInfo(response));
             },
             function(response) {
@@ -450,8 +453,20 @@ app.factory('RESTService', function($http, $localStorage, $state, $q, Restangula
     service.DeleteQuestion = function(question_id, callback) {
         baseREST.one("question", question_id).remove().then(
             function(response) {
-                console.log(response);
                 callback(genRetInfo(response));
+            },
+            function(response) {
+                callback(genRetInfo(response));
+            }
+        );
+    };
+
+    service.GetLectureResults = function(info, callback) {
+        baseREST.one("result", info.lecture_id).get().then(
+            function(response) {
+                var retInfo = genRetInfo(response);
+                retInfo.results = response.results;
+                callback(retInfo);
             },
             function(response) {
                 callback(genRetInfo(response));
@@ -467,6 +482,8 @@ app.factory('RESTService', function($http, $localStorage, $state, $q, Restangula
         Restangular.setDefaultHeaders({
             token: ""
         });
+        $state.go('main');
+        SocketService.disconnect();
     };
 
     function genRetInfo(response) {

@@ -135,30 +135,4 @@ lectureRouter.route('/:LECTUREID/questionset/:QUESTIONSETID')
         tokenController.refreshToken,
         lectureController.addQuestionSet);
 
-/**
-Edit Lecture title or schedule
-
-POST	/api_v2/lecture/{lecture_id}/
-
-Authentication:   user token
-Authorization:    instructor
-
-Path Parameters:  lecture_id String	required
-Query String:     none
-Request Body:     application/json    required
-{
-    "title":        String              optional
-    "schedule":                         optional
-    {
-        "day":      String              required     enum ["mon", "tue", "wed", "thu", "fri"] required
-        "date":     String              required     'YYYY-MM-DD'
-    }
-}
-**/
-lectureRouter.route('/:LECTUREID')
-    .post(tokenController.validateToken,
-        tokenController.refreshToken,
-        lectureController.editLecture);
-
-
 module.exports = lectureRouter;

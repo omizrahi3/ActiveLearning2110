@@ -132,8 +132,7 @@ var CourseSchema = new Schema({
         type: String,
         required: true,
         unique: true
-    },
-    lectures: [lecture_snapshot]
+    }
 });
 
 module.exports = mongoose.model('Course', CourseSchema);

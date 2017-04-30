@@ -1,0 +1,22 @@
+<div class="animated fadeIn container-fluid p-3 animated fadeIn height-100" ng-controller="Instructor.Review.Lecture.Controller">
+    <canvas id="line" class="chart chart-line"
+        chart-data="data" chart-labels="labels" chart-colors="colors"
+        chart-dataset-override="datasetOverride" chart-options="options" >
+    </canvas>
+    <div class="pt-3">
+        <li class="list-group-item list-group-item-action justify-content-between p-1" ng-repeat="question in lecture.questions">
+            <div>
+                {{$index+1}}: {{question.title}}
+            </div>
+            <div>
+                <span class="badge badge-default badge-pill mr-1 text-uppercase" ng-repeat="tag in question.tags | limitTo:4">{{tag}}</span>
+                <span class="badge ml-2 mr-2" ng-class="{ 'badge-success': !question.copied, 'badge-warning': question.copied }">Owner</span>
+                <div class="btn-group btn-group-sm" role="group">
+                    <button class="btn btn-sm btn-secondary" type="button" ng-click="viewQuestion(question)">
+                        <i class="fa fa-eye fa-fw" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </li>
+    </div>
+</div>

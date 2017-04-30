@@ -1,33 +1,39 @@
-<div class="animated fadeIn container-fluid p-3 animated fadeIn" ng-controller="Instructor.Live.Lecture.Controller">
+<div class="animated fadeIn container-fluid p-3 animated fadeIn height-100" ng-controller="Instructor.Live.Lecture.Controller">
     <div class="d-flex justify-content-between align-items-center p-2">
-        <div class="input-group">
-            <timer interval="1000" countdown="50" hidden="true" autostart="false"></timer>
-            <select
-                class="custom-select select-inline text-capitalize"
-                ng-model="selectedQuestion"
-                ng-click="questionSelected()"
-                ng-options="question.question_id as question.title for question in lecture.questions">
-                <option value="" disabled selected>
-                    Select question to start
-                </option>
-            </select>
-            <span class="input-group-btn">
-                <button class="btn btn-outline-success btn-sm" type="button" ng-click="startQuestion()" ng-disabled="selectedQuestion === '' || timerEnabled">
-                    <span ng-show="addLoading">
-                        <i class="fa fa-circle-o-notch fa-spin"></i>
-                    </span>
-                    Start Question
-                </button>
-            </span>
+        <div class="form-group m-0">
+            <div class="input-group">
+                <timer interval="1000" countdown="60" hidden="true" autostart="false"></timer>
+                <select
+                    class="custom-select select-inline text-capitalize"
+                    ng-model="selectedQuestion"
+                    ng-change="questionSelected()"
+                    ng-disabled="timerEnabled"
+                    ng-options="question.question_id as question.title for question in lecture.questions">
+                    <option value="" disabled selected>
+                        Select question to start
+                    </option>
+                </select>
+                <span class="input-group-btn">
+                    <button class="btn btn-outline-success btn-sm" type="button" ng-click="startQuestion()" ng-disabled="selectedQuestion === '' || timerEnabled || title === ''">
+                        <span ng-show="addLoading">
+                            <i class="fa fa-circle-o-notch fa-spin"></i>
+                        </span>
+                        {{questionBtnTitle}}
+                    </button>
+                </span>
+            </div>
+        </div>
+        <div style="font-size: 32px;">
+            {{numOfStudents}} Students
         </div>
         <div class="d-flex align-items-center">
             <div class="btn-group-vertical pr-2">
-                <button class="btn btn-info btn-sm" ng-click="add10Seconds()" type="button"><i class="fa fa-plus fa-fw" aria-hidden="true"></i></button>
-                <button class="btn btn-info btn-sm" ng-click="remove10Seconds()" type="button"><i class="fa fa-minus fa-fw" aria-hidden="true"></i></button>
+                <button class="btn btn-info btn-sm" ng-click="add10Seconds()" ng-disabled="!timerEnabled" type="button"><i class="fa fa-plus fa-fw" aria-hidden="true"></i></button>
+                <button class="btn btn-info btn-sm" ng-click="remove10Seconds()" ng-disabled="!timerEnabled" type="button"><i class="fa fa-minus fa-fw" aria-hidden="true"></i></button>
             </div>
             <div class="progress-wrapper">
                 <round-progress
-                    max="60"
+                    max="timeMax"
                     current="time"
                     color="#2F81FF"
                     bgcolor="#eaeaea"
@@ -48,11 +54,18 @@
     <hr class="m-0 pb-2" style="border-top: dashed 1px; color: #D5D6D8" />
     <canvas id="bar" class="chart chart-bar" chart-data="data"
         chart-labels="labels" chart-options="options"
-        chart-dataset-override="datasetOverride">
+        chart-dataset-override="datasetOverride" ng-if="data.length !== 0">
     </canvas>
-    <div class="pt-4">
-        <ul class="list-group">
-            <li class="list-group-item" ng-repeat="choice in choices" ng-class="{ 'list-group-item-success': choice.answer }">{{$index + 1}}: {{choice.text}}</li>
-        </ul>
+    <div class="pt-2">
+        <div ng-bind-html="title"></div>
+        <div ng-bind-html="body" class="text-center"></div>
+        <div class="d-flex justify-content-end pt-2">
+            <span class="badge badge-default mr-1 text-uppercase" ng-repeat="tag in tags">{{tag}}</span>
+        </div>
+        <div class="pt-4 pb-4">
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="choice in choices" ng-class="{ 'list-group-item-success': choice.answer }">{{$index + 1}}: {{choice.text}}</li>
+            </ul>
+        </div>
     </div>
 </div>

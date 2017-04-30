@@ -162,10 +162,14 @@ app.directive('ngEditor', function() {
             img = new Image();
             img.src = image_url;
             img.onload = function() {
+                var ratio = Math.min(500 / this.width, 400 / this.height);
+                canvas.width = width = this.width * ratio;
+                canvas.height = height = this.height * ratio;
+                canvas_context.drawImage(img, 0, 0, this.width * ratio, this.height * ratio);
+                image_url = canvas.toDataURL("image/png");
+                img.src = image_url;
                 img.alt = file_name;
-                width = this.width;
-                height = this.height;
-                dialog.populate(image_url, [width, height]);
+                dialog.populate(image_url, [this.width, this.height]);
             };
         }
 
@@ -223,6 +227,29 @@ app.directive('ngEditor', function() {
         ContentTools.IMAGE_UPLOADER = base64ImageUploader;
         scope.editor = new ContentTools.EditorApp.get();
         scope.editor.init('*[data-editable], *[data-fixture]', 'data-editable', null, false);
+
+        scope.editor.toolbox().tools([[
+            'heading',
+            'subheading',
+            'paragraph',
+            'bold',
+            'italic',
+            'link',
+            'align-left',
+            'align-center',
+            'align-right',
+            'unordered-list',
+            'ordered-list',
+            'table',
+            'indent',
+            'unindent',
+            'line-break',
+            'image',
+            'preformatted',
+            'undo',
+            'redo',
+            'remove'
+        ]]);
 
         scope.editor.addEventListener('saved', function(ev) {
             var payload = {};

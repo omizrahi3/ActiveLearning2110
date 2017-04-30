@@ -24,10 +24,14 @@ body {
     50%{background-position:100% 90%}
     100%{background-position:0% 11%}
 }
+/*UTILITIES*/
+.font-lobster {
+  font-family: 'Lobster', cursive;
+}
+.font-raleway {
+  font-family: 'Raleway', sans-serif;
+}
 
-/*.jumbotron {
-  background: url('../img/blue_bubbles.jpeg') no-repeat;
-}*/
 .header {
     height: 300px;
     font-family: 'Roboto Condensed', sans-serif !important;
@@ -68,7 +72,6 @@ body {
 }
 .btn {
   font-family: 'Roboto Condensed', sans-serif;
-  text-transform: uppercase;
 }
 .nav-item .btn-primary {
   background-color: transparent;
@@ -85,7 +88,6 @@ body {
     background-color: transparent;
     z-index: 9999;
     border: 0;
-    text-transform: uppercase;
     font-size: 16px !important;
     /*line-height: 1.42857143 !important;*/
     border-radius: 0;

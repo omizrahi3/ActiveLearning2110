@@ -15,6 +15,13 @@
 //************************************************************
 "use strict";
 
+<<<<<<< HEAD
+var User = require('./../models/userModel');
+var Course = require('./../models/courseModel');
+var Section = require('./../models/sectionModel');
+var rand = require("random-key");
+var bcrypt = require('bcryptjs');
+=======
 var User = require('./../models/userModel'),
     mongoose = require('mongoose'),
     Course = require('./../models/courseModel'),
@@ -22,6 +29,7 @@ var User = require('./../models/userModel'),
     rand = require('random-key'),
     winston = require('winston'),
     bcrypt = require('bcryptjs');
+>>>>>>> master
 
 var roles = {
     ADMIN: 'admin',

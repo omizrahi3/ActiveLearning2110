@@ -1,0 +1,105 @@
+body {
+    font-family: 'Roboto Condensed', sans-serif;
+    color: #818181;
+}
+h2 {
+    font-size: 24px;
+    text-transform: uppercase;
+    color: #303030;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+h4 {
+    font-size: 19px;
+    line-height: 1.375em;
+    color: #303030;
+    font-weight: 400;
+    margin-bottom: 30px;
+}
+.home{
+    background-color: #1F618D;
+    color: #fff;
+    height: 750px;
+    margin-top: -200px;
+}
+.dummy-content{
+  padding-top: 200px;
+  font-family:  Montserrat, sans-serif;
+}
+.end-footer {
+  background-color: #f6f6f6;
+  height: 300px;
+}
+
+.container-fluid {
+    padding: 60px 50px;
+}
+.bg-grey {
+    background-color: #f6f6f6;
+}
+.logo-small {
+    color: #1F618D;
+    font-size: 50px;
+}
+.logo {
+    color: #1F618D;
+    font-size: 200px;
+}
+
+.item h4 {
+    font-size: 19px;
+    line-height: 1.375em;
+    font-weight: 400;
+    font-style: italic;
+    margin: 70px 0;
+}
+.item span {
+    font-style: normal;
+}
+.btn {
+  font-family: 'Roboto Condensed', sans-serif;
+  text-transform: uppercase;
+}
+.btn-primary {
+  background-color: transparent;
+  border: 0 none;
+  margin-left: 5px;
+}
+.btn-secondary {
+  background-color: transparent;
+}
+
+.navbar {
+    font-family: 'Roboto Condensed', sans-serif;
+    margin-bottom: 0;
+    background-color: transparent;
+    z-index: 9999;
+    border: 0;
+    text-transform: uppercase;
+    font-size: 16px !important;
+    /*line-height: 1.42857143 !important;*/
+    border-radius: 0;
+}
+.navbar li a, .navbar .navbar-brand {
+    color: black !important;
+}
+.navbar-nav li a:hover, .navbar-nav li.active a {
+    color: #1F618D !important;
+    background-color: #fff !important;
+}
+.navbar-default .navbar-toggle {
+    border-color: transparent;
+    color: #fff !important;
+}
+footer .glyphicon {
+    font-size: 20px;
+    color: #1F618D;
+}
+.slideanim {visibility:hidden;}
+.slide {
+    animation-name: slide;
+    -webkit-animation-name: slide;
+    animation-duration: 1s;
+    -webkit-animation-duration: 1s;
+    visibility: visible;
+}

@@ -124,4 +124,4 @@ http://localhost:8081
 
 # Contributors
 
-Active Learning 2110 was built by [Odell Mizrahi](https://github.com/omizrahi3), [Jeremy Carter](https://github.com/schoolboyqueue), [Amy Zhuang](https://github.com/azhuang3), [Amy Fang](https://github.com/xfang37), [Kelsey Maclin](https://github.com/kmaclin) during the Fall 2016 and Spring 2017 semesters.
+Active Learning was built by [Odell Mizrahi](https://github.com/omizrahi3), [Jeremy Carter](https://github.com/schoolboyqueue), [Amy Zhuang](https://github.com/azhuang3), [Amy Fang](https://github.com/xfang37), [Kelsey Maclin](https://github.com/kmaclin) during the Fall 2016 and Spring 2017 semesters.
